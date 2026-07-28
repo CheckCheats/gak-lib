@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加库兰-图书馆信息库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Noto Serif SC','SimSun','STSong','Georgia',serif;
+  background:#2a1f14;
+  color:#3c2a1e;
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139,90,43,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(139,90,43,0.06) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(139,90,43,0.03) 80px, rgba(139,90,43,0.03) 81px);
+}
+
+/* ========== HEADER ========== */
+.library-header{
+  background:linear-gradient(180deg, #1a0f08 0%, #2a1a10 40%, #3c2618 100%);
+  border-bottom:3px solid #8a6e3e;
+  padding:2rem 1rem 1.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+.library-header::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg, #c8a86e, #8a6e3e, #c8a86e, #6a4e2e, #c8a86e);
+}
+.library-header::after{
+  content:'📚 ✦ 📖 ✦ 📜';
+  position:absolute;bottom:4px;left:50%;transform:translateX(-50%);
+  font-size:1.2rem;letter-spacing:15px;opacity:.15;
+}
+.lib-title{
+  font-size:2.4rem;
+  font-weight:900;
+  color:#e8d5b0;
+  text-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 30px rgba(200,168,110,.15);
+  letter-spacing:6px;
+  margin-bottom:.3rem;
+}
+.lib-subtitle{
+  font-size:.85rem;
+  color:#b8a080;
+  letter-spacing:3px;
+  opacity:.8;
+}
+
+/* Author & Avatar Row */
+.author-section{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1rem;
+  margin-top:1rem;
+  flex-wrap:wrap;
+}
+.avatar-frame{
+  width:60px;height:60px;
+  border-radius:50%;
+  border:3px solid #c8a86e;
+  box-shadow:0 0 15px rgba(200,168,110,.3), inset 0 0 10px rgba(0,0,0,.3);
+  overflow:hidden;
+  flex-shrink:0;
+  background:#1a0f08;
+}
+.avatar-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar-frame .avatar-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;color:#8a6e3e;
+}
+.robux-name{
+  color:#b8a080;
+  font-size:.8rem;
+  letter-spacing:1px;
+}
+.robux-name a{color:#c8a86e;text-decoration:none}
+.robux-name a:hover{text-decoration:underline}
+
+/* Rainbow gradient for theKing */
+@keyframes rainbow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.author-credit{
+  font-size:1.2rem;
+  font-weight:700;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#9b59b6,#ff6b6b,#ffd93d);
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:rainbow 4s ease infinite;
+}
+.data-source{
+  color:#9a8a7a;
+  font-size:.8rem;
+  letter-spacing:1px;
+}
+.data-source strong{
+  color:#e8d5b0;
+  font-weight:700;
+}
+
+/* ========== NAV ========== */
+nav{
+  background:linear-gradient(90deg,#1a0f08,#2a1a10,#1a0f08);
+  padding:.6rem 1rem;
+  display:flex;
+  gap:.3rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid #4a3a28;
+  box-shadow:0 2px 10px rgba(0,0,0,.3);
+}
+nav a{
+  color:#b8a080;
+  text-decoration:none;
+  padding:.35rem .7rem;
+  border-radius:4px;
+  font-size:.8rem;
+  transition:all .2s;
+  letter-spacing:1px;
+  border:1px solid transparent;
+}
+nav a:hover{
+  background:rgba(200,168,110,.1);
+  color:#e8d5b0;
+  border-color:#4a3a28;
+}
+
+/* ========== CONTAINER ========== */
+.container{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+
+/* ========== LIBRARY ENTRY / HERO ========== */
+.lib-entry{
+  background:linear-gradient(135deg,#2a1a10,#3c2618);
+  border:1px solid #4a3a28;
+  border-radius:8px;
+  padding:2rem;
+  color:#d8c8a8;
+  margin-bottom:2rem;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,.3), inset 0 1px 0 rgba(200,168,110,.05);
+  position:relative;
+}
+.lib-entry::before{
+  content:'✦';
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  background:#2a1a10;padding:0 10px;
+  color:#c8a86e;font-size:1rem;
+}
+.lib-entry h2{
+  font-size:1.3rem;
+  color:#c8a86e;
+  margin-bottom:.5rem;
+  letter-spacing:3px;
+}
+.lib-entry p{
+  line-height:1.8;
+  font-size:.9rem;
+  color:#b8a080;
+}
+
+/* ========== CARD (library shelf sections) ========== */
+.lib-card{
+  background:linear-gradient(180deg, #f5eed8 0%, #efe6cc 100%);
+  border:1px solid #d8c8a8;
+  border-radius:6px;
+  padding:1.8rem;
+  margin-bottom:1.5rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,240,.6);
+  position:relative;
+}
+.lib-card::before{
+  content:'';
+  position:absolute;top:0;left:1.5rem;right:1.5rem;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#c8a86e,transparent);
+}
+.lib-card h3{
+  color:#2a1a10;
+  font-size:1.1rem;
+  font-weight:700;
+  letter-spacing:2px;
+  margin-bottom:1rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid #d8c8a8;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.lib-card h3::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,#d8c8a8,transparent);
+}
+
+/* ========== CALCULATOR ========== */
+.calc-panel{
+  background:linear-gradient(180deg, #f5eed8 0%, #efe6cc 100%);
+  border:2px solid #c8a86e;
+  border-radius:6px;
+  padding:2rem;
+  margin-bottom:2rem;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+.calc-panel h2{
+  text-align:center;
+  color:#2a1a10;
+  margin-bottom:1.5rem;
+  font-size:1.25rem;
+  letter-spacing:2px;
+}
+.calc-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem;align-items:center}
+.calc-group{flex:1;min-width:200px}
+.calc-group label{
+  display:block;
+  font-weight:600;
+  margin-bottom:.4rem;
+  color:#4a3a28;
+  font-size:.85rem;
+  letter-spacing:1px;
+}
+.calc-group input,.calc-group select{
+  width:100%;padding:.6rem .8rem;
+  border:2px solid #c8a86e;
+  border-radius:4px;
+  font-size:.95rem;
+  background:#fcf8f0;
+  color:#3c2a1e;
+  font-family:inherit;
+}
+.calc-group input:focus,.calc-group select:focus{
+  outline:none;
+  border-color:#8a6e3e;
+  box-shadow:0 0 0 3px rgba(200,168,110,.25);
+}
+.height-range{display:flex;gap:1rem;align-items:center}
+.height-range input[type=range]{
+  flex:1;height:6px;
+  -webkit-appearance:none;
+  background:linear-gradient(90deg,#c8a86e,#8a6e3e);
+  border-radius:3px;outline:none;
+}
+.height-range input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;height:20px;
+  border-radius:50%;
+  background:#3c2618;
+  cursor:pointer;
+  border:3px solid #c8a86e;
+  box-shadow:0 0 6px rgba(200,168,110,.3);
+}
+.height-range input[type=number]{width:100px;text-align:center}
+.calc-btn{
+  background:linear-gradient(135deg,#3c2618,#5a3c28);
+  color:#efe6cc;
+  border:1px solid #8a6e3e;
+  padding:.7rem 2rem;
+  border-radius:4px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .2s;
+  display:block;
+  margin:0 auto;
+  font-family:inherit;
+  letter-spacing:2px;
+}
+.calc-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(60,38,24,.4);
+}
+
+/* Results */
+.results{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:.8rem;
+  margin-top:1.5rem;
+}
+.stat-card{
+  background:linear-gradient(180deg,#fcf8f0,#f5eed8);
+  border:1px solid #d8c8a8;
+  border-radius:4px;
+  padding:.8rem;
+  text-align:center;
+  transition:all .2s;
+}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.stat-card .stat-value{
+  font-size:1.4rem;
+  font-weight:700;
+  color:#2a1a10;
+  font-family:'Georgia',serif;
+}
+.stat-card .stat-label{font-size:.75rem;color:#7a6a5a;margin-top:.2rem;letter-spacing:1px}
+.stat-card .stat-desc{font-size:.7rem;color:#9a8a7a;margin-top:.05rem}
+.stat-hp .stat-value{color:#b04030}
+.stat-atk .stat-value{color:#c06820}
+.stat-spd .stat-value{color:#2068a0}
+.stat-dash .stat-value{color:#1a8070}
+.stat-scale .stat-value{color:#6a6a6a}
+.stat-dmg .stat-value{color:#b84530}
+
+.style-detail-box{
+  margin-top:1rem;
+  padding:1rem;
+  background:#fcf8f0;
+  border:1px solid #d8c8a8;
+  border-radius:4px;
+  font-size:.85rem;
+  line-height:1.8;
+  color:#4a3a28;
+}
+.style-detail-box strong{color:#2a1a10}
+
+/* ========== TABLES ========== */
+.lib-card table{
+  width:100%;border-collapse:collapse;margin:.3rem 0;font-size:.85rem;
+}
+.lib-card th,.lib-card td{
+  padding:.4rem .5rem;text-align:left;
+  border-bottom:1px solid #d8c8a8;
+}
+.lib-card th{
+  background:#3c2618;
+  color:#e8d5b0;
+  font-weight:600;
+  letter-spacing:1px;
+  font-size:.8rem;
+}
+.lib-card tr:nth-child(even){background:rgba(255,255,240,.4)}
+.lib-card tr:hover{background:rgba(200,168,110,.12)}
+
+.badge{
+  display:inline-block;
+  padding:.12rem .4rem;
+  border-radius:2px;
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+.badge-legendary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#2c1810}
+.badge-epic{background:linear-gradient(135deg,#7b3fa0,#5a2d80);color:#fff}
+.badge-uncommon{background:linear-gradient(135deg,#2a9d5a,#1a7a40);color:#fff}
+.badge-common{background:linear-gradient(135deg,#8a8a8a,#6a6a6a);color:#fff}
+.badge-variant{background:linear-gradient(135deg,#d07020,#b05010);color:#fff}
+
+.lib-card h4{
+  color:#3c2618;
+  margin:.8rem 0 .4rem;
+  font-size:.95rem;
+  letter-spacing:1px;
+}
+
+.lib-card p{
+  font-size:.85rem;
+  line-height:1.8;
+  color:#5a4a3a;
+}
+
+/* ========== FOOTER ========== */
+.lib-footer{
+  text-align:center;
+  padding:2rem 1rem;
+  color:#7a6a5a;
+  font-size:.75rem;
+  border-top:1px solid #3a2a1a;
+  margin-top:1rem;
+  letter-spacing:1px;
+  background:linear-gradient(180deg,#2a1a10,#1a0f08);
+}
+.lib-footer .footer-sig{
+  margin-top:.3rem;
+  font-size:.7rem;
+  opacity:.6;
+}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:600px){
+  .lib-title{font-size:1.6rem;letter-spacing:3px}
+  .calc-row{flex-direction:column}
+  .results{grid-template-columns:1fr 1fr}
+  .height-range{flex-wrap:wrap}
+  .author-section{gap:.6rem}
+  .avatar-frame{width:45px;height:45px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER (Library Entrance) ===== -->
+<header class="library-header">
+  <div class="lib-title">加库兰-图书馆信息库</div>
+  <div class="lib-subtitle">📖 (学乱) 全数据收录 · 珍本典藏</div>
+
+  <div class="author-section">
+    <div class="avatar-frame">
+      <img id="avatarImg" src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-C5764C0E0AB22F0E36112137B9791D31-Png/420/420/AvatarHeadshot/Png/noFilter" alt="User" onerror="this.parentElement.innerHTML='<div class=avatar-placeholder>🎭</div>'">
+    </div>
+    <div style="text-align:left">
+      <div class="author-credit">theKing</div>
+      <div class="robux-name">超级路西</div>
+      <div class="data-source">数据来源：<strong>乐乐</strong></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a href="#calc">📐 身高计算器</a>
+  <a href="#styles">🥋 战斗风格</a>
+  <a href="#uniforms">👔 校服</a>
+  <a href="#faces">😊 脸型</a>
+  <a href="#hair">💇 发色</a>
+  <a href="#combat">⚔️ 战斗系统</a>
+  <a href="#height">📏 身高系统</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== ENTRY ===== -->
+<div class="lib-entry">
+  <h2>🏛️ 图书馆导读</h2>
+  <p>
+    本馆收录了加库兰学园格斗术的秘传数据，涵盖身高属性、战斗风格、外观系统与核心战斗机制的完整解析。<br>
+    所有数据经深度整理校注，呈于此卷，供每一位格斗修行者参阅。
+  </p>
+</div>
+
+<!-- ========== 📐 HEIGHT CALCULATOR ========== -->
+<div class="calc-panel" id="calc">
+  <h2>📐 身高属性计算器</h2>
+  <p style="text-align:center;color:#7a6a5a;font-size:.8rem;margin-bottom:1.2rem;letter-spacing:1px">
+    输入角色身高 · 选择战斗风格 · 演算全部属性
+  </p>
+
+  <div class="calc-row">
+    <div class="calc-group">
+      <label>📏 身高（厘米）</label>
+      <div class="height-range">
+        <input type="range" id="heightSlider" min="140" max="225" value="175" step="0.5">
+        <input type="number" id="heightInput" min="140" max="225" value="175" step="0.5">
+        <span style="font-weight:600;color:#4a3a28;min-width:30px">cm</span>
+      </div>
+    </div>
+    <div class="calc-group">
+      <label>🥋 战斗风格</label>
+      <select id="styleSelect">
+        <option value="Basic">Basic（基础）</option>
+        <option value="Karate">Karate（空手道）</option>
+        <option value="MuayThai">Muay Thai（泰拳）</option>
+        <option value="Slugger">Slugger（重击手）</option>
+        <option value="Boxing">Boxing（拳击）</option>
+        <option value="Hakari">Hakari（波璃）</option>
+        <option value="Wrestling">Wrestling（摔跤）</option>
+        <option value="Capoeira">Capoeira（卡波耶拉）</option>
+        <option value="Kure">Kure（吴）</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">✦ 演算属性 ✦</button>
+
+  <div class="results" id="results">
+    <div class="stat-card stat-scale"><div class="stat-value" id="resScale">—</div><div class="stat-label">身高缩放</div><div class="stat-desc">Scale</div></div>
+    <div class="stat-card stat-hp"><div class="stat-value" id="resHP">—</div><div class="stat-label">基础血量</div><div class="stat-desc">HP</div></div>
+    <div class="stat-card stat-atk"><div class="stat-value" id="resAtkSpd">—</div><div class="stat-label">攻击速度</div><div class="stat-desc">攻速倍率</div></div>
+    <div class="stat-card stat-spd"><div class="stat-value" id="resSprint">—</div><div class="stat-label">冲刺速度</div><div class="stat-desc">studs/s</div></div>
+    <div class="stat-card"><div class="stat-value" id="resWalk">12</div><div class="stat-label">行走速度</div><div class="stat-desc">固定</div></div>
+    <div class="stat-card stat-dash"><div class="stat-value" id="resDash">30</div><div class="stat-label">闪避距离</div><div class="stat-desc">固定</div></div>
+    <div class="stat-card stat-dmg"><div class="stat-value" id="resM1">—</div><div class="stat-label">M1 伤害</div><div class="stat-desc">轻击</div></div>
+    <div class="stat-card stat-dmg"><div class="stat-value" id="resM2">—</div><div class="stat-label">M2 伤害</div><div class="stat-desc">重击</div></div>
+  </div>
+
+  <div class="style-detail-box" id="styleDetails" style="display:none">
+    <strong id="sdTitle"></strong><br>
+    <span id="sdBody"></span>
+  </div>
+</div>
+
+<!-- ========== 🥋 COMBAT STYLES ========== -->
+<div class="lib-card" id="styles">
+  <h3>🥋 战斗风格总览</h3>
+  <p>9种可抽取风格 + 7种变体风格（不可抽取）。经由 RerollSpin 随机获取。</p>
+  <table>
+    <tr><th>风格</th><th>稀有度</th><th>M1延迟</th><th>M2延迟</th><th>M2 CD</th><th>特性</th></tr>
+    <tr><td>Basic（基础）</td><td><span class="badge badge-common">Common 59%</span></td><td>0.34s</td><td>0.525s</td><td>—</td><td>均衡格斗，无特殊效果</td></tr>
+    <tr><td>Karate（空手道）</td><td><span class="badge badge-uncommon">Uncommon ~10%</span></td><td><strong>0.277s</strong></td><td>—</td><td>—</td><td>极快M1连击，递进延迟</td></tr>
+    <tr><td>Muay Thai（泰拳）</td><td><span class="badge badge-uncommon">Uncommon ~10%</span></td><td>—</td><td>0.60s</td><td>—</td><td>强力M2膝撞，击退20</td></tr>
+    <tr><td>Slugger（重击手）</td><td><span class="badge badge-uncommon">Uncommon ~10%</span></td><td>0.50s</td><td>0.82s</td><td>—</td><td>最重最慢，击退25</td></tr>
+    <tr><td>Boxing（拳击）</td><td><span class="badge badge-epic">Epic ~5%</span></td><td>0.34s</td><td>0.43s</td><td>—</td><td>M2带无敌帧，快收招</td></tr>
+    <tr><td>Hakari（波璃）</td><td><span class="badge badge-epic">Epic ~5%</span></td><td>0.42s</td><td>0.59s</td><td>7s</td><td>赌博风格，高击退25</td></tr>
+    <tr><td>Wrestling（摔跤）</td><td><span class="badge badge-legendary">Legendary ~0.33%</span></td><td>0.36s</td><td>0.525s</td><td>12s</td><td>抓取+超甲，M2吸人</td></tr>
+    <tr><td>Capoeira（卡波耶拉）</td><td><span class="badge badge-legendary">Legendary ~0.33%</span></td><td>0.35s</td><td>0.45s</td><td>12s</td><td>M2抓取，4A极快</td></tr>
+    <tr><td>Kure（吴）</td><td><span class="badge badge-legendary">Legendary ~0.33%</span></td><td>—</td><td><strong>0.30s</strong></td><td>12s</td><td>极速M2，霸道无比</td></tr>
+  </table>
+
+  <h4>变体风格 · 不可抽取</h4>
+  <table>
+    <tr><th>变体</th><th>特征</th></tr>
+    <tr><td>Bulky</td><td><span class="badge badge-variant">Variant</span> 高抓取率 100%</td></tr>
+    <tr><td>Dirty</td><td><span class="badge badge-variant">Variant</span> 35%抓取率，2s 4连击</td></tr>
+    <tr><td>Taekwondo</td><td><span class="badge badge-variant">Variant</span> 跆拳道，腿法攻击</td></tr>
+    <tr><td>Wild</td><td><span class="badge badge-variant">Variant</span> 野性风格</td></tr>
+    <tr><td>WingChun</td><td><span class="badge badge-variant">Variant</span> 咏春寸劲</td></tr>
+  </table>
+</div>
+
+<!-- ========== 👔 UNIFORMS ========== -->
+<div class="lib-card" id="uniforms">
+  <h3>👔 校服图鉴</h3>
+  <p>共 <strong>13种</strong> 校服外观，经由 Reroll 或 UniformSlotSwap 获取。</p>
+  <table>
+    <tr><th>#</th><th>中文名</th><th>英文名</th></tr>
+    <tr><td>1</td><td>另类</td><td>Alt</td></tr>
+    <tr><td>2</td><td>典礼服</td><td>Ceremonial</td></tr>
+    <tr><td>3</td><td>链子</td><td>Chain</td></tr>
+    <tr><td>4</td><td>女装制服</td><td>Female Uniform</td></tr>
+    <tr><td>5</td><td>学兰</td><td>Gakuran</td></tr>
+    <tr><td>6</td><td>辣妹</td><td>Gyaru</td></tr>
+    <tr><td>7</td><td>女式学兰</td><td>Joshi Gakuran</td></tr>
+    <tr><td>8</td><td>宽松标准</td><td>Loose Regular</td></tr>
+    <tr><td>9</td><td>男装制服</td><td>Male Uniform</td></tr>
+    <tr><td>10</td><td>无外衣</td><td>No Overshirt</td></tr>
+    <tr><td>11</td><td>开衫学兰</td><td>Open Gakuran</td></tr>
+    <tr><td>12</td><td>樱花</td><td>Sakura</td></tr>
+    <tr><td>13</td><td>无袖</td><td>Sleeveless</td></tr>
+  </table>
+</div>
+
+<!-- ========== 😊 FACES ========== -->
+<div class="lib-card" id="faces">
+  <h3>😊 脸型典藏</h3>
+  <p>共 <strong>112个</strong> Face ID 位在 AnimationRemap 模块中。按稀有度分列如下：</p>
+  <table>
+    <tr><th>稀有度</th><th>概率</th><th>说明</th></tr>
+    <tr><td>Regular（普通）</td><td>~61%</td><td>基础脸型，最为常见</td></tr>
+    <tr><td>Rare（稀有）</td><td>~25%</td><td>精致脸型，较为少见</td></tr>
+    <tr><td>Epic（史诗）</td><td>~10%</td><td>极为精致的脸孔</td></tr>
+    <tr><td>Gyaru（辣妹）</td><td>~5%</td><td>女性专属风格脸</td></tr>
+    <tr><td>Neko（猫耳）</td><td>~2%</td><td>可爱的猫娘脸</td></tr>
+    <tr><td>Mogger（帅哥）</td><td>~1%</td><td>高颜值男性脸型</td></tr>
+    <tr><td>EuroMogger（欧系帅哥）</td><td>~0.1%</td><td>男性欧系高颜脸</td></tr>
+    <tr><td>Mystery（神秘）</td><td>~0.1%</td><td>特殊未知脸型</td></tr>
+  </table>
+  <p style="margin-top:.6rem;font-size:.8rem;color:#7a6a5a">
+    💡 猫耳（Cat Ears）独立于脸型系统，有 <strong>5%</strong> 附加概率。民族分布：日本 95%，其余各国 ~1%。
+  </p>
+</div>
+
+<!-- ========== 💇 HAIR COLORS ========== -->
+<div class="lib-card" id="hair">
+  <h3>💇 发色谱</h3>
+  <table>
+    <tr><th>类型</th><th>概率</th><th>备注</th></tr>
+    <tr><td>自然色（黑/棕/深色系）</td><td>~94%</td><td>初始默认发色</td></tr>
+    <tr><td>随机染色</td><td>~5%</td><td>彩色染发效果</td></tr>
+    <tr><td>粉色</td><td>0.0015%</td><td>超稀有粉色系</td></tr>
+    <tr><td>白色</td><td><strong>0.0005%</strong></td><td>✨ 至尊稀有 · 两万分之一</td></tr>
+  </table>
+  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">Reroll 需消耗 GamePass（ProductID: <code>3468260548</code>）。</p>
+</div>
+
+<!-- ========== ⚔️ COMBAT SYSTEM ========== -->
+<div class="lib-card" id="combat">
+  <h3>⚔️ 战斗系统详解</h3>
+
+  <h4>基伤与射程</h4>
+  <table>
+    <tr><th>攻击类型</th><th>基础伤害</th><th>默认延迟</th><th>前伸距离</th><th>Hitbox持续</th></tr>
+    <tr><td>M1（轻击）</td><td>5</td><td>0.32s</td><td>4 studs</td><td>0.15s</td></tr>
+    <tr><td>M2（重击）</td><td>8.5</td><td>0.30s</td><td>3 studs</td><td>0.15s</td></tr>
+    <tr><td>4A 终结技</td><td>6.75（1.35×）</td><td>—</td><td>—</td><td>—</td></tr>
+  </table>
+
+  <h4>M1 连击系统</h4>
+  <p>四连击链：<strong>1A → 2A → 3A → 4A</strong>（终结技，1.35倍）<br>
+  连击重置窗口：<strong>1.55s</strong> · Finisher CD：<strong>1.2s</strong><br>
+  被格挡锁：0.15s · 被完美格挡锁：0.15s</p>
+
+  <h4>防御系统</h4>
+  <p>完美格挡窗口：<strong>0.125s</strong> · 破防锁：<strong>2s</strong><br>
+  闪避无敌帧：<strong>0.3s</strong><br>
+  Counterstrike：完美格挡后 +5% 伤害<br>
+  Revenge：2.5s内受3击 → 2倍伤害 + 超甲 10s<br>
+  Concussive：M2砸地封格挡 2s</p>
+
+  <h4>战斗状态机</h4>
+  <table>
+    <tr><th>状态</th><th>含义</th><th>自动清除</th></tr>
+    <tr><td>CombatAttacking</td><td>攻击中</td><td>动画结束</td></tr>
+    <tr><td>Blocking</td><td>格挡</td><td>松手/破防</td></tr>
+    <tr><td>GuardBroken</td><td>破防</td><td>2s</td></tr>
+    <tr><td>Stunned</td><td>眩晕</td><td>锁定时长</td></tr>
+    <tr><td>IFrames</td><td>无敌</td><td>0.3s</td></tr>
+    <tr><td>HyperArmor</td><td>超甲</td><td>M2结束</td></tr>
+    <tr><td>M1Cooldown</td><td>M1硬直</td><td>1.2s</td></tr>
+  </table>
+</div>
+
+<!-- ========== 📏 HEIGHT SYSTEM ========== -->
+<div class="lib-card" id="height">
+  <h3>📏 身高系统 · 秘传公式</h3>
+  <p>身高影响：<strong>血量 · 攻击速度 · 冲刺速度 · 攻击范围</strong></p>
+  <p style="margin-bottom:.6rem">
+    缩放范围：<strong>0.983</strong>（≈150cm）~ <strong>1.383</strong>（≈211cm，可抽取上限）<br>
+    公式最大缩放：1.45（≈221cm）· BaseHealth：<strong>100</strong>
+  </p>
+
+  <h4>统计公式</h4>
+  <table>
+    <tr><th>属性</th><th>演算公式</th></tr>
+    <tr><td>clamped</td><td>clamp((scale − 0.983) / 0.467, 0, 1)</td></tr>
+    <tr><td>血量</td><td>100 × (clamped × 0.3 + 0.85)</td></tr>
+    <tr><td>攻击速度</td><td>1.15 − clamped × 0.3</td></tr>
+    <tr><td>冲刺速度</td><td>25 − clamped × 6</td></tr>
+    <tr><td>行走速度</td><td>12（恒定）</td></tr>
+    <tr><td>闪避距离</td><td>30（恒定）</td></tr>
+    <tr><td>M1伤害（含范围修正）</td><td>5 × (clamped × 0.3 + 0.85)</td></tr>
+    <tr><td>M2伤害（含范围修正）</td><td>8.5 × (clamped × 0.3 + 0.85)</td></tr>
+  </table>
+
+  <h4>标准身高对照表</h4>
+  <table>
+    <tr><th>身高</th><th>Scale</th><th>血量</th><th>攻速</th><th>冲刺</th><th>M1范围</th><th>M1伤害</th><th>M2伤害</th></tr>
+    <tr><td>150 cm</td><td>0.983</td><td>85.0</td><td>1.15×</td><td>25.0</td><td>3.40</td><td>4.25</td><td>7.23</td></tr>
+    <tr><td>160 cm</td><td>1.049</td><td>91.7</td><td>1.08×</td><td>23.3</td><td>3.67</td><td>4.59</td><td>7.80</td></tr>
+    <tr><td>170 cm</td><td>1.115</td><td>98.3</td><td>1.01×</td><td>21.7</td><td>3.93</td><td>4.91</td><td>8.35</td></tr>
+    <tr><td>175 cm</td><td>1.148</td><td>101.7</td><td>0.98×</td><td>20.8</td><td>4.06</td><td>5.07</td><td>8.62</td></tr>
+    <tr><td>180 cm</td><td>1.181</td><td>104.9</td><td>0.95×</td><td>20.0</td><td>4.20</td><td>5.25</td><td>8.93</td></tr>
+    <tr><td>190 cm</td><td>1.247</td><td>111.5</td><td>0.88×</td><td>18.4</td><td>4.46</td><td>5.58</td><td>9.48</td></tr>
+    <tr><td>200 cm</td><td>1.313</td><td>118.2</td><td>0.81×</td><td>16.7</td><td>4.72</td><td>5.90</td><td>10.03</td></tr>
+    <tr><td>211 cm</td><td>1.383</td><td>125.4</td><td>0.74×</td><td>15.1</td><td>5.00</td><td>6.25</td><td>10.63</td></tr>
+  </table>
+</div>
+
+</div><!-- /container -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="lib-footer">
+  <div>加库兰-图书馆信息库 · 秘传卷轴</div>
+  <div class="footer-sig">数据来源：乐乐 · 编著：<span class="author-credit" style="font-size:.7rem;animation:rainbow 4s ease infinite">theKing</span></div>
+</footer>
+
+<script>
+// ===== Style Database =====
+const STYLE_DATA = {
+  Basic:{rarity:'Common 59%',rarityClass:'badge-common',m1Delay:0.34,m2Delay:0.525,m2Cd:'—',desc:'均衡的基础风格，无特殊效果',grappleChance:25},
+  Karate:{rarity:'Uncommon ~10%',rarityClass:'badge-uncommon',m1Delay:0.277,m2Delay:'—',m2Cd:'—',desc:'极快的M1连击，递进延迟（1A→0.277s→2A→0.315s→3A→0.39s→4A→0.465s）',grappleChance:0},
+  MuayThai:{rarity:'Uncommon ~10%',rarityClass:'badge-uncommon',m1Delay:'—',m2Delay:0.60,m2Cd:'—',desc:'强力M2膝撞，击退20，抓取率55%',grappleChance:55},
+  Slugger:{rarity:'Uncommon ~10%',rarityClass:'badge-uncommon',m1Delay:0.50,m2Delay:0.82,m2Cd:'—',desc:'最慢最重的攻击风格，M2击退25',grappleChance:0},
+  Boxing:{rarity:'Epic ~5%',rarityClass:'badge-epic',m1Delay:0.34,m2Delay:0.43,m2Cd:'—',desc:'M2带无敌帧，快速收招，前伸加成+0.3',grappleChance:0},
+  Hakari:{rarity:'Epic ~5%',rarityClass:'badge-epic',m1Delay:0.42,m2Delay:0.59,m2Cd:'7s',desc:'赌博风格，M2高击退25，7秒冷却',grappleChance:0},
+  Wrestling:{rarity:'Legendary ~0.33%',rarityClass:'badge-legendary',m1Delay:0.36,m2Delay:0.525,m2Cd:'12s',desc:'抓取+超甲，M2吸人（-5击退），抓取后眩晕4.5s',grappleChance:55},
+  Capoeira:{rarity:'Legendary ~0.33%',rarityClass:'badge-legendary',m1Delay:0.35,m2Delay:0.45,m2Cd:'12s',desc:'M2抓取，4A极快（-0.05s偏移），12秒M2冷却',grappleChance:0},
+  Kure:{rarity:'Legendary ~0.33%',rarityClass:'badge-legendary',m1Delay:'—',m2Delay:0.30,m2Cd:'12s',desc:'吴之一族，极速M2（0.30s），霸道绝伦',grappleChance:0}
+};
+
+// ===== Constants =====
+const MIN_CM = 150, MAX_CM = 211;
+const MIN_SCALE = 0.983, MAX_SCALE_CAP = 1.383, MAX_SCALE_FORMULA = 1.45;
+const RANGE_SCALE = MAX_SCALE_FORMULA - MIN_SCALE; // 0.467
+
+function cmToScale(cm){
+  if(cm <= MIN_CM) return MIN_SCALE;
+  if(cm >= MAX_CM) return MAX_SCALE_CAP;
+  return MIN_SCALE + (cm - MIN_CM) * (MAX_SCALE_CAP - MIN_SCALE) / (MAX_CM - MIN_CM);
+}
+
+function calcStats(cm){
+  const scale = cmToScale(cm);
+  const clamped = Math.max(0, Math.min(1, (scale - MIN_SCALE) / RANGE_SCALE));
+  const hp = Math.round(100 * (clamped * 0.3 + 0.85) * 10) / 10;
+  const atkSpd = Math.round((1.15 - clamped * 0.3) * 100) / 100;
+  const sprint = Math.round((25 - clamped * 6) * 10) / 10;
+  const walk = 12;
+  const dash = 30;
+  const hitboxMult = Math.round((clamped * 0.3 + 0.85) * 1000) / 1000;
+  const m1Dmg = Math.round(5 * hitboxMult * 100) / 100;
+  const m2Dmg = Math.round(8.5 * hitboxMult * 100) / 100;
+  const reach = Math.round(4 * hitboxMult * 100) / 100;
+  return {scale:Math.round(scale*1000)/1000, clamp:Math.round(clamped*1000)/1000, hp, atkSpd, sprint, walk, dash, m1Dmg, m2Dmg, reach, hitboxMult};
+}
+
+function calculate(){
+  const cm = parseFloat(document.getElementById('heightInput').value) || 175;
+  const style = document.getElementById('styleSelect').value;
+  const s = calcStats(cm);
+  const sd = STYLE_DATA[style];
+
+  document.getElementById('resScale').textContent = s.scale;
+  document.getElementById('resHP').textContent = s.hp;
+  document.getElementById('resAtkSpd').textContent = s.atkSpd + '×';
+  document.getElementById('resSprint').textContent = s.sprint;
+  document.getElementById('resWalk').textContent = s.walk;
+  document.getElementById('resDash').textContent = s.dash;
+  document.getElementById('resM1').textContent = s.m1Dmg;
+  document.getElementById('resM2').textContent = s.m2Dmg;
+
+  const dd = document.getElementById('styleDetails');
+  dd.style.display = 'block';
+  document.getElementById('sdTitle').textContent = '✦ ' + style + ' · ' + sd.rarity + ' ✦';
+  document.getElementById('sdBody').innerHTML =
+    sd.desc + '<br>' +
+    'M1延迟: ' + (typeof sd.m1Delay === 'number' ? sd.m1Delay + 's' : sd.m1Delay) +
+    ' · M2延迟: ' + (typeof sd.m2Delay === 'number' ? sd.m2Delay + 's' : sd.m2Delay) +
+    ' · M2 CD: ' + sd.m2Cd +
+    ' · 抓取率: ' + sd.grappleChance + '%' +
+    '<br>身高缩放: ' + s.scale +
+    ' · 范围倍率: ' + s.hitboxMult +
+    ' · 实际M1范围: ' + s.reach + ' studs' +
+    ' · M1伤害(范围修正): ' + s.m1Dmg +
+    ' · M2伤害(范围修正): ' + s.m2Dmg;
+}
+
+// ===== Sync inputs =====
+document.getElementById('heightSlider').addEventListener('input', function(){
+  document.getElementById('heightInput').value = this.value;
+  calculate();
+});
+document.getElementById('heightInput').addEventListener('input', function(){
+  document.getElementById('heightSlider').value = this.value;
+  calculate();
+});
+document.getElementById('styleSelect').addEventListener('change', calculate);
+
+// ===== Initial calc =====
+calculate();
+</script>
+</body>
+</html>
