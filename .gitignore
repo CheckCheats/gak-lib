@@ -1,0 +1,4 @@
+# Internal tool / local state — do not push
+.workbuddy/
+.omo/
+.codegraph

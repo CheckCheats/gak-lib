@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加库兰 · 抽卡概率与内容图鉴</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC','SimSun','STSong','Georgia',serif;background:#1a0f08;color:#3c2a1e;min-height:100vh;background-image:linear-gradient(rgba(15,9,5,.65),rgba(15,9,5,.85)),radial-gradient(ellipse at 20% 50%,rgba(139,90,43,.10) 0%,transparent 50%),repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(139,90,43,.03) 80px,rgba(139,90,43,.03) 81px);background-size:cover;background-attachment:fixed}
+.library-header{background:linear-gradient(180deg,#1a0f08 0%,#2a1a10 40%,#3c2618 100%);border-bottom:3px solid #8a6e3e;padding:1.8rem 1rem 1.2rem;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.library-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c8a86e,#8a6e3e,#c8a86e,#6a4e2e,#c8a86e)}
+.library-header::after{content:'🎴 ✦ 🎲 ✦ 🎴';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:1.2rem;letter-spacing:15px;opacity:.15}
+.lib-title{font-size:2rem;font-weight:900;color:#e8d5b0;text-shadow:0 2px 8px rgba(0,0,0,.5),0 0 30px rgba(200,168,110,.15);letter-spacing:6px;margin-bottom:.3rem}
+.lib-subtitle{font-size:.8rem;color:#b8a080;letter-spacing:3px;opacity:.8}
+.gender-toggle{position:absolute;top:1.2rem;right:1.2rem;display:flex;gap:.3rem;z-index:5}
+.gender-toggle button{font-family:inherit;padding:.35rem .8rem;border-radius:4px;border:1px solid #4a3a28;background:#1a0f08;color:#b8a080;font-size:.8rem;cursor:pointer;letter-spacing:1px;transition:all .2s}
+.gender-toggle button.active{background:linear-gradient(135deg,#3c2618,#5a3c28);color:#e8d5b0;border-color:#8a6e3e;box-shadow:0 0 10px rgba(200,168,110,.25)}
+nav{background:linear-gradient(90deg,#1a0f08,#2a1a10,#1a0f08);padding:.6rem 1rem;display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #4a3a28;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+nav button{font-family:inherit;color:#b8a080;background:none;border:1px solid transparent;padding:.35rem .7rem;border-radius:4px;font-size:.8rem;cursor:pointer;transition:all .2s;letter-spacing:1px}
+nav button:hover{background:rgba(200,168,110,.1);color:#e8d5b0;border-color:#4a3a28}
+nav button.active{background:rgba(200,168,110,.15);color:#e8d5b0;border-color:#8a6e3e}
+.container{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+.panel{display:none}
+.panel.active{display:block}
+.lib-card{background:linear-gradient(180deg,#f5eed8 0%,#efe6cc 100%);border:1px solid #d8c8a8;border-radius:6px;padding:1.6rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,240,.6);position:relative}
+.lib-card::before{content:'';position:absolute;top:0;left:1.5rem;right:1.5rem;height:2px;background:linear-gradient(90deg,transparent,#c8a86e,transparent)}
+.lib-card h2{color:#2a1a10;font-size:1.1rem;font-weight:700;letter-spacing:2px;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #d8c8a8;display:flex;align-items:center;gap:.5rem}
+.lib-card h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#d8c8a8,transparent)}
+.lib-card h3{color:#3c2618;font-size:.95rem;letter-spacing:1px;margin:.8rem 0 .5rem}
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.toolbar select,.toolbar label{font-family:inherit;padding:.45rem .7rem;border:2px solid #c8a86e;border-radius:4px;font-size:.85rem;background:#fcf8f0;color:#3c2a1e}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.45rem .6rem;text-align:left;border-bottom:1px solid #d8c8a8}
+th{background:#3c2618;color:#e8d5b0;font-weight:600;letter-spacing:1px;font-size:.8rem}
+tr:nth-child(even){background:rgba(255,255,240,.4)}
+tr:hover{background:rgba(200,168,110,.12)}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.4rem;vertical-align:middle;border:1px solid rgba(0,0,0,.25)}
+.badge{display:inline-block;padding:.1rem .45rem;border-radius:2px;font-size:.7rem;font-weight:700;letter-spacing:.5px;color:#fff}
+.badge-default{background:linear-gradient(135deg,#8a8a8a,#6a6a6a)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:.7rem;margin-top:.6rem}
+.grid-item{background:#fcf8f0;border:1px solid #d8c8a8;border-radius:5px;padding:.45rem;text-align:center;transition:all .2s;position:relative}
+.grid-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.grid-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;background:#e8dcc8;display:block}
+.grid-item .gid{font-size:.62rem;color:#9a8a7a;margin-top:.3rem;word-break:break-all}
+.grid-item .gname{font-size:.72rem;color:#4a3a28;font-weight:600;margin-top:.15rem}
+.thumb-miss{width:100%;aspect-ratio:1;border-radius:3px;background:#e8dcc8;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#9a8a7a;word-break:break-all;padding:.2rem}
+.rarity-tag{position:absolute;top:8px;left:8px;font-size:.6rem;padding:.05rem .35rem;border-radius:2px;color:#fff;font-weight:700;letter-spacing:.5px}
+.uni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:.9rem}
+.uni-card{background:#fcf8f0;border:1px solid #d8c8a8;border-radius:6px;padding:.8rem;display:flex;gap:.9rem;transition:all .2s}
+.uni-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.av{position:relative;width:128px;height:212px;flex-shrink:0;border-radius:6px;background:radial-gradient(circle at 50% 25%,#efe6cc,#d8c8a8);overflow:hidden}
+.av-head{position:absolute;left:50%;transform:translateX(-50%);top:8px;width:52px;height:52px;border-radius:50%;overflow:hidden;background:#e8c39a;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-face{position:absolute;inset:0;background-size:cover;background-position:center;border-radius:50%}
+.av-hair{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:64px;height:60px;background-size:cover;background-position:center top;border-radius:50%}
+.av-torso{position:absolute;top:56px;left:6px;right:6px;height:82px;background-size:cover;background-position:center 35%;border-radius:6px 6px 3px 3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-legs{position:absolute;top:136px;left:14px;right:14px;height:74px;display:flex;gap:3px}
+.av-leg{flex:1;background-size:cover;background-position:center 15%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-leg:first-child{border-radius:0 0 0 5px}
+.av-leg:last-child{border-radius:0 0 5px 0}
+.uni-info{flex:1;min-width:0}
+.uni-card .uname{font-size:.85rem;font-weight:700;color:#2a1a10;margin-top:.35rem}
+.uni-card .uid{font-size:.6rem;color:#9a8a7a;margin-top:.3rem;word-break:break-all;line-height:1.5}
+.uodds{font-size:.8rem;color:#4a3a28;margin-top:.4rem;line-height:1.5}
+.uodds b{color:#a03020}
+.gchip{position:absolute;top:8px;right:8px;font-size:.62rem;font-weight:700;padding:.05rem .32rem;border-radius:2px;color:#fff;letter-spacing:.5px}
+.gchip.m{background:#2068a0}
+.gchip.f{background:#b04080}
+.gchip.both{background:linear-gradient(135deg,#2068a0,#b04080)}
+.swatch-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.3rem 0}
+.swatch{width:34px;height:34px;border-radius:4px;border:1px solid rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.bar{display:inline-block;height:10px;border-radius:3px;vertical-align:middle;background:linear-gradient(90deg,#c8a86e,#8a6e3e)}
+.note{font-size:.75rem;color:#7a6a5a;line-height:1.7;margin-top:.6rem}
+.note b{color:#4a3a28}
+.chip{display:inline-block;padding:.2rem .55rem;margin:.15rem .2rem;border-radius:3px;font-size:.75rem;color:#fff;font-weight:600;letter-spacing:.5px}
+.lib-footer{text-align:center;padding:2rem 1rem;color:#7a6a5a;font-size:.75rem;border-top:1px solid #3a2a1a;margin-top:1rem;letter-spacing:1px;background:linear-gradient(180deg,#2a1a10,#1a0f08)}
+.lib-footer .footer-sig{margin-top:.3rem;font-size:.7rem;opacity:.6}
+@media(max-width:600px){.lib-title{font-size:1.5rem;letter-spacing:3px}.gender-toggle{position:static;justify-content:center;margin-top:.6rem}.grid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}}
+</style>
+</head>
+<body>
+
+<div class="library-header">
+  <div class="gender-toggle" id="genderToggle">
+    <button data-g="Male" class="active">♂ 男生</button>
+    <button data-g="Female">♀ 女生</button>
+  </div>
+  <div class="lib-title">加库兰 · 抽卡概率图鉴</div>
+  <div class="lib-subtitle">GACHA ODDS &amp; CONTENT CATALOG</div>
+</div>
+
+<nav id="tabs">
+  <button data-tab="odds" class="active">概率总览</button>
+  <button data-tab="faces">脸型</button>
+  <button data-tab="hair">发型</button>
+  <button data-tab="acc">饰品</button>
+  <button data-tab="uni">制服</button>
+  <button data-tab="height">身高</button>
+  <button data-tab="style">战斗风格</button>
+</nav>
+
+<div class="container">
+
+<!-- ============ 概率总览 ============ -->
+<div class="panel active" id="tab-odds">
+  <div class="lib-card">
+    <h2>🎲 脸型稀有度概率 <span id="oddsGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div class="toolbar">
+      <label>族裔：<select id="oddsEthnicity"></select></label>
+    </div>
+    <div id="faceOddsTable"></div>
+    <p class="note"><b>说明：</b>概率来自游戏内 <code>FaceRerollConfig</code> / <code>FaceRarityConfig</code> 配置。传说脸（Legendary）仅女生池存在；欧洲魔脸（European Mogger）仅男生 + 欧裔可抽；Gyaru 仅女生。Regular 为剩余概率，从普通脸池抽取。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>💇 发色概率</h2>
+    <div id="hairColorOdds"></div>
+    <div class="swatch-row" id="hairSwatches"></div>
+    <p class="note"><b>说明：</b>天然发色按族裔专属色板随机；染发（Unique Dye）使用非天然色板；白发与粉发为超稀有特殊色。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>📿 饰品概率（当前性别 <span id="accGenderLabel" style="color:#8a6e3e"></span>）</h2>
+    <div id="accOddsTable"></div>
+    <p class="note"><b>说明：</b>每个部位独立判定：饰品栏位列表内每件饰品概率相同，剩余概率为该部位不佩戴饰品。头部猫耳（Cat Ears）为 0.5% 特殊判定（男女均可）。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>👔 制服稀有度概率</h2>
+    <div id="uniOddsTable"></div>
+    <p class="note"><b>说明：</b>按稀有度权重抽取，命中稀有度后再随机该稀有度内的一件制服。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>🥋 战斗风格概率</h2>
+    <div id="styleOddsTable"></div>
+    <p class="note"><b>说明：</b>Common 池仅「Basic」；Uncommon 池 3 种均分；Legendary 池 4 种均分；Mystery 池仅「Ali」。</p>
+  </div>
+</div>
+
+<!-- ============ 脸型 ============ -->
+<div class="panel" id="tab-faces">
+  <div class="lib-card">
+    <h2>😊 脸型图鉴 <span id="facesGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div id="facesGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 发型 ============ -->
+<div class="panel" id="tab-hair">
+  <div class="lib-card">
+    <h2>💇 发型图鉴 <span id="hairGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div class="toolbar" id="hairEthnicityTabs"></div>
+    <div id="hairGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 饰品 ============ -->
+<div class="panel" id="tab-acc">
+  <div class="lib-card">
+    <h2>📿 饰品图鉴 <span id="accAccGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div id="accGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 制服 ============ -->
+<div class="panel" id="tab-uni">
+  <div class="lib-card">
+    <h2>👔 制服图鉴 <span id="uniGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div id="uniGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 身高 ============ -->
+<div class="panel" id="tab-height">
+  <div class="lib-card">
+    <h2>📏 身高概率分布 <span id="heightGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div class="toolbar">
+      <label>族裔：<select id="heightEthnicity"></select></label>
+    </div>
+    <div id="heightTable"></div>
+    <p class="note"><b>说明：</b>身高按截断正态分布生成（140–210cm，随性别族裔均值/标准差不同），并以 3 英寸区间统计概率；≤ 4'11" 与 ≥ 6'9" 为概率封顶区间。男生 6'3" 以上为稀有尾段。</p>
+  </div>
+</div>
+
+<!-- ============ 战斗风格 ============ -->
+<div class="panel" id="tab-style">
+  <div class="lib-card">
+    <h2>🥋 战斗风格图鉴</h2>
+    <div id="styleGrid"></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lib-footer">
+  <div>数据来源：游戏脚本反编译（Real MCP · 2026-08-06 · Place v7532）</div>
+  <div>概率与内容以游戏实际配置为准 · 缩略图来自 thumbnails.roblox.com（已离线预解析）</div>
+  <div class="footer-sig">✦ 加库兰 · 抽卡概率图鉴 ✦</div>
+</div>
+
+<script src="gacha_data.js"></script>
+<script>
+const G = GACHA_DATA, T = THUMBS;
+const CN = {Male:'男',Female:'女'};
+const RAR_COLOR = {};
+G.faceRarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+G.uniformRarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+G.combatStyles.rarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+
+let gender = 'Male', ethnicity = 'Japanese', hairEth = 'Japanese';
+
+const $ = id => document.getElementById(id);
+
+function img(id, cls){
+  const d = document.createElement('div'); d.className=cls||'thumb-miss'; d.textContent='#'+id; d.dataset.id=id;
+  if(T[id]){ const im=document.createElement('img'); im.src=T[id]; im.loading='lazy'; im.onerror=()=>{im.remove()}; d.textContent=''; d.appendChild(im); }
+  return d;
+}
+function rarBadge(key){
+  const r = G.faceRarities.find(x=>x.key===key)||G.uniformRarities.find(x=>x.key===key);
+  const name = r&&r.displayName?r.displayName:key;
+  return `<span class="badge" style="background:${RAR_COLOR[key]||'#888'}">${name}</span>`;
+}
+function fmtP(p){ return p>=1? p.toFixed(1)+'%' : p>=0.1? p.toFixed(2)+'%' : (p>0?'<0.1%':'0%'); }
+
+/* ---------- odds ---------- */
+function faceOddsFor(g,eth){
+  const rows = G.faceRarities.map(r=>{
+    let avail = r.bucketKeys.some(k=>k.startsWith(g)) && (G.faceBuckets[r.bucketKeys.find(k=>k.startsWith(g))]||[]).length>0;
+    if(r.key==='EuropeanMogger') avail = g==='Male' && eth==='European';
+    return {...r, avail};
+  });
+  let sum = rows.filter(r=>r.avail).reduce((a,r)=>a+(r.chancePercent||0),0);
+  rows.forEach(r=>{ if(r.avail && r.key==='Regular') r.chancePercent = Math.max(0,100-sum); });
+  return rows;
+}
+function renderFaceOdds(){
+  const rows = faceOddsFor(gender,ethnicity);
+  $('oddsGenderLabel').textContent = '· '+CN[gender];
+  const rowsHtml = rows.map(r=>{
+    const bucket = r.bucketKeys.find(k=>k.startsWith(gender));
+    const cnt = bucket&&G.faceBuckets[bucket]?G.faceBuckets[bucket].length:0;
+    const pct = r.avail ? fmtP(r.chancePercent) : '—';
+    const note = r.note||(r.avail?`${cnt} 款`:'当前性别/族裔不可抽取');
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${r.displayName}</td><td style="font-weight:700">${pct}</td><td>${cnt}</td><td style="color:#7a6a5a;font-size:.78rem">${note}</td></tr>`;
+  }).join('');
+  $('faceOddsTable').innerHTML = `<table><tr><th>稀有度</th><th>概率</th><th>脸数</th><th>备注</th></tr>${rowsHtml}</table>`;
+}
+function renderHairColor(){
+  $('hairColorOdds').innerHTML = `<table>
+    <tr><th>类型</th><th>概率</th><th>说明</th></tr>
+    <tr><td>天然发色</td><td style="font-weight:700">94.998%</td><td style="color:#7a6a5a;font-size:.78rem">按族裔色板随机</td></tr>
+    <tr><td>染发 Unique Dye</td><td style="font-weight:700">4.9999%</td><td style="color:#7a6a5a;font-size:.78rem">非天然色板</td></tr>
+    <tr><td>粉发 Pastel Pink</td><td style="font-weight:700">0.0015%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+    <tr><td>白发 White</td><td style="font-weight:700">0.0005%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+  </table>`;
+  const sw = c=>`<div class="swatch" style="background:rgb(${c.join(',')})"></div>`;
+  $('hairSwatches').innerHTML =
+    `<div style="margin-right:.6rem"><b>天然色板·${CN[gender]}</b></div>`+
+    G.hairColors.naturalPalettes[ethnicity].map(sw).join('')+
+    `<div style="margin:0 .6rem"><b>白发</b></div>`+G.hairColors.whitePalette.map(sw).join('')+
+    `<div style="margin:0 .6rem"><b>粉发</b></div>`+G.hairColors.pastelPinkPalette.map(sw).join('');
+}
+function accCounts(g){
+  const slots = G.accessorySlots;
+  const cnt = {};
+  for(const slot of ['FaceAccessoryIDs','HeadAccessoryIDs','ShoulderAccessoryIDs','NeckAccessoryIDs','WaistAccessoryIDs','BackAccessoryIDs']){
+    let n=0;
+    for(const k in slots[slot]){ const arr=slots[slot][k]; if(Array.isArray(arr)) arr.forEach(e=>{ if(e[1]==='Both'||e[1]===g) n++; }); }
+    cnt[slot]=n;
+  }
+  return cnt;
+}
+function renderAccOdds(){
+  $('accGenderLabel').textContent = '· '+CN[gender];
+  const c = accCounts(gender);
+  const rows = [
+    ['脸饰（眼镜/绷带/口罩/鼻环）','FaceAccessoryIDs',100],
+    ['头部（耳机/发带/猫耳/花朵/眼罩/发夹/蝴蝶结）','HeadAccessoryIDs',99.5],
+    ['肩部（手链/手表/绷带）','ShoulderAccessoryIDs',100],
+    ['颈部（围巾/项链）','NeckAccessoryIDs',100],
+    ['腰部（钥匙扣）','WaistAccessoryIDs',100],
+    ['背部（背包）','BackAccessoryIDs',100]
+  ];
+  const h = rows.map(([name,slot,pool])=>{
+    const n=c[slot];
+    const per = pool/(n+1);
+    const cat = slot==='HeadAccessoryIDs'?`<br><span style="color:#b04030">猫耳: 0.5%</span>`:'';
+    return `<tr><td>${name}</td><td>${n}</td><td style="font-weight:700">${per.toFixed(2)}%</td><td style="font-weight:700">${per.toFixed(2)}%</td><td style="color:#7a6a5a;font-size:.78rem">${cat}${slot==='HeadAccessoryIDs'?'每件概率=99.5%池均分':'每件均分'}</td></tr>`;
+  }).join('');
+  $('accOddsTable').innerHTML = `<table><tr><th>部位</th><th>可抽件数</th><th>单件概率</th><th>空置概率</th><th>备注</th></tr>${h}</table>`;
+}
+function renderUniOdds(){
+  const g = gender==='Male'?'Student_Male':'Student_Female';
+  const list = G.uniforms[g];
+  const rows = G.uniformRarities.map(r=>{
+    const items = list.filter(u=>u.rarity===r.key);
+    const per = items.length? r.weight/items.length : 0;
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${r.key}</td>
+      <td style="font-weight:700">${r.weight.toFixed(1)}%</td>
+      <td>${items.length}</td>
+      <td>${items.length?per.toFixed(2)+'%':'-'}</td></tr>`;
+  }).join('');
+  $('uniOddsTable').innerHTML = `<table><tr><th>稀有度</th><th>总概率</th><th>件数</th><th>单件概率</th></tr>${rows}</table>`;
+}
+function renderStyleOdds(){
+  const rows = G.combatStyles.rarities.map(r=>{
+    const per = r.weight/r.styles.length;
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${r.key}</td>
+      <td style="font-weight:700">${r.weight.toFixed(3)}%</td>
+      <td>${r.styles.length}</td>
+      <td>${per.toFixed(3)}%</td>
+      <td style="color:#7a6a5a;font-size:.78rem">${r.styles.join('、')}</td></tr>`;
+  }).join('');
+  $('styleOddsTable').innerHTML = `<table><tr><th>稀有度</th><th>总概率</th><th>风格数</th><th>单风格概率</th><th>风格</th></tr>${rows}</table>`;
+}
+
+/* ---------- faces ---------- */
+function faceRemainder(g){
+  let sum=0;
+  G.faceRarities.forEach(r=>{
+    if(r.key==='Regular'||r.key==='EuropeanMogger') return;
+    const ok=r.bucketKeys.some(k=>k.startsWith(g)&&(G.faceBuckets[k]||[]).length>0);
+    if(ok) sum+=r.chancePercent;
+  });
+  return 100-sum;
+}
+function renderFaces(){
+  $('facesGenderLabel').textContent = '· 全部脸型（♂ 男生池 / ♀ 女生池 / ♂♀ 双池）';
+  const shared=new Set();
+  const inG={Male:new Set(),Female:new Set()};
+  G.faceRarities.forEach(r=>r.bucketKeys.forEach(k=>{
+    const g=k.startsWith('Female')?'Female':'Male';
+    (G.faceBuckets[k]||[]).forEach(id=>inG[g].add(String(id)));
+  }));
+  [...inG.Male].forEach(id=>{if(inG.Female.has(id))shared.add(id)});
+  let html='';
+  G.faceRarities.forEach(r=>{
+    const buckets=r.bucketKeys.filter(k=>(G.faceBuckets[k]||[]).length>0);
+    if(!buckets.length)return;
+    buckets.forEach(k=>{
+      const g=k.startsWith('Female')?'Female':'Male';
+      const chance=r.key==='Regular'?fmtP(faceRemainder(g)):fmtP(r.chancePercent);
+      const note=r.key==='EuropeanMogger'?' · 仅男生+欧裔抽取':(r.note?(' · '+r.note):'');
+      const ids=G.faceBuckets[k];
+      const items=ids.map(id=>{
+        const s=String(id);
+        const tag=shared.has(s)?'both':(inG.Male.has(s)?'m':'f');
+        const lbl=tag==='both'?'♂♀':(tag==='m'?'♂':'♀');
+        return `<div class="grid-item"><span class="rarity-tag" style="background:${r.color}">${r.displayName}</span>${img(id).outerHTML}<span class="gchip ${tag}">${lbl}</span><div class="gid">${id}</div></div>`;
+      }).join('');
+      html+=`<h3>${r.displayName} · ${CN[g]}池 · ${chance} · ${ids.length} 款${note}</h3><div class="grid">${items}</div>`;
+    });
+  });
+  $('facesGrid').innerHTML=html;
+}
+
+/* ---------- hair ---------- */
+function renderHairEthTabs(){
+  const eths = Object.keys(G.hair[gender]);
+  $('hairEthnicityTabs').innerHTML = eths.map(e=>
+    `<label><input type="radio" name="hairEth" value="${e}" ${e===hairEth?'checked':''} onchange="hairEth=this.value;renderHair()"> ${e}</label>`
+  ).join('');
+}
+function renderHair(){
+  renderHairEthTabs();
+  $('hairGenderLabel').textContent = '· '+CN[gender];
+  const ids = G.hair[gender][hairEth]||[];
+  const items = ids.map(id=>`<div class="grid-item">${img(id).outerHTML}<div class="gid">${id}</div></div>`).join('');
+  $('hairGrid').innerHTML = `<p class="note" style="margin-bottom:.4rem">共 <b>${ids.length}</b> 款（${hairEth} 池）</p><div class="grid">${items}</div>`;
+}
+
+/* ---------- accessories ---------- */
+const SLOT_CN = {FaceAccessoryIDs:'脸饰',HeadAccessoryIDs:'头部',ShoulderAccessoryIDs:'肩部',NeckAccessoryIDs:'颈部',WaistAccessoryIDs:'腰部',BackAccessoryIDs:'背部'};
+function renderAcc(){
+  $('accAccGenderLabel').textContent = '· '+CN[gender];
+  const slots = G.accessorySlots;
+  let html='';
+  for(const slot of ['FaceAccessoryIDs','HeadAccessoryIDs','ShoulderAccessoryIDs','NeckAccessoryIDs','WaistAccessoryIDs','BackAccessoryIDs']){
+    const cats = Object.keys(slots[slot]);
+    let items='';
+    cats.forEach(k=>{
+      const arr = slots[slot][k]; if(!Array.isArray(arr)) return;
+      arr.filter(e=>e[1]==='Both'||e[1]===gender).forEach(e=>{
+        items += `<div class="grid-item">${img(e[0]).outerHTML}<div class="gname">${k}</div><div class="gid">${e[0]}</div></div>`;
+      });
+    });
+    html += `<h3>${SLOT_CN[slot]}（${items? '':'—'}${accCounts(gender)[slot]} 件）</h3><div class="grid">${items||'<p class="note">当前性别无此部位饰品</p>'}</div>`;
+  }
+  $('accGrid').innerHTML = html;
+}
+
+/* ---------- uniforms ---------- */
+const AV={};
+AV.Male={face:G.faceBuckets.Male[0],hair:G.hair.Male.Japanese[0]};
+AV.Female={face:G.faceBuckets.Female[0],hair:G.hair.Female.Japanese[0]};
+function avatar(shirtId,pantsId){
+  const a=AV[gender];
+  const u=id=>T[id]?`url('${T[id]}')`:'none';
+  return `<div class="av">
+    <div class="av-head"><div class="av-face" style="background-image:${u(a.face)}"></div><div class="av-hair" style="background-image:${u(a.hair)}"></div></div>
+    <div class="av-torso" style="background-image:${u(shirtId)}"></div>
+    <div class="av-legs"><div class="av-leg" style="background-image:${u(pantsId)}"></div><div class="av-leg" style="background-image:${u(pantsId)}"></div></div>
+  </div>`;
+}
+function renderUni(){
+  $('uniGenderLabel').textContent = '· '+CN[gender]+' · 上身效果预览';
+  const g = gender==='Male'?'Student_Male':'Student_Female';
+  const list = G.uniforms[g];
+  const w={};G.uniformRarities.forEach(r=>w[r.key]=r.weight);
+  const cnt={};list.forEach(u=>cnt[u.rarity]=(cnt[u.rarity]||0)+1);
+  const order = ['Mystery','Legendary','Epic','Rare','Common'];
+  list.sort((a,b)=>order.indexOf(a.rarity)-order.indexOf(b.rarity));
+  const cards = list.map(u=>{
+    const per = w[u.rarity]/cnt[u.rarity];
+    const def = u.isDefault?'<span class="badge badge-default">初始</span>':'';
+    return `<div class="uni-card" style="border-top:3px solid ${RAR_COLOR[u.rarity]}">
+      ${avatar(u.shirt,u.pants)}
+      <div class="uni-info">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">${rarBadge(u.rarity)}${def}</div>
+        <div class="uname">${u.name}</div>
+        <div class="uodds">稀有度 ${w[u.rarity].toFixed(1)}% · 单件抽取概率 <b>${per.toFixed(2)}%</b></div>
+        <div class="uid">上衣 ${u.shirt}<br>下装 ${u.pants}</div>
+      </div>
+    </div>`;
+  }).join('');
+  $('uniGrid').innerHTML = `<div class="uni-grid">${cards}</div>`;
+}
+
+/* ---------- height ---------- */
+function erf(z){const t=1/(1+0.3275911*z);return 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-z*z);}
+function phi(x){return 0.5*(1+erf(x/Math.SQRT2));}
+function heightBuckets(g,eth){
+  const [m,s] = G.height.distributions[g][eth];
+  const mIn=m/2.54, sIn=s/2.54;
+  const Z = phi((210-m)/s)-phi((140-m)/s);
+  const P=(lo,hi)=>(phi((hi-mIn)/sIn)-phi((lo-mIn)/sIn))/Z;
+  const out=[]; let lo=57;
+  while(lo<84){
+    let p=P(lo,lo+3);
+    if(lo<58.98) p+=P(-1e9,58.98);          // 最低封顶
+    if(lo+3>82.68) p+=P(82.68,1e9);          // 最高封顶
+    out.push({lo,p});
+    lo+=3;
+  }
+  return out;
+}
+function fmtFt(inch){ const f=Math.floor(inch/12), i=Math.round(inch%12); return `${f}'${i}"`; }
+function renderHeight(){
+  $('heightGenderLabel').textContent = '· '+CN[gender];
+  const buck = heightBuckets(gender,ethnicity);
+  const maxP = Math.max(...buck.map(b=>b.p));
+  const rows = buck.map(b=>{
+    const isMin = b.lo===57, isRareTail = gender==='Male'&&b.lo>=75;
+    const show = b.p>=0.5||isMin||isRareTail;
+    if(!show) return '';
+    const pct = b.p>=1? b.p.toFixed(1)+'%' : (b.p>=0.1? b.p.toFixed(2)+'%':'<0.1%');
+    const bar = Math.round(b.p/maxP*100);
+    return `<tr style="${isRareTail?'background:rgba(175,95,255,.10)':''}">
+      <td>${fmtFt(b.lo)} – ${fmtFt(b.lo+3)}</td>
+      <td style="font-weight:700">${pct}</td>
+      <td><span class="bar" style="width:${bar}px"></span></td>
+      <td style="color:#7a6a5a;font-size:.75rem">${isMin?'最低封顶':(isRareTail?'⭐ 稀有尾段':'')}</td>
+    </tr>`;
+  }).join('');
+  $('heightTable').innerHTML = `<table><tr><th>身高区间</th><th>概率</th><th></th><th>备注</th></tr>${rows}</table>`;
+}
+
+/* ---------- styles ---------- */
+function renderStyle(){
+  const cards = G.combatStyles.rarities.map(r=>{
+    const per = r.weight/r.styles.length;
+    const chips = r.styles.map(s=>`<span class="chip" style="background:${r.color}">${s} · ${per.toFixed(3)}%</span>`).join('');
+    return `<div class="lib-card" style="margin-bottom:.8rem"><h2 style="border:none;padding:0;margin-bottom:.5rem"><span class="dot" style="background:${r.color}"></span>${r.key} · ${r.weight.toFixed(3)}%</h2>${chips}</div>`;
+  }).join('');
+  $('styleGrid').innerHTML = cards;
+}
+
+/* ---------- init ---------- */
+function fillEthnicitySelects(){
+  const eths = Object.keys(G.hair.Male);
+  for(const sel of ['oddsEthnicity','heightEthnicity']){
+    $(sel).innerHTML = eths.map(e=>`<option ${e===ethnicity?'selected':''}>${e}</option>`).join('');
+  }
+}
+function refresh(){
+  renderFaceOdds(); renderHairColor(); renderAccOdds(); renderUniOdds(); renderStyleOdds();
+  renderFaces(); renderHair(); renderAcc(); renderUni(); renderHeight(); renderStyle();
+}
+document.getElementById('genderToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  gender=b.dataset.g;
+  document.querySelectorAll('#genderToggle button').forEach(x=>x.classList.toggle('active',x===b));
+  localStorage.setItem('gakGachaGender',gender);
+  refresh();
+});
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  $('tab-'+b.dataset.tab).classList.add('active');
+});
+$('oddsEthnicity').addEventListener('change',e=>{ethnicity=e.target.value;refresh();});
+$('heightEthnicity').addEventListener('change',e=>{ethnicity=e.target.value;refresh();});
+fillEthnicitySelects();
+gender = localStorage.getItem('gakGachaGender')||'Male';
+document.querySelectorAll('#genderToggle button').forEach(x=>x.classList.toggle('active',x.dataset.g===gender));
+refresh();
+</script>
+</body>
+</html>
