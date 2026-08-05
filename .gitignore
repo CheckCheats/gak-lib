@@ -16,3 +16,5 @@ real_mcp.py
 resolve_thumbs.ps1
 resolve_all.ps1
 run_eval.py
+assets/three.min.js
+assets/thumbs/
