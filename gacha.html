@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加库兰 · 抽卡概率与内容图鉴</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC','SimSun','STSong','Georgia',serif;background:#1a0f08;color:#3c2a1e;min-height:100vh;background-image:linear-gradient(rgba(15,9,5,.65),rgba(15,9,5,.85)),radial-gradient(ellipse at 20% 50%,rgba(139,90,43,.10) 0%,transparent 50%),repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(139,90,43,.03) 80px,rgba(139,90,43,.03) 81px);background-size:cover;background-attachment:fixed}
+.library-header{background:linear-gradient(180deg,#1a0f08 0%,#2a1a10 40%,#3c2618 100%);border-bottom:3px solid #8a6e3e;padding:1.8rem 1rem 1.2rem;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.library-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c8a86e,#8a6e3e,#c8a86e,#6a4e2e,#c8a86e)}
+.library-header::after{content:'🎴 ✦ 🎲 ✦ 🎴';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:1.2rem;letter-spacing:15px;opacity:.15}
+.lib-title{font-size:2rem;font-weight:900;color:#e8d5b0;text-shadow:0 2px 8px rgba(0,0,0,.5),0 0 30px rgba(200,168,110,.15);letter-spacing:6px;margin-bottom:.3rem}
+.lib-subtitle{font-size:.8rem;color:#b8a080;letter-spacing:3px;opacity:.8}
+nav{background:linear-gradient(90deg,#1a0f08,#2a1a10,#1a0f08);padding:.6rem 1rem;display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #4a3a28;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+nav button{font-family:inherit;color:#b8a080;background:none;border:1px solid transparent;padding:.35rem .7rem;border-radius:4px;font-size:.8rem;cursor:pointer;transition:all .2s;letter-spacing:1px}
+nav button:hover{background:rgba(200,168,110,.1);color:#e8d5b0;border-color:#4a3a28}
+nav button.active{background:rgba(200,168,110,.15);color:#e8d5b0;border-color:#8a6e3e}
+.container{max-width:1180px;margin:0 auto;padding:1.5rem 1rem}
+.panel{display:none}
+.panel.active{display:block}
+.lib-card{background:linear-gradient(180deg,#f5eed8 0%,#efe6cc 100%);border:1px solid #d8c8a8;border-radius:6px;padding:1.6rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,240,.6);position:relative}
+.lib-card::before{content:'';position:absolute;top:0;left:1.5rem;right:1.5rem;height:2px;background:linear-gradient(90deg,transparent,#c8a86e,transparent)}
+.lib-card h2{color:#2a1a10;font-size:1.1rem;font-weight:700;letter-spacing:2px;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #d8c8a8;display:flex;align-items:center;gap:.5rem}
+.lib-card h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#d8c8a8,transparent)}
+.lib-card h3{color:#3c2618;font-size:.95rem;letter-spacing:1px;margin:.8rem 0 .5rem}
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.toolbar select,.toolbar label{font-family:inherit;padding:.45rem .7rem;border:2px solid #c8a86e;border-radius:4px;font-size:.85rem;background:#fcf8f0;color:#3c2a1e}
+.eth-btn{font-family:inherit;padding:.4rem .95rem;border:2px solid #c8a86e;border-radius:20px;background:#fcf8f0;color:#3c2a1e;font-size:.85rem;cursor:pointer;transition:all .15s;letter-spacing:.5px}
+.eth-btn:hover{border-color:#8a6e3e;background:#f3ead4}
+.eth-btn.active{background:linear-gradient(135deg,#8a6e3e,#5a3c28);color:#fcf8f0;border-color:#8a6e3e;box-shadow:0 0 8px rgba(200,168,110,.35)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.45rem .6rem;text-align:left;border-bottom:1px solid #d8c8a8}
+th{background:#3c2618;color:#e8d5b0;font-weight:600;letter-spacing:1px;font-size:.8rem}
+tr:nth-child(even){background:rgba(255,255,240,.4)}
+tr:hover{background:rgba(200,168,110,.12)}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.4rem;vertical-align:middle;border:1px solid rgba(0,0,0,.25)}
+.badge{display:inline-block;padding:.1rem .45rem;border-radius:2px;font-size:.7rem;font-weight:700;letter-spacing:.5px;color:#fff}
+.badge-default{background:linear-gradient(135deg,#8a8a8a,#6a6a6a)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:.7rem;margin-top:.6rem}
+.grid-item{background:#fcf8f0;border:1px solid #d8c8a8;border-radius:5px;padding:.45rem;text-align:center;transition:all .2s;position:relative}
+.grid-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.grid-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;background:#e8dcc8;display:block}
+.grid-item .gid{font-size:.62rem;color:#9a8a7a;margin-top:.3rem;word-break:break-all}
+.grid-item .gname{font-size:.72rem;color:#4a3a28;font-weight:600;margin-top:.15rem}
+.thumb-miss{width:100%;aspect-ratio:1;border-radius:3px;background:#e8dcc8;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#9a8a7a;word-break:break-all;padding:.2rem}
+.rarity-tag{position:absolute;top:8px;left:8px;font-size:.6rem;padding:.05rem .35rem;border-radius:2px;color:#fff;font-weight:700;letter-spacing:.5px}
+.uni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:.9rem}
+.uni-card{background:#fcf8f0;border:1px solid #d8c8a8;border-radius:6px;padding:.8rem;display:flex;gap:.9rem;transition:all .2s}
+.uni-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.av{position:relative;width:128px;height:212px;flex-shrink:0;border-radius:6px;background:radial-gradient(circle at 50% 25%,#efe6cc,#d8c8a8);overflow:hidden}
+.av-head{position:absolute;left:50%;transform:translateX(-50%);top:8px;width:52px;height:52px;border-radius:50%;overflow:hidden;background:#e8c39a;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-face{position:absolute;inset:0;background-size:cover;background-position:center;border-radius:50%}
+.av-hair{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:64px;height:60px;background-size:cover;background-position:center top;border-radius:50%}
+.av-torso{position:absolute;top:56px;left:6px;right:6px;height:82px;background-size:cover;background-position:center 35%;border-radius:6px 6px 3px 3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-legs{position:absolute;top:136px;left:14px;right:14px;height:74px;display:flex;gap:3px}
+.av-leg{flex:1;background-size:cover;background-position:center 15%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.av-leg:first-child{border-radius:0 0 0 5px}
+.av-leg:last-child{border-radius:0 0 5px 0}
+.uni-info{flex:1;min-width:0}
+.uni-card .uname{font-size:.85rem;font-weight:700;color:#2a1a10;margin-top:.35rem}
+.uni-card .uid{font-size:.6rem;color:#9a8a7a;margin-top:.3rem;word-break:break-all;line-height:1.5}
+.uodds{font-size:.8rem;color:#4a3a28;margin-top:.4rem;line-height:1.5}
+.uodds b{color:#a03020}
+.odds-sub{margin-top:.5rem}
+.odds-sub>b{display:block;color:#8a6e3e;font-size:.85rem;margin-bottom:.25rem}
+.odds-sub+.odds-sub{margin-top:.9rem;padding-top:.6rem;border-top:1px dashed #d8c8a8}
+.gchip{position:absolute;top:8px;right:8px;font-size:.62rem;font-weight:700;padding:.05rem .32rem;border-radius:2px;color:#fff;letter-spacing:.5px}
+.gchip.m{background:#2068a0}
+.gchip.f{background:#b04080}
+.gchip.both{background:linear-gradient(135deg,#2068a0,#b04080)}
+.swatch-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.3rem 0}
+.swatch{width:34px;height:34px;border-radius:4px;border:1px solid rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.bar{display:inline-block;height:10px;border-radius:3px;vertical-align:middle;background:linear-gradient(90deg,#c8a86e,#8a6e3e)}
+.note{font-size:.75rem;color:#7a6a5a;line-height:1.7;margin-top:.6rem}
+.note b{color:#4a3a28}
+.chip{display:inline-block;padding:.2rem .55rem;margin:.15rem .2rem;border-radius:3px;font-size:.75rem;color:#fff;font-weight:600;letter-spacing:.5px}
+/* ===== 制服 2D（参考图鉴风格） ===== */
+.uni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.9rem}
+.uni2d-card{background:#fcf8f0;border:1px solid #d8c8a8;border-radius:6px;padding:.8rem;display:flex;gap:.9rem;transition:all .2s;position:relative}
+.uni2d-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.uni2d-card.active{outline:2px solid #8a6e3e;box-shadow:0 0 14px rgba(138,110,62,.45);background:#f5eed8}
+.uni-vis{position:relative;width:170px;flex-shrink:0;background:radial-gradient(ellipse at 50% 28%,#f4ecd8 0%,#d8c8a8 70%,#c0b090 100%);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:8px 6px 6px;border:1px solid #b8a888;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 4px rgba(0,0,0,.08)}
+.uni-vis::before{content:'';position:absolute;left:8px;right:8px;top:8px;bottom:8px;border:1px dashed rgba(80,50,30,.18);border-radius:4px;pointer-events:none}
+.uni-shirt{width:100%;flex:1;min-height:90px;background:rgba(255,255,255,.5);border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(80,50,30,.12);margin-bottom:4px}
+.uni-shirt img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
+.uni-pants{width:100%;height:50px;background:rgba(255,255,255,.5);border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(80,50,30,.12)}
+.uni-pants img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
+.uni-vis .img-miss{font-size:.65rem;color:#9a8a7a;padding:.3rem;text-align:center}
+.uni-vis .img-miss b{color:#6a4a2a;display:block;margin-bottom:2px;font-size:.7rem}
+.uni-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:.3rem}
+.uni-info .uname{font-size:1.05rem;font-weight:700;color:#2a1a10;letter-spacing:.5px;line-height:1.2}
+.uni-info .uid{font-size:.7rem;color:#5a4a3a;line-height:1.6;font-family:ui-monospace,monospace;word-break:break-all}
+.uni-info .uid b{color:#3c2a1e}
+.uni-gender{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:700;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);z-index:3;letter-spacing:0}
+.uni-gender.male{background:linear-gradient(135deg,#4d96ff,#2a6cb8)}
+.uni-gender.female{background:linear-gradient(135deg,#ff6b9d,#d83a8a)}
+.uni-info .odds{font-size:.72rem;color:#7a5a3a;background:#fcf8f0;padding:.28rem .5rem;border-radius:3px;margin-top:.3rem;border:1px solid #e8dcc8;line-height:1.5;border-left:3px solid #c8a060}
+.uni-info .odds b{color:#a03020}
+.npc-flex{display:flex;gap:1.2rem;flex-wrap:wrap}
+.npc-flex>div{flex:1;min-width:280px}
+.lib-footer{text-align:center;padding:2rem 1rem;color:#7a6a5a;font-size:.75rem;border-top:1px solid #3a2a1a;margin-top:1rem;letter-spacing:1px;background:linear-gradient(180deg,#2a1a10,#1a0f08)}
+.lib-footer .footer-sig{margin-top:.3rem;font-size:.7rem;opacity:.6}
+@media(max-width:600px){.lib-title{font-size:1.5rem;letter-spacing:3px}.grid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}}
+</style>
+</head>
+<body>
+
+<div class="library-header">
+  <div class="lib-title">加库兰 · 抽卡概率图鉴</div>
+  <div class="lib-subtitle">GACHA ODDS &amp; CONTENT CATALOG</div>
+</div>
+
+<nav id="tabs">
+  <button data-tab="odds" class="active">概率总览</button>
+  <button data-tab="faces">脸型</button>
+  <button data-tab="hair">发型</button>
+  <button data-tab="acc">饰品</button>
+  <button data-tab="uni">制服 3D</button>
+  <button data-tab="style">战斗风格</button>
+</nav>
+
+<div class="container">
+
+<!-- ============ 概率总览 ============ -->
+<div class="panel active" id="tab-odds">
+  <div class="lib-card">
+    <h2>🎲 脸型稀有度概率（♂ 男生池 / ♀ 女生池）</h2>
+    <div class="toolbar">
+      <label>族裔：<select id="oddsEthnicity"></select></label>
+    </div>
+    <div id="faceOddsTable"></div>
+    <p class="note"><b>说明：</b>概率来自游戏内 <code>FaceRerollConfig</code> / <code>FaceRarityConfig</code> 配置。传说脸（Legendary）仅女生池存在；欧洲魔脸（European Mogger）仅男生 + 欧裔可抽；Gyaru 仅女生。Regular 为剩余概率，从普通脸池抽取。Mystery 脸游戏中显示为「???」。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>💇 发色概率</h2>
+    <div id="hairColorOdds"></div>
+    <div class="swatch-row" id="hairSwatches"></div>
+    <p class="note"><b>说明：</b>天然发色按族裔专属色板随机；染发（Unique Dye）使用非天然色板；白发与粉发为超稀有特殊色。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>📿 饰品概率（♂ 男生 / ♀ 女生）</h2>
+    <div id="accOddsTable"></div>
+    <p class="note"><b>说明：</b>每个部位独立判定：饰品栏位列表内每件饰品概率相同，剩余概率为该部位不佩戴饰品。头部猫耳（Cat Ears）为 0.5% 特殊判定（男女均可）。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>👔 制服稀有度概率（♂ 男生池 / ♀ 女生池）</h2>
+    <div id="uniOddsTable"></div>
+    <p class="note"><b>说明：</b>按稀有度权重抽取，命中稀有度后再随机该稀有度内的一件制服。Mystery（「???」）制服女生池含 <b>Elite / Dragon / Bocchi</b> 三款，男生池含 <b>Elite / Dragon</b> 两款。</p>
+  </div>
+
+  <div class="lib-card">
+    <h2>🥋 战斗风格概率</h2>
+    <div id="styleOddsTable"></div>
+    <p class="note"><b>说明：</b>Common 池仅「Basic」；Uncommon 池 3 种均分；Legendary 池 4 种均分；Mystery 池仅「Ali」。</p>
+  </div>
+</div>
+
+<!-- ============ 脸型 ============ -->
+<div class="panel" id="tab-faces">
+  <div class="lib-card">
+    <h2>😊 脸型图鉴 <span id="facesGenderLabel" style="color:#8a6e3e;font-size:.85rem"></span></h2>
+    <div id="facesGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 发型 ============ -->
+<div class="panel" id="tab-hair">
+  <div class="lib-card">
+    <h2>💇 发型图鉴 <span style="font-size:.8rem;color:#8a6e3e">（可选人种 · 人种内切合 ♂ 男 / ♀ 女 / 通用）</span></h2>
+    <div class="toolbar" id="hairEthnicityTabs"></div>
+    <div id="hairGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 饰品（男女分栏） ============ -->
+<div class="panel" id="tab-acc">
+  <div class="lib-card">
+    <h2>📿 饰品图鉴 · 男女分栏</h2>
+    <p class="note" style="margin-top:0"><b>说明：</b>每个部位分 ♂ 男生 / ♀ 女生 两栏；同时出现在两栏的为男女共用（Both）饰品。</p>
+    <div id="accGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 制服 ============ -->
+<div class="panel" id="tab-uni">
+  <div class="lib-card">
+    <h2>👔 制服图鉴 · 角色试穿</h2>
+    <p class="note" style="margin-top:0"><b>说明：</b>共 20 款（男 9 / 女 11），按稀有度从高到低排序，稀有度按游戏配置 <code>UniformRarityConfig</code> 修正。每抽获得一套完整制服（衣服+裤子），性别由右上角 ♂/♀ 图标区分。<b style="color:#a03020">⚠ 本页只展示制服款式（衣服 + 裤子）的官方缩略图，不渲染真人穿着效果</b>，原因：Roblox 公开 API 无法匿名获取"自定义穿着后的角色图"（无登录态都返回 404）。</p>
+    <div class="uni-grid" id="uniGrid"></div>
+  </div>
+  <div class="lib-card">
+    <h2>🧑‍🏫 NPC 制服</h2>
+    <div id="npcGrid"></div>
+  </div>
+</div>
+
+<!-- ============ 战斗风格 ============ -->
+<div class="panel" id="tab-style">
+  <div class="lib-card">
+    <h2>🥋 战斗风格图鉴</h2>
+    <div id="styleGrid"></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lib-footer">
+  <div>数据来源：来自未知</div>
+  <div class="footer-sig">✦ 加库兰 · 抽卡概率图鉴 ✦</div>
+</div>
+
+<script src="gacha_data.js"></script>
+<script>
+const G = GACHA_DATA, T = THUMBS;
+const CN = {Male:'男',Female:'女'};
+const RAR_COLOR = {};
+G.faceRarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+G.uniformRarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+G.combatStyles.rarities.forEach(r=>RAR_COLOR[r.key]=r.color);
+
+let gender = 'Male', ethnicity = 'Japanese', hairEth = 'Japanese';
+
+const $ = id => document.getElementById(id);
+
+function img(id, cls){
+  const d = document.createElement('div'); d.className=cls||'thumb-miss'; d.textContent='#'+id; d.dataset.id=id;
+  if(T[id]){ const im=document.createElement('img'); im.src=T[id]; im.loading='lazy'; im.onerror=()=>{im.remove()}; d.textContent=''; d.appendChild(im); }
+  return d;
+}
+function rarBadge(key){
+  const r = G.faceRarities.find(x=>x.key===key)||G.uniformRarities.find(x=>x.key===key);
+  const name = r&&r.displayName?r.displayName:key;
+  return `<span class="badge" style="background:${RAR_COLOR[key]||'#888'}">${name}</span>`;
+}
+function fmtP(p){ return p>=1? p.toFixed(1)+'%' : p>=0.1? p.toFixed(2)+'%' : (p>0?'<0.1%':'0%'); }
+
+/* ---------- odds ---------- */
+function faceOddsFor(g,eth){
+  const rows = G.faceRarities.map(r=>{
+    let avail = r.bucketKeys.some(k=>k.startsWith(g)) && (G.faceBuckets[r.bucketKeys.find(k=>k.startsWith(g))]||[]).length>0;
+    if(r.key==='EuropeanMogger') avail = g==='Male' && eth==='European';
+    return {...r, avail};
+  });
+  let sum = rows.filter(r=>r.avail).reduce((a,r)=>a+(r.chancePercent||0),0);
+  rows.forEach(r=>{ if(r.avail && r.key==='Regular') r.chancePercent = Math.max(0,100-sum); });
+  return rows;
+}
+function faceOddsRows(g){
+  const rows = faceOddsFor(g,ethnicity);
+  return rows.map(r=>{
+    const bucket = r.bucketKeys.find(k=>k.startsWith(g));
+    const cnt = bucket&&G.faceBuckets[bucket]?G.faceBuckets[bucket].length:0;
+    const pct = r.avail ? fmtP(r.chancePercent) : '—';
+    const note = r.note||(r.avail?`${cnt} 款`:'当前性别/族裔不可抽取');
+    const disp = r.oddsDisplayName||r.displayName;
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${disp}</td><td style="font-weight:700">${pct}</td><td>${cnt}</td><td style="color:#7a6a5a;font-size:.78rem">${note}</td></tr>`;
+  }).join('');
+}
+function renderFaceOdds(){
+  const tbl = g=>`<div class="odds-sub"><b>${g==='Male'?'♂ 男生池':'♀ 女生池'}</b><table><tr><th>稀有度</th><th>概率</th><th>脸数</th><th>备注</th></tr>${faceOddsRows(g)}</table></div>`;
+  $('faceOddsTable').innerHTML = tbl('Male')+tbl('Female');
+}
+function renderHairColor(){
+  $('hairColorOdds').innerHTML = `<table>
+    <tr><th>类型</th><th>概率</th><th>说明</th></tr>
+    <tr><td>天然发色</td><td style="font-weight:700">94.998%</td><td style="color:#7a6a5a;font-size:.78rem">按族裔色板随机</td></tr>
+    <tr><td>染发 Unique Dye</td><td style="font-weight:700">4.9999%</td><td style="color:#7a6a5a;font-size:.78rem">非天然色板</td></tr>
+    <tr><td>粉发 Pastel Pink</td><td style="font-weight:700">0.0015%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+    <tr><td>白发 White</td><td style="font-weight:700">0.0005%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+  </table>`;
+  const sw = c=>`<div class="swatch" style="background:rgb(${c.join(',')})"></div>`;
+  $('hairSwatches').innerHTML =
+    `<div style="margin-right:.6rem"><b>天然色板（男女共用 · ${ethnicity}）</b></div>`+
+    G.hairColors.naturalPalettes[ethnicity].map(sw).join('')+
+    `<div style="margin:0 .6rem"><b>白发</b></div>`+G.hairColors.whitePalette.map(sw).join('')+
+    `<div style="margin:0 .6rem"><b>粉发</b></div>`+G.hairColors.pastelPinkPalette.map(sw).join('');
+}
+function accCounts(g){
+  const slots = G.accessorySlots;
+  const cnt = {};
+  for(const slot of ['FaceAccessoryIDs','HeadAccessoryIDs','ShoulderAccessoryIDs','NeckAccessoryIDs','WaistAccessoryIDs','BackAccessoryIDs']){
+    let n=0;
+    for(const k in slots[slot]){ const arr=slots[slot][k]; if(Array.isArray(arr)) arr.forEach(e=>{ if(e[1]==='Both'||e[1]===g) n++; }); }
+    cnt[slot]=n;
+  }
+  return cnt;
+}
+function accOddsRows(g){
+  const c = accCounts(g);
+  const rows = [
+    ['脸饰（眼镜/绷带/口罩/鼻环）','FaceAccessoryIDs',100],
+    ['头部（耳机/发带/猫耳/花朵/眼罩/发夹/蝴蝶结）','HeadAccessoryIDs',99.5],
+    ['肩部（手链/手表/绷带）','ShoulderAccessoryIDs',100],
+    ['颈部（围巾/项链）','NeckAccessoryIDs',100],
+    ['腰部（钥匙扣）','WaistAccessoryIDs',100],
+    ['背部（背包）','BackAccessoryIDs',100]
+  ];
+  return rows.map(([name,slot,pool])=>{
+    const n=c[slot];
+    const per = pool/(n+1);
+    const cat = slot==='HeadAccessoryIDs'?`<br><span style="color:#b04030">猫耳: 0.5%</span>`:'';
+    return `<tr><td>${name}</td><td>${n}</td><td style="font-weight:700">${per.toFixed(2)}%</td><td style="font-weight:700">${per.toFixed(2)}%</td><td style="color:#7a6a5a;font-size:.78rem">${cat}${slot==='HeadAccessoryIDs'?'每件概率=99.5%池均分':'每件均分'}</td></tr>`;
+  }).join('');
+}
+function renderAccOdds(){
+  const tbl = g=>`<div class="odds-sub"><b>${g==='Male'?'♂ 男生':'♀ 女生'}</b><table><tr><th>部位</th><th>可抽件数</th><th>单件概率</th><th>空置概率</th><th>备注</th></tr>${accOddsRows(g)}</table></div>`;
+  $('accOddsTable').innerHTML = tbl('Male')+tbl('Female');
+}
+function uniOddsRows(g){
+  const list = G.uniforms[g];
+  return G.uniformRarities.map(r=>{
+    const items = list.filter(u=>u.rarity===r.key);
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${r.displayName}</td>
+      <td style="font-weight:700">${r.weight.toFixed(1)}%</td>
+      <td>${items.length}</td>
+      <td>${items.map(u=>u.name).join('、')||'—'}</td></tr>`;
+  }).join('');
+}
+function renderUniOdds(){
+  const tbl = g=>`<div class="odds-sub"><b>${g==='Student_Male'?'♂ 男生池（9 款）':'♀ 女生池（11 款）'}</b><table><tr><th>稀有度</th><th>总概率</th><th>件数</th><th>款式</th></tr>${uniOddsRows(g)}</table></div>`;
+  $('uniOddsTable').innerHTML = tbl('Student_Male')+tbl('Student_Female');
+}
+function renderStyleOdds(){
+  const rows = G.combatStyles.rarities.map(r=>{
+    const per = r.weight/r.styles.length;
+    return `<tr><td><span class="dot" style="background:${r.color}"></span>${r.key}</td>
+      <td style="font-weight:700">${r.weight.toFixed(3)}%</td>
+      <td>${r.styles.length}</td>
+      <td>${per.toFixed(3)}%</td>
+      <td style="color:#7a6a5a;font-size:.78rem">${r.styles.join('、')}</td></tr>`;
+  }).join('');
+  $('styleOddsTable').innerHTML = `<table><tr><th>稀有度</th><th>总概率</th><th>风格数</th><th>单风格概率</th><th>风格</th></tr>${rows}</table>`;
+}
+
+/* ---------- faces ---------- */
+function faceRemainder(g){
+  let sum=0;
+  G.faceRarities.forEach(r=>{
+    if(r.key==='Regular'||r.key==='EuropeanMogger') return;
+    const ok=r.bucketKeys.some(k=>k.startsWith(g)&&(G.faceBuckets[k]||[]).length>0);
+    if(ok) sum+=r.chancePercent;
+  });
+  return 100-sum;
+}
+function renderFaces(){
+  $('facesGenderLabel').textContent = '· 全部脸型（♂ 男生池 / ♀ 女生池 / ♂♀ 双池）';
+  const shared=new Set();
+  const inG={Male:new Set(),Female:new Set()};
+  G.faceRarities.forEach(r=>r.bucketKeys.forEach(k=>{
+    const g=k.startsWith('Female')?'Female':'Male';
+    (G.faceBuckets[k]||[]).forEach(id=>inG[g].add(String(id)));
+  }));
+  [...inG.Male].forEach(id=>{if(inG.Female.has(id))shared.add(id)});
+  let html='';
+  G.faceRarities.forEach(r=>{
+    const buckets=r.bucketKeys.filter(k=>(G.faceBuckets[k]||[]).length>0);
+    if(!buckets.length)return;
+    buckets.forEach(k=>{
+      const g=k.startsWith('Female')?'Female':'Male';
+      const chance=r.key==='Regular'?fmtP(faceRemainder(g)):fmtP(r.chancePercent);
+      const note=r.key==='EuropeanMogger'?' · 仅男生+欧裔抽取':(r.note?(' · '+r.note):'');
+      const ids=G.faceBuckets[k];
+      const items=ids.map(id=>{
+        const s=String(id);
+        const tag=shared.has(s)?'both':(inG.Male.has(s)?'m':'f');
+        const lbl=tag==='both'?'♂♀':(tag==='m'?'♂':'♀');
+        return `<div class="grid-item"><span class="rarity-tag" style="background:${r.color}">${r.displayName}</span>${img(id).outerHTML}<span class="gchip ${tag}">${lbl}</span><div class="gid">${id}</div></div>`;
+      }).join('');
+      html+=`<h3>${r.displayName} · ${CN[g]}池 · ${chance} · ${ids.length} 款${note}</h3><div class="grid">${items}</div>`;
+    });
+  });
+  $('facesGrid').innerHTML=html;
+}
+
+/* ---------- hair（可选人种，人种内切合男+女） ---------- */
+function renderHairEthTabs(){
+  const eths = Object.keys(G.hair.Male);
+  $('hairEthnicityTabs').innerHTML = eths.map(e=>
+    `<button type="button" class="eth-btn${e===hairEth?' active':''}" data-eth="${e}">${e}</button>`
+  ).join('');
+  $('hairEthnicityTabs').querySelectorAll('.eth-btn').forEach(b=>{
+    b.addEventListener('click',()=>{ hairEth=b.dataset.eth; renderHair(); });
+  });
+}
+function renderHair(){
+  renderHairEthTabs();
+  const seen={}; const all=[];
+  for(const g of ['Male','Female']){
+    for(const id of (G.hair[g][hairEth]||[])){
+      if(seen[id]!==undefined){
+        if(seen[id]!==g) seen[id]='both';
+        continue;
+      }
+      seen[id]=g; all.push({id,gender:g});
+    }
+  }
+  all.forEach(it=>{ if(seen[it.id]==='both') it.gender='both'; });
+  const items = all.map(({id,gender})=>{
+    const cls = gender==='both'?'both':(gender==='Male'?'m':'f');
+    const sym = gender==='both'?'通用':(gender==='Male'?'♂':'♀');
+    return `<div class="grid-item"><span class="gchip ${cls}">${sym}</span>${img(id).outerHTML}<div class="gid">${id}</div></div>`;
+  }).join('');
+  $('hairGrid').innerHTML = `<p class="note" style="margin-bottom:.4rem">${hairEth} 池 · 共 <b>${all.length}</b> 款（♂ 男 / ♀ 女 / 通用）</p><div class="grid">${items}</div>`;
+}
+
+/* ---------- accessories（男女分栏） ---------- */
+const SLOT_CN = {FaceAccessoryIDs:'脸饰',HeadAccessoryIDs:'头部',ShoulderAccessoryIDs:'肩部',NeckAccessoryIDs:'颈部',WaistAccessoryIDs:'腰部',BackAccessoryIDs:'背部'};
+function renderAcc(){
+  const slots = G.accessorySlots;
+  let html='';
+  for(const slot of ['FaceAccessoryIDs','HeadAccessoryIDs','ShoulderAccessoryIDs','NeckAccessoryIDs','WaistAccessoryIDs','BackAccessoryIDs']){
+    const cats = Object.keys(slots[slot]);
+    const male=[], female=[];
+    cats.forEach(k=>{
+      const arr = slots[slot][k]; if(!Array.isArray(arr)) return;
+      arr.forEach(e=>{
+        if(!Array.isArray(e)){ male.push([k,e]); female.push([k,e]); return; }
+        const g = e[1]||'Both';
+        if(g==='Both'||g==='Male') male.push([k,e[0]]);
+        if(g==='Both'||g==='Female') female.push([k,e[0]]);
+      });
+    });
+    const col=(title,list)=>`<div>
+      <h3 style="margin-top:.6rem">${title}（${list.length} 件）</h3>
+      <div class="grid">${list.map(([k,id])=>`<div class="grid-item">${img(id).outerHTML}<div class="gname">${k}</div><div class="gid">${id}</div></div>`).join('')||'<p class="note">当前性别无此部位饰品</p>'}</div>
+    </div>`;
+    html += `<h3 style="border-top:1px solid #d8c8a8;padding-top:.8rem">${SLOT_CN[slot]}</h3>
+      <div class="npc-flex" style="gap:.8rem">
+        <div style="flex:1;min-width:280px">${col('♂ 男生',male)}</div>
+        <div style="flex:1;min-width:280px">${col('♀ 女生',female)}</div>
+      </div>`;
+  }
+  $('accGrid').innerHTML = html;
+}
+
+/* ---------- uniforms 2D（参考图鉴风格） ---------- */
+const AV={};
+AV.Male={face:G.faceBuckets.Male[0],hair:G.hair.Male.Japanese[0]};
+AV.Female={face:G.faceBuckets.Female[0],hair:G.hair.Female.Japanese[0]};
+const UNI_ORDER=['Common','Rare','Epic','Legendary','Mystery'];
+function uniSort(list){ return list.slice().sort((a,b)=>UNI_ORDER.indexOf(b.rarity)-UNI_ORDER.indexOf(a.rarity)); }
+function buildUni2D(){
+  const all=[];
+  for(const g of ['Male','Female']){
+    const key=g==='Male'?'Student_Male':'Student_Female';
+    for(const u of G.uniforms[key]) all.push(Object.assign({},u,{_gender:g}));
+  }
+  const list=uniSort(all);
+  const w={};G.uniformRarities.forEach(r=>w[r.key]=r.weight);
+  const cards=list.map((u,i)=>{
+    const def=u.isDefault?'<span class="badge badge-default">初始</span>':'';
+    const isMale=u._gender==='Male';
+    const slot=`<div class="uni-vis">
+      <div class="uni-gender ${isMale?'male':'female'}">${isMale?'♂':'♀'}</div>
+      <div class="uni-shirt">${T[u.shirt]?`<img src="${T[u.shirt]}" loading="lazy" alt="上衣 ${u.shirt}">`:'<div class="img-miss"><b>暂无上衣图</b>没有从 Roblox CDN 抓取到对应 asset</div>'}</div>
+      <div class="uni-pants">${T[u.pants]?`<img src="${T[u.pants]}" loading="lazy" alt="下装 ${u.pants}">`:'<div class="img-miss"><b>暂无下装图</b>没有从 Roblox CDN 抓取到对应 asset</div>'}</div>
+    </div>`;
+    return `<div class="uni2d-card" data-i="${i}" style="border-top:3px solid ${RAR_COLOR[u.rarity]}">
+      ${slot}
+      <div class="uni-info">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">${rarBadge(u.rarity)}${def}</div>
+        <div class="uname">${u.name}</div>
+        <div class="odds">稀有度 <b>${w[u.rarity].toFixed(1)}%</b></div>
+        <div class="uid">
+          <b>上衣</b> ${u.shirt}<br>
+          <b>下装</b> ${u.pants}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  $('uniGrid').innerHTML=cards;
+}
+function renderUni(){
+  buildUni2D();
+}
+
+/* ---------- NPC 制服 ---------- */
+function renderNpc(){
+  const names=Object.keys(G.npcUniforms);
+  let html='';
+  names.forEach(nm=>{
+    const npc=G.npcUniforms[nm];
+    let cols='';
+    for(const g of ['Male','Female']){
+      const arr=(npc[g]||[]).filter(u=>(u.shirt&&u.shirt!==0)||(u.pants&&u.pants!==0));
+      const cards=arr.map(u=>{
+        const hasShirt=u.shirt&&T[u.shirt], hasPants=u.pants&&T[u.pants];
+        const body=hasShirt?`<div style="display:flex;gap:3px"><div style="flex:1">${img(u.shirt,'thumb-miss').outerHTML}</div><div style="flex:1">${img(u.pants,'thumb-miss').outerHTML}</div></div>`
+          :'<p class="note" style="text-align:center;padding:1rem 0">无数据</p>';
+        return `<div class="grid-item" style="min-width:0">${body}<div class="gid">上 ${u.shirt}</div><div class="gid">下 ${u.pants}</div></div>`;
+      }).join('');
+      cols+=`<div><h3 style="margin-top:.4rem">${g==='Male'?'♂ 男性':'♀ 女性'}</h3><div class="grid">${cards||'<p class="note">无</p>'}</div></div>`;
+    }
+    html+=`<h3 style="border-top:1px solid #d8c8a8;padding-top:.8rem">${nm}</h3><div class="npc-flex">${cols}</div>`;
+  });
+  $('npcGrid').innerHTML=html;
+}
+
+/* ---------- styles ---------- */
+function renderStyle(){
+  const cards = G.combatStyles.rarities.map(r=>{
+    const per = r.weight/r.styles.length;
+    const chips = r.styles.map(s=>`<span class="chip" style="background:${r.color}">${s} · ${per.toFixed(3)}%</span>`).join('');
+    return `<div class="lib-card" style="margin-bottom:.8rem"><h2 style="border:none;padding:0;margin-bottom:.5rem"><span class="dot" style="background:${r.color}"></span>${r.key} · ${r.weight.toFixed(3)}%</h2>${chips}</div>`;
+  }).join('');
+  $('styleGrid').innerHTML = cards;
+}
+
+/* ---------- init ---------- */
+function fillEthnicitySelects(){
+  const eths = Object.keys(G.hair.Male);
+  $('oddsEthnicity').innerHTML = eths.map(e=>`<option ${e===ethnicity?'selected':''}>${e}</option>`).join('');
+}
+function refresh(){
+  renderFaceOdds(); renderHairColor(); renderAccOdds(); renderUniOdds(); renderStyleOdds();
+  renderFaces(); renderHair(); renderAcc(); renderUni(); renderStyle(); renderNpc();
+}
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  $('tab-'+b.dataset.tab).classList.add('active');
+});
+$('oddsEthnicity').addEventListener('change',e=>{ethnicity=e.target.value;refresh();});
+fillEthnicitySelects();
+refresh();
+</script>
+</body>
+</html>

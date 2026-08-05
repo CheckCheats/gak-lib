@@ -3,13 +3,14 @@
 .omo/
 .codegraph
 
+# NEVER commit secrets — Roblox cookie temp file (used only for one-off local image generation)
+_rbx_cookie.txt
+
 # Project scratch / auxiliary files — not part of the published library page
 catalog.json
 dump_combat.luau
 dump_rarity.luau
 dump_rarity2.luau
-gacha.html
-gacha_data.js
 gakuran_live_data.json
 probe_mcp.py
 real_mcp.py
@@ -17,4 +18,21 @@ resolve_thumbs.ps1
 resolve_all.ps1
 run_eval.py
 assets/three.min.js
-assets/thumbs/
+
+# NOTE: gacha.html + gacha_data.js + assets/thumbs/ are now published deliverables
+# (un-ignored on purpose). The repo scratch files below stay ignored.
+_blank.png
+_ok.png
+check_thumbs.js
+check_thumbs2.js
+insert_thumbs.js
+insert_thumbs2.js
+insert_thumbs3.js
+insert_thumbs4.js
+insert_thumbs5.js
+insert_thumbs6.js
+insert_thumbs7.js
+insert_thumbs8.js
+insert_thumbs9.js
+insert_thumbs10.js
+resolve_fix.ps1
