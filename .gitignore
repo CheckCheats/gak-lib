@@ -2,3 +2,17 @@
 .workbuddy/
 .omo/
 .codegraph
+
+# Project scratch / auxiliary files — not part of the published library page
+assets/
+catalog.json
+dump_combat.luau
+dump_rarity.luau
+dump_rarity2.luau
+gacha.html
+gacha_data.js
+gakuran_live_data.json
+probe_mcp.py
+real_mcp.py
+resolve_thumbs.ps1
+run_eval.py
