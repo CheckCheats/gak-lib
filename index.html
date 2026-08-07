@@ -76,6 +76,7 @@ nav a:hover{background:rgba(200,168,110,.1);color:#e8d5b0;border-color:#4a3a28}
 .badge-common{background:linear-gradient(135deg,#8a8a8a,#6a6a6a);color:#fff}
 .badge-variant{background:linear-gradient(135deg,#d07020,#b05010);color:#fff}
 .lib-card h4{color:#3c2618;margin:.8rem 0 .4rem;font-size:.95rem;letter-spacing:1px}
+.lib-card h5{color:#5a3a22;margin:1rem 0 .45rem;font-size:.88rem;font-weight:700;letter-spacing:.5px;border-left:3px solid #c8a86e;padding-left:.5rem}
 .lib-card p{font-size:.85rem;line-height:1.8;color:#5a4a3a}
 .lib-footer{text-align:center;padding:2rem 1rem;color:#7a6a5a;font-size:.75rem;border-top:1px solid #3a2a1a;margin-top:1rem;letter-spacing:1px;background:linear-gradient(180deg,#2a1a10,#1a0f08)}
 .lib-footer .footer-sig{margin-top:.3rem;font-size:.7rem;opacity:.6}
@@ -148,6 +149,8 @@ nav a.nav-gacha:hover{background:linear-gradient(135deg,#e8d5b0,#a8884e);color:#
   <a href="#faces">😊 脸型</a>
   <a href="#hair">💇 发色</a>
   <a href="#combat">⚔️ 战斗系统</a>
+  <a href="#vending">🥤 贩卖机</a>
+  <a href="#work">💼 工作</a>
   <a href="#talents">🌟 天赋树</a>
   <a href="#height">📏 身高系统</a>
   <a href="gacha.html" class="nav-gacha">🎰 抽卡图鉴</a>
@@ -462,21 +465,149 @@ nav a.nav-gacha:hover{background:linear-gradient(135deg,#e8d5b0,#a8884e);color:#
 <div class="lib-card" id="combat">
   <h3>⚔️ 战斗系统详解</h3>
   <h4>基伤与射程</h4>
+  <p>所有伤害均为基础值，最终会再乘以「身高范围修正」（见身高系统）。下面为默认参数，不含风格专属偏移。</p>
   <table>
     <tr><th>攻击类型</th><th>基础伤害</th><th>默认延迟</th><th>前伸距离</th><th>Hitbox持续</th></tr>
     <tr><td>M1（轻击）</td><td>5</td><td>0.32s</td><td>4 studs</td><td>0.15s</td></tr>
     <tr><td>M2（重击）</td><td>8.5</td><td>0.30s</td><td>3 studs</td><td>0.15s</td></tr>
     <tr><td>4A 终结技</td><td>6.75（1.35×）</td><td>—</td><td>—</td><td>—</td></tr>
   </table>
-  <h4>M1 连击系统</h4>
-  <p>四连击链：<strong>1A → 2A → 3A → 4A</strong>（终结技，1.35倍伤害）<br>
-  连击重置窗口：<strong>1.55s</strong> · Finisher CD：<strong>1.2s</strong><br>
-  被格挡锁：0.15s · 被完美格挡锁：0.15s</p>
-  <h4>防御系统</h4>
-  <p>完美格挡窗口：<strong>0.125s</strong> · 破防锁：<strong>2s</strong> · 闪避无敌帧：<strong>0.3s</strong><br>
-  Counterstrike：完美格挡后 +5% 伤害<br>
-  Revenge：2.5s内受3击 → 2倍伤害 + 超甲 10s<br>
-  Concussive：M2砸地封格挡 2s</p>
+
+  <h4>M1 轻击系统</h4>
+  <p>四连击链：1A → 2A → 3A → 4A（4A 为终结技，1.35× 伤害）。默认延迟 0.32s、前伸 4 studs。</p>
+  <table>
+    <tr><th>参数</th><th>数值</th><th>说明</th></tr>
+    <tr><td>基础伤害</td><td>5</td><td>单次轻击基础伤害</td></tr>
+    <tr><td>Hitbox 持续</td><td>0.15s</td><td>判定框存在时间</td></tr>
+    <tr><td>连击重置窗口</td><td>1.55s</td><td>超过该时间未继续连击则链重置</td></tr>
+    <tr><td>恢复锁（普通段）</td><td>0.4s</td><td>出完普通段后的收招硬直</td></tr>
+    <tr><td>恢复锁（终结技 4A）</td><td>0.55s</td><td>出完终结技的收招硬直</td></tr>
+    <tr><td>终结技冷却</td><td>1.2s</td><td>4A 命中后的冷却</td></tr>
+    <tr><td>被格挡 / 完美格挡出手锁</td><td>0.15s</td><td>攻击被挡后的短锁</td></tr>
+  </table>
+
+  <h4>M2 重击系统</h4>
+  <p>重击为单段强击，默认延迟 0.30s、前伸 3 studs。</p>
+  <table>
+    <tr><th>参数</th><th>数值</th><th>说明</th></tr>
+    <tr><td>基础伤害</td><td>8.5</td><td>单次重击基础伤害</td></tr>
+    <tr><td>Hitbox 持续</td><td>0.15s</td><td>判定框存在时间</td></tr>
+    <tr><td>恢复锁</td><td>0.5s</td><td>出完重击后的收招硬直</td></tr>
+    <tr><td>冷却 CD</td><td>7s</td><td>常规风格重击冷却</td></tr>
+    <tr><td>冷却 CD（Kure / Wrestling / Capoeira）</td><td>12s</td><td>这三系重击冷却更长</td></tr>
+    <tr><td>默认强击退</td><td>25</td><td>命中后的强击退距离</td></tr>
+    <tr><td>机器人（NPC）CD</td><td>1s</td><td>NPC 使用重击的冷却</td></tr>
+  </table>
+
+  <h4>防御与格挡</h4>
+  <p>按住 F 进入格挡；在受击前 0.125s 内格挡触发<strong>完美格挡</strong>。</p>
+  <table>
+    <tr><th>参数</th><th>数值</th><th>说明</th></tr>
+    <tr><td>完美格挡窗口</td><td>0.125s</td><td>受击前极短窗口内格挡即触发完美格挡</td></tr>
+    <tr><td>格挡冷却</td><td>0.5s</td><td>两次格挡之间的冷却</td></tr>
+    <tr><td>格挡命中姿态消耗</td><td>35（泰拳 40.25）</td><td>每次格挡命中削减对手姿态值</td></tr>
+    <tr><td>破防姿态阈值</td><td>10</td><td>对手姿态被削到该值以下即破防</td></tr>
+    <tr><td>被完美格挡反击眩晕（M2）</td><td>1s</td><td>被对手完美格挡后自己的硬直</td></tr>
+    <tr><td>反击击退速率（M1/M2）</td><td>4</td><td>完美格挡反击的击退速率</td></tr>
+    <tr><td>Parry 解除后出手锁</td><td>0.15s</td><td>解除格挡后的短锁</td></tr>
+  </table>
+  <p style="margin-top:.5rem"><strong>衍生机制：</strong>Counterstrike（完美格挡后下一击 +5% 伤害）· Revenge（2.5s 内受 3 击 → 2× 伤害 + 超甲 10s）· Concussive（M2 砸地封对方格挡 2s）。<br>
+  <strong>布娃娃 / 硬直：</strong>战斗布娃娃眩晕 2s · 破防锁 2s · 被地面命中触发布娃娃（true）。</p>
+
+  <h4>闪避 Evasive</h4>
+  <p>按 Q 触发闪避，提供短暂无敌帧脱出。</p>
+  <table>
+    <tr><th>参数</th><th>数值</th><th>说明</th></tr>
+    <tr><td>闪避动作时长</td><td>0.2s</td><td>整个闪避动作的持续时间</td></tr>
+    <tr><td>位移速度</td><td>30</td><td>闪避期间的位移速度</td></tr>
+    <tr><td>无敌帧</td><td>0.3s</td><td>期间免疫伤害</td></tr>
+    <tr><td>冷却 CD</td><td>1.5s</td><td>两次闪避之间的冷却</td></tr>
+    <tr><td>被围殴加成（速度）</td><td>×1.5</td><td>被多人包围时位移速度提升</td></tr>
+    <tr><td>被围殴加成（时长）</td><td>×1.2</td><td>被多人包围时无敌时长提升</td></tr>
+  </table>
+
+  <h4>缠斗 Grapple</h4>
+  <p>两名玩家近身互拼、攻击判定窗口重叠时，服务器按概率把双方「拉进角力动画」比拼，胜者击退败者。缠斗<strong>独立于格挡系统</strong>——双方 M1 同时命中就可能触发，与破防无关。</p>
+
+  <h5>① 触发规则（服务端判定）</h5>
+  <table>
+    <tr><th>项目</th><th>值</th><th>说明</th></tr>
+    <tr><td>缠斗触发率 GrappleChance</td><td>25%</td><td>默认值，每风格不同（见下表）</td></tr>
+    <tr><td>缠斗时长 Duration</td><td>2.29s</td><td>一次缠斗的持续时间</td></tr>
+    <tr><td>胜者击退 WinnerKnockback</td><td>32</td><td>胜方将败方击退距离</td></tr>
+    <tr><td>M2 vs M2 缠斗击退</td><td>22</td><td>M2 对撞时击退较低</td></tr>
+    <tr><td>败者锁败时长 LoserLockoutDuration</td><td>0.6s</td><td>败方被锁定时长</td></tr>
+    <tr><td>M2 vs M2 锁时长</td><td>0.4s</td><td>M2 对撞锁定较短</td></tr>
+    <tr><td>挥拳提交比例 SwingCommitFraction</td><td>0.25</td><td>挥拳过程前 25% 已被命中仍算缠斗</td></tr>
+    <tr><td>缠斗后冷却 PostGrappleCooldown</td><td>0.2s</td><td>缠斗结束后的短冷却</td></tr>
+  </table>
+
+  <h5>② 判定机制</h5>
+  <p>双方 M1 / M2 的<strong>命中判定窗口重叠</strong> → 依双方 <strong>Resilience（韧性）天赋</strong>概率触发缠斗。Resilience I~V = <strong>15% / 25% / 35% / 45% / 55%</strong>。<br>
+  触发后服务器广播 <code>CombatGrappleStart</code>（含双方位置快照 <code>SnapAPos</code> / <code>SnapBLookAt</code> + <code>WinnerName</code> + <code>ClashType</code>），双方角色被拉进角力动画。</p>
+  <p style="margin-top:.4rem"><strong>ClashType 对撞类型</strong>（服务端下发，客户端已确认存在 "M2vsM2"）：</p>
+  <table>
+    <tr><th>类型</th><th>触发</th><th>特点</th></tr>
+    <tr><td>M1vsM1</td><td>双方 M1 同时命中</td><td>常规</td></tr>
+    <tr><td>M2vsM2</td><td>双方 M2 对撞</td><td>击退较低 22 · 锁定较短 0.4s · 相机震动 Heavy</td></tr>
+    <tr><td>M1vsM2</td><td>交叉对撞</td><td>由服务端统一判定</td></tr>
+  </table>
+
+  <h5>③ 各风格缠斗触发率（GrappleChance）</h5>
+  <table>
+    <tr><th>风格</th><th>概率</th><th>备注</th></tr>
+    <tr><td>Basic / Karate / Ali</td><td>25%</td><td>默认</td></tr>
+    <tr><td>Boxing / Hakari / Capoeira</td><td>0%</td><td>不触发缠斗，M2 直接打</td></tr>
+    <tr><td>Slugger</td><td>35%</td><td></td></tr>
+    <tr><td>MuayThai</td><td>55%</td><td></td></tr>
+    <tr><td>Wrestling</td><td>55%</td><td></td></tr>
+    <tr><td>Kure</td><td>15%</td><td></td></tr>
+    <tr><td>Bulky（变体）</td><td>100%</td><td>必触发</td></tr>
+    <tr><td>Dirty（变体）</td><td>35%</td><td></td></tr>
+    <tr><td>Variant（变体）</td><td>45%</td><td></td></tr>
+    <tr><td>Taekwondo</td><td>—</td><td>配置缺省</td></tr>
+    <tr><td>WingChun</td><td>15%</td><td></td></tr>
+    <tr><td>Skygaolang</td><td>15%</td><td></td></tr>
+  </table>
+
+  <h5>④ 角力流程（客户端演出逻辑）</h5>
+  <p><strong>锁定</strong>：双方 HumanoidRootPart 被 <code>Anchored=true</code> 钉死，3 帧强制对齐到服务端快照位。<br>
+  <strong>碰撞消除</strong>：21 个身体部件（HumanoidRootPart / Head / UpperTorso / LowerTorso / 四肢 / 手脚）两两建立 <code>NoCollisionConstraint</code>（名 <code>WrestlingGrabNoCollide</code>），双方穿模贴身。<br>
+  <strong>动画</strong>：加载 <code>Animations.Combat.Grappling.Attacker</code> / <code>Victim</code>（非循环）。<br>
+  <strong>命中点</strong>：动画 Hit 标记触发 → 播放受击特效 + 胜者相机 Light 震动；败者播放 EHit 受击动画并强制转向胜者。<br>
+  <strong>结算</strong>：服务器广播 <code>CombatGrappleEnd</code>（带胜者名）→ 双方解除锁定、清零速度、2s 后移除 NoCollision。<br>
+  <strong>M2 vs M2 特殊</strong>：相机震动升级为 Heavy；胜者获得 <code>M2ClashKnockback 22</code>。</p>
+
+  <h5>⑤ Dirty 缠斗（变体 Dirty 专属）</h5>
+  <table>
+    <tr><th>项目</th><th>值</th></tr>
+    <tr><td>缠斗时长 DirtyGrappleDuration</td><td>2s</td></tr>
+    <tr><td>连击数 DirtyGrappleHitCount</td><td>4 次</td></tr>
+    <tr><td>动画</td><td>DirtyAttacker / DirtyVictim，命中点 DirtyEHit</td></tr>
+  </table>
+  <p style="margin-top:.4rem">Dirty 缠斗即「脏拳压制」：抓住后 2 秒内连续 4 次击打（每次独立 <code>DirtyHit</code> 事件 → 受击特效 + 轻相机震动），区别于普通缠斗的一次性结算。触发远程为 <code>CombatGrappleStartDirty</code>。</p>
+
+  <h5>⑥ 网络节流（防作弊）</h5>
+  <p><strong>战斗远程频率限制 CombatRemoteLimits</strong>（缠斗相关间接保护）：</p>
+  <table>
+    <tr><th>限制项</th><th>客户端</th><th>服务端</th></tr>
+    <tr><td>最小间隔</td><td>M2 0.2s · M1 0.08s · Evasive 0.18s</td><td>M2 0.15s · M1 0.08s</td></tr>
+    <tr><td>持续峰值 /s</td><td>M2 2 · M1 4 · Evasive 4 · 受击确认 25</td><td>—</td></tr>
+    <tr><td>突发窗口</td><td colspan="2">0.02s 内 45 次，持续 1s 内 38 次（按 ping 档位）</td></tr>
+  </table>
+  <p style="margin-top:.4rem"><strong>Ping 补偿</strong>：&lt;100ms 低延迟档 / &lt;200ms 中延迟档。</p>
+
+  <h5>⑦ 缠斗对游戏循环的影响</h5>
+  <p><strong>破防交互</strong>：GuardPierce 天赋（10~30%）只影响格挡穿透，缠斗独立于格挡，双方 M1 同时命中即可能触发。<br>
+  <strong>围殴</strong>：缠斗中第三方可攻击（无保护），但被围殴闪避加速 ×1.5 帮助脱身。<br>
+  <strong>抓取类 M2（Wrestling / Kure）</strong>：不经过缠斗系统，直接抓取（前偏 2.7、锁定 0.5s、Kure 头槌 1.5×）。</p>
+
+  <p style="margin-top:.6rem"><strong>风格专属 M2 补充：</strong><br>
+  • <strong>Dirty</strong>：抓取时长 <strong>2s</strong>（4 连击关键补充，网页原缺失）。<br>
+  • <strong>Hakari（秤）</strong>：动量 M2 Hitbox 延迟 <strong>0.48s</strong>；前置条件为连中 3 次 M1；命中后 ×<strong>3</strong> 伤害 + 击退 ×<strong>1.5</strong> + 垂直 <strong>0.5</strong>；黑闪特效 <strong>2.5s</strong>。<br>
+  • <strong>Ali（阿里）</strong>：M2 变招——右键 = <strong>1.25×</strong> 伤害 / 击退 1 / 扑倒布娃娃；左键 = <strong>0.8×</strong> 伤害 / 击退 0.6 / 不扑倒；M2 延迟 <strong>0.53s</strong>，并切换相机。<br>
+  • <strong>Kure / Wrestling / Capoeira</strong>：抓取得手后目标前偏 <strong>2.7</strong>；Kure 头槌锁定 <strong>0.5s</strong> · 延迟 <strong>0.3s</strong>，且 Kure 摔倒会取消对方格挡 <strong>2s</strong>。</p>
+
   <h4>战斗状态机</h4>
   <table>
     <tr><th>状态</th><th>含义</th><th>自动清除</th></tr>
@@ -488,6 +619,162 @@ nav a.nav-gacha:hover{background:linear-gradient(135deg,#e8d5b0,#a8884e);color:#
     <tr><td>HyperArmor</td><td>超甲</td><td>M2结束</td></tr>
     <tr><td>M1Cooldown</td><td>M1硬直</td><td>1.2s</td></tr>
   </table>
+  <h4>操作按键 · 键位速查</h4>
+  <p style="margin:.2rem 0 .6rem">以下为加库兰学园实战中的核心操作映射，供演练参考。</p>
+  <table>
+    <tr><th>按键</th><th>动作</th></tr>
+    <tr><td>左键（M1）</td><td>轻击</td></tr>
+    <tr><td>R（M2）</td><td>重击</td></tr>
+    <tr><td>F（按住）</td><td>格挡</td></tr>
+    <tr><td>Q</td><td>Dash（闪避）</td></tr>
+    <tr><td>T</td><td>开启战斗风格</td></tr>
+    <tr><td>Shift（按住）</td><td>奔跑</td></tr>
+    <tr><td>V</td><td>背着（倒地的人）</td></tr>
+    <tr><td>B</td><td>处决（倒地的人）</td></tr>
+    <tr><td>Alt</td><td>开放式电话</td></tr>
+    <tr><td>Ctrl</td><td>视角锁定</td></tr>
+  </table>
+</div>
+
+<!-- 🥤 VENDING MACHINE -->
+<div class="lib-card" id="vending">
+  <h3>🥤 自助贩卖机 · 饮料调查报告</h3>
+  <p>游戏内共 <strong>15 台</strong>自动贩卖机，每台随机刷新 <strong>4~8 种</strong>饮料库存，合计 <strong>19 种</strong>饮料，价格 <strong>100~175 日元</strong>。经代码级验证：<strong>所有饮料均为纯装饰性道具，无任何实际游戏效果</strong>（不恢复血量 / 体力、无增益）。</p>
+
+  <h4>饮料价格清单（19 种）</h4>
+  <table>
+    <tr><th>饮料名称</th><th>中文</th><th>价格（日元）</th></tr>
+    <tr><td>Liquid Water</td><td>液体水</td><td>100</td></tr>
+    <tr><td>Lime Soda</td><td>青柠汽水</td><td>110</td></tr>
+    <tr><td>Apple Plum</td><td>苹果李子汁</td><td>120</td></tr>
+    <tr><td>Banana Raspberry</td><td>香蕉树莓汁</td><td>120</td></tr>
+    <tr><td>Blueberry Lemon</td><td>蓝莓柠檬汁</td><td>120</td></tr>
+    <tr><td>Cherry Grape</td><td>樱桃葡萄汁</td><td>120</td></tr>
+    <tr><td>Kiwi Orange</td><td>奇异果橙汁</td><td>120</td></tr>
+    <tr><td>Strawberry Melon</td><td>草莓甜瓜汁</td><td>125</td></tr>
+    <tr><td>Cocora</td><td>可可乐</td><td>130</td></tr>
+    <tr><td>Dragonfruit Papaya</td><td>火龙果木瓜汁</td><td>130</td></tr>
+    <tr><td>Mango Pineapple</td><td>芒果菠萝汁</td><td>130</td></tr>
+    <tr><td>Pocari Sweat</td><td>宝矿力水特</td><td>130</td></tr>
+    <tr><td>Boss Coffee</td><td>Boss 罐装咖啡</td><td>150</td></tr>
+    <tr><td>Coffee</td><td>咖啡</td><td>150</td></tr>
+    <tr><td>Espresso</td><td>浓缩咖啡</td><td>150</td></tr>
+    <tr><td>Green Tea</td><td>绿茶</td><td>150</td></tr>
+    <tr><td>Milk Coffee</td><td>牛奶咖啡</td><td>150</td></tr>
+    <tr><td>Milk Tea</td><td>奶茶</td><td>150</td></tr>
+    <tr><td>Strawberry Milk Tea</td><td>草莓奶茶</td><td>175</td></tr>
+  </table>
+
+  <h4>贩卖机分布（15 台）</h4>
+  <p style="margin-bottom:.4rem">每台机器随机上架 4~8 种饮料：</p>
+  <table>
+    <tr><th>机号</th><th>在售饮料</th></tr>
+    <tr><td>1 号机</td><td>Apple Plum · Strawberry Milk Tea · Liquid Water · Cocora</td></tr>
+    <tr><td>2 号机</td><td>Cherry Grape · Green Tea · Kiwi Orange · Strawberry Milk Tea · Mango Pineapple · Lime Soda · Blueberry Lemon · Milk Tea</td></tr>
+    <tr><td>3 号机</td><td>Cocora · Pocari Sweat · Green Tea · Milk Tea · Blueberry Lemon · Kiwi Orange</td></tr>
+    <tr><td>4 号机</td><td>Banana Raspberry · Cherry Grape · Strawberry Melon · Apple Plum · Green Tea · Lime Soda</td></tr>
+    <tr><td>5 号机</td><td>Pocari Sweat · Mango Pineapple · Apple Plum · Lime Soda · Dragonfruit Papaya</td></tr>
+    <tr><td>6 号机</td><td>Pocari Sweat · Cherry Grape · Cocora · Banana Raspberry · Dragonfruit Papaya</td></tr>
+    <tr><td>7 号机</td><td>Cherry Grape · Kiwi Orange · Strawberry Milk Tea · Strawberry Melon · Banana Raspberry · Green Tea · Boss Coffee · Cocora</td></tr>
+    <tr><td>8 号机</td><td>Blueberry Lemon · Liquid Water · Pocari Sweat · Banana Raspberry · Cocora · Strawberry Milk Tea</td></tr>
+    <tr><td>9 号机</td><td>Boss Coffee · Lime Soda · Milk Coffee · Strawberry Melon · Kiwi Orange</td></tr>
+    <tr><td>10 号机</td><td>Banana Raspberry · Cocora · Cherry Grape · Strawberry Milk Tea · Boss Coffee · Milk Tea</td></tr>
+    <tr><td>11 号机</td><td>Strawberry Milk Tea · Liquid Water · Kiwi Orange · Milk Coffee · Boss Coffee · Banana Raspberry</td></tr>
+    <tr><td>12 号机</td><td>Liquid Water · Apple Plum · Milk Tea · Milk Coffee · Dragonfruit Papaya · Banana Raspberry · Kiwi Orange</td></tr>
+    <tr><td>13 号机</td><td>Mango Pineapple · Kiwi Orange · Cocora · Milk Tea</td></tr>
+    <tr><td>14 号机</td><td>Milk Tea · Green Tea · Mango Pineapple · Milk Coffee · Kiwi Orange · Cherry Grape · Boss Coffee</td></tr>
+    <tr><td>15 号机</td><td>Cherry Grape · Milk Coffee · Dragonfruit Papaya · Blueberry Lemon · Lime Soda · Liquid Water</td></tr>
+  </table>
+
+  <h4>饮料实际作用（核心结论）</h4>
+  <p><strong>购买流程</strong>：靠近贩卖机 → 点击购买 → 客户端发请求 → 服务器校验余额并扣日元 → 对应饮料道具进入背包。</p>
+  <p><strong>饮用行为</strong>：饮料可手持展示，记录<strong>剩余口数</strong>；每次「饮用」扣一口，口数归零后提示「喝完了 / 没了」，道具变为空瓶。服务器中食物类为空表，说明游戏<strong>根本没实装食物系统</strong>。</p>
+  <p style="margin-top:.4rem"><strong>关键验证：</strong></p>
+  <table>
+    <tr><th>验证项</th><th>结果</th></tr>
+    <tr><td>口渴 / 饥饿 / 体力 / 生命 等属性系统</td><td>全服务器不存在</td></tr>
+    <tr><td>饮料物品模型</td><td>仅含一个外观部件，无任何效果属性</td></tr>
+    <tr><td>购买后交互</td><td>仅手持展示、饮用动画、口数递减、喝完提示、可丢垃圾桶</td></tr>
+    <tr><td>增益 / 减益 / 数值变化</td><td>不存在任何路径</td></tr>
+  </table>
+  <p style="margin-top:.5rem"><strong>结论：</strong>贩卖机饮料是「花钱买的装扮玩具」——可拿在手里、能喝出动画、喝完变空瓶，但不恢复任何数值、不提供任何加成。花费 100~175 日元的作用仅限于角色扮演与社交展示。</p>
+</div>
+
+<!-- 💼 WORK SYSTEM -->
+<div class="lib-card" id="work">
+  <h3>💼 工作系统 · Indeed 仿招聘</h3>
+  <p>游戏里找工作不是去店里应聘，而是掏出<strong>翻盖手机 FlipPhone</strong>，打开自带的 <strong>Indeed 仿招聘 App</strong>——界面、措辞全是复刻招聘网站，自成一套生活系统。打开手机即可看到当日全部 6 个班次，像刷招聘网站一样挑班。</p>
+  <p style="text-align:center;margin:.6rem 0 .8rem">
+    <img src="assets/work_indeed.png" alt="Indeed 手机 App 界面" style="max-width:320px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
+  </p>
+
+  <h4>🏪 四个雇主（场地）</h4>
+  <table>
+    <tr><th>雇主</th><th>场地</th></tr>
+    <tr><td>GAKUMART</td><td>超市</td></tr>
+    <tr><td>COFFEE SHOP</td><td>咖啡店</td></tr>
+    <tr><td>7-ELEVEN</td><td>便利店</td></tr>
+    <tr><td>CLUB AKUMA</td><td>夜店（仅 1 个名额，时薪封顶 ¥720，全服最抢手）</td></tr>
+  </table>
+  <p style="margin:.4rem 0"><strong>目前实装状态：</strong>四个雇主里 <strong>只有 GAKUMART（超市）已实装</strong>，COFFEE SHOP / 7-ELEVEN / CLUB AKUMA 仍在配置中（手机 App 能刷到班次，但地图上暂无 WorkLocker 与打卡交互）。</p>
+  <p style="text-align:center;margin:.4rem 0 .8rem">
+    <img src="assets/work_gakumart.jpg" alt="GAKUMART 超市内部" style="max-width:560px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
+  </p>
+
+  <h4>⏱️ 班次怎么排（How shifts work）</h4>
+  <p>• 每个场所<strong>每天生成 6 个班次</strong>，错开时间，每班间隔至少 20 分钟。<br>
+  • 每班时长 <strong>120~240 游戏分钟</strong>（2~4 小时）。<br>
+  • 时薪在区间内随机波动，按 <strong>¥10 取整</strong>（比如咖啡店今天 ¥300、明天 ¥370）。<br>
+  • 一个玩家一天<strong>只能干一个班</strong>——同一时间最多接 1 单，当天干完就不能再接别的。<br>
+  • 一场班总收入 = <strong>时薪 × 班时长 ÷ 60</strong>。</p>
+
+  <h4>📱 抢班规则（Apply）</h4>
+  <p>• <strong>未开始</strong>的班：可以提前预约（<code>hired</code>）。<br>
+  • <strong>已开跑</strong>的班：只要剩 <strong>≥15 分钟</strong>还能接，进去就赚。<br>
+  • 每班名额满（如夜店 <strong>1/1</strong>、超市 <strong>2/2</strong>）就显示 <strong>"FULL / 已满"</strong>，抢不到。<br>
+  • 一天只能 <strong>hold 一个班</strong>，没干完不能接下一个。</p>
+
+  <h4>🔑 上班方式：WorkLocker 储物柜</h4>
+  <p>整套系统的核心交互都在这里：<br>
+  • 地图上的 <strong>WorkLocker</strong> 带蓝色 Glow 高亮（加了 WorkLocker 标签 + Cull_NoReparent），一眼能认出。<br>
+  • 到点后去对应场地，靠近储物柜触发 <strong>ProximityPrompt</strong> 交互。<br>
+  • 必须先<strong>换制服（uniform）+ 打卡</strong>才算「on the clock」开始计时。<br>
+  • 规定：<strong>班次开始前 60 分钟内</strong>才准换装打卡。</p>
+
+  <h4>💰 怎么才算「在赚钱」（赚钱公式）</h4>
+  <p style="text-align:center;font-size:1rem;background:rgba(200,168,110,.14);padding:.6rem;border-radius:4px;margin:.5rem 0 .7rem"><strong>EarnedYen = 时薪 × 实际工作分钟数 ÷ 60</strong>　（封顶 = 该班预设总流水 PayoutYen）</p>
+  <p><strong>关键限制——不在状态 = 白干：</strong></p>
+  <table>
+    <tr><th>状态</th><th>是否计时 / 赚钱</th></tr>
+    <tr><td>🚫 没穿制服</td><td><strong>不赚钱</strong></td></tr>
+    <tr><td>🚫 离开工作场地（跑出去玩）</td><td><strong>不赚钱</strong>（"You're not earning while you're out"）</td></tr>
+    <tr><td>✅ 穿着制服 + 待在场内</td><td><strong>持续计时赚钱</strong></td></tr>
+  </table>
+
+  <h4>💸 四种结账方式（PayReason）</h4>
+  <p>钱直接打进余额（Yen 账户），手机 YenApp 里能看到明细；每次结算手机还会弹通知 + 一段角色旁白（如「终于，从超市拿到 ¥X」）。</p>
+  <table>
+    <tr><th>结局</th><th>含义</th></tr>
+    <tr><td>ShiftEnded</td><td>正常做到结束（按实际工时拿满钱）</td></tr>
+    <tr><td>Quit</td><td>中途辞职（已干的分钟数仍结算）</td></tr>
+    <tr><td>Died</td><td>工作途中死亡</td></tr>
+    <tr><td>NoShow</td><td>被录用但没去打卡（<strong>0 日元</strong>，班位白占）</td></tr>
+  </table>
+
+  <h4>⏰ 现实时间换算（你能等多久）</h4>
+  <p>时间系统：<strong>白天 1 游戏小时 = 200 秒</strong>，<strong>夜晚 1 小时 = 50 秒</strong>（游戏内几点看手机时钟 / 顶栏）。游戏有日夜 + 气象切换，夜跑较快。</p>
+  <table>
+    <tr><th>班时长（游戏）</th><th>白天现实等待</th><th>夜晚现实等待</th></tr>
+    <tr><td>2 小时班</td><td>≈ 6~7 分钟</td><td>≈ 2~3 分钟</td></tr>
+    <tr><td>4 小时班</td><td>≈ 13 分钟</td><td>≈ 4~5 分钟</td></tr>
+  </table>
+
+  <h4>💡 赚钱小抄</h4>
+  <p>1. 🥇 <strong>抢 CLUB AKUMA 夜店班</strong>——时薪封顶 ¥720，但全服就 1 个位置，出手要快。<br>
+  2. 👔 上工就穿制服待场内——离开场地立刻停表，这是新手最常见丢钱点。<br>
+  3. 🚫 别迟到 / 别鸽——被录用不去 = NoShow = 0 日元，班位还占着。<br>
+  4. 🏃 下班前主动 QUIT 也要算已干活的部分，比想起的时候被踢下去强。<br>
+  5. 📅 一天最多 1 班，规划好挑时薪高的时段。</p>
 </div>
 
 <!-- 📏 HEIGHT SYSTEM -->
