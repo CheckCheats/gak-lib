@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加库兰 · 模拟抽取</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Noto Serif SC','Georgia',serif;background:#0d0a06;color:#d4d4d4;min-height:100vh;background-image:radial-gradient(ellipse at 50% -10%,rgba(60,38,24,.35) 0%,transparent 55%),repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(200,168,110,.025) 80px,rgba(200,168,110,.025) 81px);background-attachment:fixed}
+a{color:#c8a86e;text-decoration:none}
+
+/* ---- Header ---- */
+.lib-header{padding:1.6rem 1rem .8rem;text-align:center;background:linear-gradient(180deg,#1a0f08 0%,#0d0a06 100%);border-bottom:1px solid #2a1a10;position:relative}
+.lib-title{font-size:1.6rem;font-weight:900;color:#e8d5b0;letter-spacing:6px;text-shadow:0 2px 8px rgba(0,0,0,.5),0 0 30px rgba(200,168,110,.15);margin-bottom:.3rem}
+.lib-subtitle{font-size:.7rem;color:#8a7355;letter-spacing:3px;opacity:.85}
+.lib-back{position:absolute;left:1rem;top:1.6rem;font-size:.75rem;color:#8a7355;border:1px solid #3a2a1a;padding:.3rem .7rem;border-radius:3px;background:rgba(20,14,8,.6)}
+.lib-back:hover{color:#e8d5b0;border-color:#c8a86e}
+
+/* ---- Tabs (decorative, mirrors in-game UI) ---- */
+.tabs{display:flex;justify-content:center;gap:1.5rem;padding:.9rem 1rem;border-bottom:1px solid #2a1a10;background:rgba(15,9,5,.4)}
+.tab{font-size:.85rem;color:#6a6a6a;cursor:pointer;letter-spacing:2px;padding:.3rem .2rem;border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:#b8a080}
+.tab.active{color:#e8e8e8;border-bottom-color:#e8e8e8}
+
+/* ---- Gender toggle ---- */
+.gender-row{display:flex;justify-content:center;align-items:center;gap:.8rem;padding:.7rem 1rem;color:#8a7355;font-size:.78rem;letter-spacing:1px}
+.gender-row select{background:#1a0f08;color:#e8d5b0;border:1px solid #4a3a28;padding:.3rem .6rem;border-radius:3px;font-family:inherit;font-size:.78rem;cursor:pointer}
+.gender-row select:hover{border-color:#c8a86e}
+
+/* ---- Slots container ---- */
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:1100px;margin:0 auto;padding:1rem}
+@media(max-width:780px){.slots{grid-template-columns:1fr}}
+
+.slot{background:linear-gradient(180deg,rgba(20,14,8,.85),rgba(13,10,6,.9));border:1px solid #2a1a10;border-radius:8px;padding:1.1rem 1rem 1rem;position:relative;box-shadow:0 4px 18px rgba(0,0,0,.5),inset 0 1px 0 rgba(200,168,110,.05)}
+.slot-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+.slot-head .slot-label{font-size:.72rem;letter-spacing:2px;color:#8a7355}
+.slot-head .slot-num{font-size:1.05rem;font-weight:700;color:#b8a080;letter-spacing:2px}
+
+/* mode toggle */
+.mode-toggle{display:flex;gap:.4rem;background:rgba(0,0,0,.35);border-radius:20px;padding:.25rem;margin-bottom:1rem}
+.mode-toggle button{flex:1;font-family:inherit;font-size:.78rem;padding:.4rem .6rem;border:1px solid transparent;background:transparent;color:#8a7355;border-radius:18px;cursor:pointer;letter-spacing:1px;transition:all .15s}
+.mode-toggle button:hover{color:#e8d5b0}
+.mode-toggle button.active{background:linear-gradient(135deg,#5a3c28,#3a2618);color:#fcf8f0;border-color:#8a6e3e;box-shadow:0 0 8px rgba(200,168,110,.25)}
+
+/* equip display */
+.equip{position:relative;border-radius:6px;padding:1rem .8rem .8rem;background:rgba(0,0,0,.4);border:2px solid var(--rarColor,#3a2a1a);min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .3s,box-shadow .3s}
+.equip.rolling{animation:pulse .15s infinite alternate}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.02)}}
+.equip.equipped-green{border-color:#3aff7a;box-shadow:0 0 14px rgba(58,255,122,.35)}
+.equip .rarity-pill{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:.66rem;font-weight:700;letter-spacing:1.5px;padding:.15rem .65rem;border-radius:10px;background:var(--rarColor,#3a2a1a);color:#1a0f08}
+.equip .item-vis{width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 0}
+.equip .style-emblem{width:110px;height:110px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.55))}
+.equip .uni-vis{display:flex;flex-direction:column;gap:.35rem;width:100%;align-items:center}
+.equip .uni-vis img{max-width:118px;max-height:74px;object-fit:contain;background:rgba(255,255,240,.04);border-radius:3px;padding:3px;border:1px solid rgba(80,50,30,.2)}
+.equip .uni-vis img.pants{max-height:50px}
+.equip .item-name{font-size:1.05rem;font-weight:700;color:#fcf8f0;letter-spacing:1px;text-align:center;margin-top:.2rem;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.equip .item-meta{font-size:.66rem;color:#8a7355;letter-spacing:1px;margin-top:.15rem}
+.equip .equipped-tag{position:absolute;top:8px;left:8px;font-size:.62rem;color:#3aff7a;letter-spacing:1px;font-weight:700;text-shadow:0 0 6px rgba(58,255,122,.6)}
+
+/* actions */
+.actions{display:flex;gap:.45rem;margin-top:.9rem;flex-wrap:wrap;justify-content:center}
+.actions button{font-family:inherit;font-size:.78rem;padding:.45rem .85rem;border:1px solid #4a3a28;background:linear-gradient(135deg,#3a2618,#1a0f08);color:#e8d5b0;border-radius:4px;cursor:pointer;letter-spacing:1px;transition:all .15s}
+.actions button:hover{border-color:#c8a86e;color:#fcf8f0;box-shadow:0 0 8px rgba(200,168,110,.3)}
+.actions .pull-main{flex:1;background:linear-gradient(135deg,#8a6e3e,#5a3c28);color:#fcf8f0;border-color:#c8a86e;font-weight:700}
+.actions .pull-main:hover{background:linear-gradient(135deg,#c8a86e,#8a6e3e)}
+.actions .reset{font-size:.7rem;color:#8a7355}
+.actions .reset:hover{color:#ff7a6a;border-color:#a04040}
+
+/* ---- History / stats panel ---- */
+.panel{max-width:1100px;margin:1rem auto;padding:0 1rem}
+.card{background:linear-gradient(180deg,rgba(20,14,8,.7),rgba(13,10,6,.85));border:1px solid #2a1a10;border-radius:6px;padding:1rem 1.1rem;margin-bottom:1rem}
+.card h3{font-size:.82rem;letter-spacing:2px;color:#b8a080;font-weight:600;border-bottom:1px solid #2a1a10;padding-bottom:.5rem;margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.card h3::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#3a2a1a,transparent)}
+
+.history-row{display:flex;flex-wrap:wrap;gap:.35rem;max-height:160px;overflow-y:auto;padding-right:.4rem}
+.history-row::-webkit-scrollbar{width:6px}
+.history-row::-webkit-scrollbar-thumb{background:#3a2a1a;border-radius:3px}
+.history-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;padding:.18rem .45rem;border-radius:3px;background:rgba(0,0,0,.4);border:1px solid var(--rarColor,#3a2a1a);color:var(--rarColor,#e8d5b0);letter-spacing:.5px;cursor:default;position:relative}
+.history-chip .slot-badge{font-size:.58rem;background:rgba(255,255,255,.12);padding:.05rem .3rem;border-radius:2px;color:#fff;letter-spacing:1px;font-weight:700}
+.history-chip.uniform .name{display:flex;align-items:center;gap:.25rem}
+.history-chip.uniform img{width:14px;height:14px;object-fit:contain;vertical-align:middle}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem;text-align:center;font-size:.7rem}
+@media(max-width:780px){.stats-row{grid-template-columns:repeat(5,1fr);font-size:.6rem}}
+.stat-cell{background:rgba(0,0,0,.4);border:1px solid var(--rarColor,#3a2a1a);border-radius:3px;padding:.4rem .3rem;color:#e8d5b0}
+.stat-cell .v{font-size:1.05rem;font-weight:700;color:var(--rarColor,#e8d5b0);display:block}
+.stat-cell .l{color:#8a7355;font-size:.6rem;letter-spacing:1px}
+
+.coll{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:.45rem;max-height:280px;overflow-y:auto;padding-right:.4rem}
+.coll::-webkit-scrollbar{width:6px}
+.coll::-webkit-scrollbar-thumb{background:#3a2a1a;border-radius:3px}
+.coll-item{background:rgba(0,0,0,.4);border:1px solid var(--rarColor,#3a2a1a);border-radius:3px;padding:.3rem;text-align:center}
+.coll-item img,.coll-item svg{max-width:46px;max-height:46px;display:block;margin:0 auto .2rem}
+.coll-item .n{font-size:.6rem;color:#b8a080;line-height:1.3}
+.coll-item .c{font-size:.55rem;color:var(--rarColor,#8a7355);letter-spacing:.5px}
+
+/* ---- Result flash ---- */
+.result-flash{position:fixed;inset:0;pointer-events:none;z-index:200;display:none}
+.result-flash.show{display:block;animation:flashOut 1.1s ease-out forwards}
+@keyframes flashOut{0%{opacity:.85}100%{opacity:0}}
+.result-flash .burst{position:absolute;left:50%;top:50%;width:30vmin;height:30vmin;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--flashColor,#c8a86e) 0%,transparent 70%);filter:blur(8px)}
+
+.lib-footer{text-align:center;padding:1.6rem 1rem;color:#5a4a3a;font-size:.7rem;letter-spacing:1px;border-top:1px solid #2a1a10;margin-top:1rem;background:linear-gradient(180deg,rgba(15,9,5,.6),#0d0a06)}
+</style>
+</head>
+<body>
+
+<div class="lib-header">
+  <a href="index.html" class="lib-back">← 图书馆</a>
+  <div class="lib-title">加库兰 · 模拟抽取</div>
+  <div class="lib-subtitle">GACHA SIMULATOR · 战斗风格 &amp; 制服</div>
+</div>
+
+<div class="tabs">
+  <div class="tab">个人资料</div>
+  <div class="tab">外观</div>
+  <div class="tab active">制服</div>
+</div>
+
+<div class="gender-row">
+  <span>制服池：</span>
+  <select id="genderSel">
+    <option value="Student_Male">♂ 男生池（9 款）</option>
+    <option value="Student_Female">♀ 女生池（11 款）</option>
+  </select>
+  <span style="color:#5a4a3a;margin-left:.4rem">· 抽取次数 <input id="pullN" type="number" min="1" max="50" value="1" style="width:50px;background:#1a0f08;color:#e8d5b0;border:1px solid #4a3a28;padding:.2rem .4rem;border-radius:3px;font-family:inherit;font-size:.78rem"></span>
+</div>
+
+<div class="slots">
+
+  <div class="slot" id="slot1" data-slot="1">
+    <div class="slot-head">
+      <span class="slot-label">SLOT</span>
+      <span class="slot-num">1</span>
+    </div>
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="style">🥋 战斗风格</button>
+      <button class="mode-btn" data-mode="uniform">👔 制服</button>
+    </div>
+    <div class="equip" data-rar-color="#8a8a8a">
+      <div class="equipped-tag" style="display:none">已装备</div>
+      <div class="rarity-pill">Common</div>
+      <div class="item-vis"></div>
+    </div>
+    <div class="actions">
+      <button class="pull-main">抽取 ×<span class="n-val">1</span></button>
+      <button class="reset">重置</button>
+    </div>
+  </div>
+
+  <div class="slot" id="slot2" data-slot="2">
+    <div class="slot-head">
+      <span class="slot-label">SLOT</span>
+      <span class="slot-num">2</span>
+    </div>
+    <div class="mode-toggle">
+      <button class="mode-btn" data-mode="style">🥋 战斗风格</button>
+      <button class="mode-btn active" data-mode="uniform">👔 制服</button>
+    </div>
+    <div class="equip" data-rar-color="#5f9bff">
+      <div class="equipped-tag" style="display:none">已装备</div>
+      <div class="rarity-pill">Common</div>
+      <div class="item-vis"></div>
+    </div>
+    <div class="actions">
+      <button class="pull-main">抽取 ×<span class="n-val">1</span></button>
+      <button class="reset">重置</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="panel">
+  <div class="card">
+    <h3>📜 抽取历史（最近 50 次 · 按时间倒序）</h3>
+    <div class="history-row" id="historyRow"><span style="color:#5a4a3a;font-size:.78rem">还没有抽取</span></div>
+  </div>
+
+  <div class="card">
+    <h3>📊 稀有度统计 · 共 <span id="totalPulls" style="color:#c8a86e">0</span> 抽</h3>
+    <div class="stats-row" id="statsRow"></div>
+  </div>
+
+  <div class="card">
+    <h3>🎒 收藏（已抽到的款式 · 不重复）</h3>
+    <div class="coll" id="collRow"><span style="color:#5a4a3a;font-size:.78rem">收藏为空</span></div>
+  </div>
+</div>
+
+<div class="lib-footer">
+  <div>数据：gacha_data.js（真实游戏配置 · Real MCP 反编译）· 战斗风格与制服权重</div>
+  <div style="margin-top:.3rem;opacity:.6">初始两槽位均为最低品质 · 制服与战斗风格</div>
+</div>
+
+<div class="result-flash" id="flash"><div class="burst"></div></div>
+
+<script src="gacha_data.js"></script>
+<script>
+/* ===== Style emblems（与 index.html 同源，复用 SVG） ===== */
+const STYLE_EMBLEM = {
+  Basic:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#c9c4b8" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#c9c4b8" stroke-width="1" opacity=".35"/><g fill="none" stroke="#c9c4b8" stroke-width="3" stroke-linecap="round"><circle cx="32" cy="32" r="8"/><path d="M18 32 H46"/></g></svg>`,
+  Karate:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#5f9bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#5f9bff" stroke-width="1" opacity=".35"/><rect x="22" y="18" width="20" height="26" rx="7" fill="#5f9bff"/><g stroke="#1a0f08" stroke-width="2"><line x1="22" y1="26" x2="42" y2="26"/><line x1="22" y1="32" x2="42" y2="32"/><line x1="22" y1="38" x2="42" y2="38"/></g></svg>`,
+  "Muay Thai":`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#5f9bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#5f9bff" stroke-width="1" opacity=".35"/><path d="M22 46 L33 24 L45 33" fill="none" stroke="#5f9bff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  Slugger:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#5f9bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#5f9bff" stroke-width="1" opacity=".35"/><path d="M22 30 Q22 19 34 19 Q47 19 47 32 Q47 43 36 43 L28 43 Q22 43 22 37 Z" fill="#5f9bff"/><rect x="18" y="39" width="13" height="9" rx="4" fill="#5f9bff"/></svg>`,
+  Boxing:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#b06bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#b06bff" stroke-width="1" opacity=".35"/><g stroke="#1a0f08" stroke-width="3"><line x1="22" y1="22" x2="42" y2="42"/><line x1="42" y1="22" x2="22" y2="42"/></g><circle cx="26" cy="28" r="9" fill="#b06bff"/><circle cx="38" cy="36" r="9" fill="#b06bff"/></svg>`,
+  Wrestling:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g fill="none" stroke="#ffd24b" stroke-width="5" stroke-linecap="round"><path d="M23 20 A13 13 0 1 0 23 44"/><path d="M41 20 A13 13 0 1 1 41 44"/></g></svg>`,
+  Capoeira:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><path d="M19 45 A18 18 0 1 1 45 25" fill="none" stroke="#ffd24b" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="25" r="5" fill="#ffd24b"/></svg>`,
+  Kure:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><circle cx="32" cy="34" r="11" fill="#ffd24b"/><path d="M44 16 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2 z" fill="#fff"/></svg>`,
+  Hakari:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g stroke="#ffd24b" stroke-width="3" fill="#ffd24b"><line x1="32" y1="16" x2="32" y2="46"/><line x1="18" y1="26" x2="46" y2="26"/><path d="M18 26 l-6 9 h12 z" stroke="none"/><path d="M46 26 l-6 9 h12 z" stroke="none"/><circle cx="32" cy="14" r="3"/></g></svg>`,
+  Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`
+};
+const STYLE_EMBLEM_KEY = {Basic:'Basic',Karate:'Karate','MuayThai':'Muay Thai',Slugger:'Slugger',Boxing:'Boxing',Wrestling:'Wrestling',Capoeira:'Capoeira',Kure:'Kure',Hakari:'Hakari',Ali:'Ali'};
+
+const G = GACHA_DATA, T = THUMBS;
+
+/* ===== Rarity helpers ===== */
+const RAR_COLOR = {};
+G.uniformRarities.forEach(r => RAR_COLOR[r.key] = r.color);
+G.combatStyles.rarities.forEach(r => RAR_COLOR[r.key] = r.color);
+const RAR_ORDER = ['Common','Rare','Epic','Legendary','Mystery'];
+function rarRank(k){ return RAR_ORDER.indexOf(k); }
+
+function rollRarity(rarities){
+  const total = rarities.reduce((s,r) => s + r.weight, 0);
+  let r = Math.random() * total;
+  for(const rar of rarities){ if(r < rar.weight) return rar; r -= rar.weight; }
+  return rarities[rarities.length-1];
+}
+function rollStyle(){
+  const rar = rollRarity(G.combatStyles.rarities);
+  const style = rar.styles[Math.floor(Math.random()*rar.styles.length)];
+  return { type:'style', key:style, name:style, rarity:rar.key, color:rar.color };
+}
+function rollUniform(gender){
+  const rar = rollRarity(G.uniformRarities);
+  const pool = (G.uniforms[gender]||[]).filter(u => u.rarity === rar.key);
+  if(!pool.length) return null;
+  const item = pool[Math.floor(Math.random()*pool.length)];
+  return { type:'uniform', key:item.name, name:item.name, rarity:rar.key, color:rar.color,
+    shirt:item.shirt, pants:item.pants, shirtUrl:T[item.shirt]||'', pantsUrl:T[item.pants]||'' };
+}
+function rollInitialStyle(){ return { type:'style', key:'Basic', name:'Basic', rarity:'Common', color:'#c9c4b8' }; }
+function rollInitialUniform(gender){
+  const def = (G.uniforms[gender]||[]).find(u => u.isDefault) || (G.uniforms[gender]||[]).find(u => u.rarity==='Common');
+  if(!def) return null;
+  return { type:'uniform', key:def.name, name:def.name, rarity:def.rarity, color:RAR_COLOR[def.rarity]||'#c9c4b8',
+    shirt:def.shirt, pants:def.pants, shirtUrl:T[def.shirt]||'', pantsUrl:T[def.pants]||'' };
+}
+
+/* ===== State ===== */
+const state = {
+  gender: 'Student_Male',
+  history: [],          // [{ts, slot, mode, item}]
+  collection: { style: new Set(), uniform: new Set() }, // keys
+  counts: { Common:0, Rare:0, Epic:0, Legendary:0, Mystery:0 },
+  slots: [
+    { id:1, mode:'style',  equip:null, equippedTag:false },
+    { id:2, mode:'uniform', equip:null, equippedTag:false }
+  ]
+};
+function saveState(){
+  try{
+    const slim = { gender: state.gender, history: state.history.slice(-100),
+      collection:{ style:[...state.collection.style], uniform:[...state.collection.uniform] },
+      counts: state.counts,
+      slots: state.slots.map(s=>({id:s.id,mode:s.mode,equip:s.equip,equippedTag:s.equippedTag})) };
+    localStorage.setItem('gakSimV1', JSON.stringify(slim));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem('gakSimV1');
+    if(!raw) return false;
+    const slim = JSON.parse(raw);
+    state.gender = slim.gender || 'Student_Male';
+    state.history = slim.history || [];
+    state.collection.style = new Set(slim.collection.style||[]);
+    state.collection.uniform = new Set(slim.collection.uniform||[]);
+    state.counts = Object.assign({Common:0,Rare:0,Epic:0,Legendary:0,Mystery:0}, slim.counts||{});
+    if(Array.isArray(slim.slots) && slim.slots.length===2){
+      state.slots = slim.slots;
+    }
+    return true;
+  }catch(e){ return false; }
+}
+
+function resetAll(){
+  state.history = [];
+  state.collection = { style: new Set(), uniform: new Set() };
+  state.counts = { Common:0, Rare:0, Epic:0, Legendary:0, Mystery:0 };
+  state.slots[0] = { id:1, mode:'style',  equip:rollInitialStyle(), equippedTag:false };
+  state.slots[1] = { id:2, mode:'uniform', equip:rollInitialUniform(state.gender), equippedTag:false };
+  saveState(); renderAll();
+}
+
+/* ===== Rendering ===== */
+const $ = id => document.getElementById(id);
+function rarityPillText(rar){ return rar==='Mystery' ? '???' : rar; }
+
+function renderEquip(slotEl, slot){
+  const equip = slot.equip;
+  const color = equip.color;
+  slotEl.querySelector('.equip').style.setProperty('--rarColor', color);
+  slotEl.querySelector('.rarity-pill').textContent = rarityPillText(equip.rarity);
+  slotEl.querySelector('.rarity-pill').style.background = color;
+  slotEl.querySelector('.equipped-tag').style.display = slot.equippedTag ? 'block' : 'none';
+  const vis = slotEl.querySelector('.item-vis');
+  if(equip.type === 'style'){
+    const k = STYLE_EMBLEM_KEY[equip.key] || equip.key;
+    const svg = STYLE_EMBLEM[k] || STYLE_EMBLEM.Basic;
+    vis.innerHTML = svg + `<div class="item-name">${equip.name}</div><div class="item-meta">${rarityPillText(equip.rarity)} · 战斗风格</div>`;
+  } else {
+    const s = equip.shirtUrl ? `<img src="${equip.shirtUrl}" alt="上衣">` : `<div style="width:118px;height:74px;display:flex;align-items:center;justify-content:center;color:#5a4a3a;font-size:.6rem">无图</div>`;
+    const p = equip.pantsUrl ? `<img class="pants" src="${equip.pantsUrl}" alt="下装">` : `<div class="pants" style="width:118px;height:50px;display:flex;align-items:center;justify-content:center;color:#5a4a3a;font-size:.6rem">无图</div>`;
+    vis.innerHTML = `<div class="uni-vis">${s}${p}</div><div class="item-name">${equip.name}</div><div class="item-meta">${rarityPillText(equip.rarity)} · 制服</div>`;
+  }
+  slotEl.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === slot.mode));
+}
+
+function renderHistory(){
+  const row = $('historyRow');
+  if(!state.history.length){ row.innerHTML = '<span style="color:#5a4a3a;font-size:.78rem">还没有抽取</span>'; return; }
+  const items = state.history.slice(-50).reverse();
+  row.innerHTML = items.map(h => {
+    const color = h.item.color;
+    if(h.item.type === 'style'){
+      const svg = STYLE_EMBLEM[STYLE_EMBLEM_KEY[h.item.key]||h.item.key] || STYLE_EMBLEM.Basic;
+      return `<div class="history-chip" style="--rarColor:${color}" title="${h.item.name} · ${rarityPillText(h.item.rarity)} · 槽位${h.slot}"><span class="slot-badge">#${h.slot}</span>${svg}<span class="name">${h.item.name}</span></div>`;
+    }
+    const s = h.item.shirtUrl ? `<img src="${h.item.shirtUrl}" alt="">` : '';
+    return `<div class="history-chip uniform" style="--rarColor:${color}" title="${h.item.name} · ${rarityPillText(h.item.rarity)} · 槽位${h.slot}"><span class="slot-badge">#${h.slot}</span><span class="name">${s}${h.item.name}</span></div>`;
+  }).join('');
+}
+
+function renderStats(){
+  $('totalPulls').textContent = state.history.length;
+  $('statsRow').innerHTML = RAR_ORDER.map(r => {
+    const c = state.counts[r]||0;
+    return `<div class="stat-cell" style="--rarColor:${RAR_COLOR[r]}"><span class="v">${c}</span><span class="l">${rarityPillText(r)}</span></div>`;
+  }).join('');
+}
+
+function renderCollection(){
+  const row = $('collRow');
+  const items = [];
+  state.collection.style.forEach(key => {
+    const rar = G.combatStyles.rarities.find(r => r.styles.includes(key));
+    if(!rar) return;
+    const color = rar.color;
+    const svg = STYLE_EMBLEM[STYLE_EMBLEM_KEY[key]||key] || STYLE_EMBLEM.Basic;
+    items.push({ type:'style', key, name:key, color, rar:rar.key, html:`${svg}<div class="n">${key}</div><div class="c">${rarityPillText(rar.key)}</div>` });
+  });
+  state.collection.uniform.forEach(key => {
+    const u = G.uniforms[state.gender].find(x => x.name === key) || G.uniforms.Student_Male.concat(G.uniforms.Student_Female).find(x => x.name === key);
+    if(!u) return;
+    const color = RAR_COLOR[u.rarity]||'#c9c4b8';
+    const s = T[u.shirt] ? `<img src="${T[u.shirt]}" alt="">` : '';
+    items.push({ type:'uniform', key, name:key, color, rar:u.rarity, html:`${s}<div class="n">${u.name}</div><div class="c">${rarityPillText(u.rarity)}</div>` });
+  });
+  if(!items.length){ row.innerHTML = '<span style="color:#5a4a3a;font-size:.78rem">收藏为空</span>'; return; }
+  items.sort((a,b) => rarRank(b.rar) - rarRank(a.rar) || a.type.localeCompare(b.type));
+  row.innerHTML = items.map(it => `<div class="coll-item" style="--rarColor:${it.color}">${it.html}</div>`).join('');
+}
+
+function renderAll(){
+  state.slots.forEach((s,i) => renderEquip(document.querySelectorAll('.slot')[i], s));
+  renderHistory(); renderStats(); renderCollection();
+}
+
+/* ===== Pull ===== */
+function rollFor(mode){
+  if(mode==='style') return rollStyle();
+  return rollUniform(state.gender);
+}
+function animateRoll(slotEl, mode, onSettle){
+  const slot = state.slots[+slotEl.dataset.slot - 1];
+  const equip = slotEl.querySelector('.equip');
+  const vis = equip.querySelector('.item-vis');
+  equip.classList.add('rolling');
+  const frames = mode === 'style' ? 11 : 9;
+  let i = 0;
+  const startColor = equip.style.getPropertyValue('--rarColor');
+  const tick = () => {
+    const sample = rollFor(mode);
+    equip.style.setProperty('--rarColor', sample.color);
+    equip.querySelector('.rarity-pill').textContent = rarityPillText(sample.rarity);
+    equip.querySelector('.rarity-pill').style.background = sample.color;
+    if(mode === 'style'){
+      const k = STYLE_EMBLEM_KEY[sample.key] || sample.key;
+      vis.innerHTML = (STYLE_EMBLEM[k]||STYLE_EMBLEM.Basic) + `<div class="item-name">${sample.name}</div><div class="item-meta">${rarityPillText(sample.rarity)} · 战斗风格</div>`;
+    } else {
+      const s = sample.shirtUrl ? `<img src="${sample.shirtUrl}" alt="">` : `<div style="width:118px;height:74px"></div>`;
+      const p = sample.pantsUrl ? `<img class="pants" src="${sample.pantsUrl}" alt="">` : `<div class="pants" style="width:118px;height:50px"></div>`;
+      vis.innerHTML = `<div class="uni-vis">${s}${p}</div><div class="item-name">${sample.name}</div><div class="item-meta">${rarityPillText(sample.rarity)} · 制服</div>`;
+    }
+    i++;
+    if(i < frames){
+      const delay = 14 + (i*i*0.55);
+      setTimeout(tick, delay);
+    } else {
+      equip.classList.remove('rolling');
+      const final = rollFor(mode);
+      onSettle(final);
+      flashColor(final.color);
+    }
+  };
+  tick();
+}
+
+function flashColor(color){
+  const f = $('flash');
+  f.style.setProperty('--flashColor', color);
+  f.classList.remove('show'); void f.offsetWidth; f.classList.add('show');
+  setTimeout(() => f.classList.remove('show'), 1100);
+}
+
+function performPull(slotEl, n){
+  const slot = state.slots[+slotEl.dataset.slot - 1];
+  if(n === 1){
+    animateRoll(slotEl, slot.mode, (final) => commitPull(slot, final));
+  } else {
+    let i = 0;
+    const step = () => {
+      const item = rollFor(slot.mode);
+      commitPull(slot, item, true /*silent*/);
+      i++;
+      if(i < n){
+        setTimeout(step, 50);
+      } else {
+        renderAll();
+        const last = state.history[state.history.length-1];
+        if(last) flashColor(last.item.color);
+      }
+    };
+    step();
+  }
+}
+
+function commitPull(slot, item, silent){
+  slot.equip = item;
+  // "已装备" tag (mirrors in-game screenshot) — show on Rare+ draws
+  slot.equippedTag = rarRank(item.rarity) >= rarRank('Rare');
+  state.counts[item.rarity] = (state.counts[item.rarity]||0) + 1;
+  state.history.push({ ts:Date.now(), slot:slot.id, mode:slot.mode, item });
+  if(item.type==='style') state.collection.style.add(item.key);
+  else state.collection.uniform.add(item.key);
+  if(!silent) renderAll();
+  saveState();
+}
+
+/* ===== Bindings ===== */
+function bindSlot(slotEl){
+  slotEl.querySelectorAll('.mode-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const slot = state.slots[+slotEl.dataset.slot - 1];
+      slot.mode = b.dataset.mode;
+      // when switching mode, set equip to lowest of that mode
+      slot.equip = (slot.mode === 'style') ? rollInitialStyle() : rollInitialUniform(state.gender);
+      slot.equippedTag = false;
+      saveState(); renderAll();
+    });
+  });
+  slotEl.querySelector('.pull-main').addEventListener('click', () => {
+    const n = Math.max(1, Math.min(50, parseInt($('pullN').value)||1));
+    performPull(slotEl, n);
+  });
+  slotEl.querySelector('.reset').addEventListener('click', () => {
+    const slot = state.slots[+slotEl.dataset.slot - 1];
+    slot.equip = (slot.mode === 'style') ? rollInitialStyle() : rollInitialUniform(state.gender);
+    slot.equippedTag = false;
+    saveState(); renderAll();
+  });
+}
+
+function init(){
+  if(!loadState()){
+    state.slots[0].equip = rollInitialStyle();
+    state.slots[1].equip = rollInitialUniform(state.gender);
+  } else {
+    // ensure equip has shape (defensive)
+    if(!state.slots[0].equip) state.slots[0].equip = rollInitialStyle();
+    if(!state.slots[1].equip) state.slots[1].equip = rollInitialUniform(state.gender);
+  }
+  $('genderSel').value = state.gender;
+  $('genderSel').addEventListener('change', e => {
+    state.gender = e.target.value;
+    state.slots.forEach(s => {
+      if(s.mode === 'uniform'){ s.equip = rollInitialUniform(state.gender); s.equippedTag=false; }
+    });
+    saveState(); renderAll();
+  });
+  $('pullN').addEventListener('input', e => {
+    let v = parseInt(e.target.value)||1;
+    v = Math.max(1, Math.min(50, v));
+    e.target.value = v;
+    document.querySelectorAll('.n-val').forEach(x => x.textContent = v);
+  });
+  document.querySelectorAll('.slot').forEach(bindSlot);
+  renderAll();
+}
+init();
+</script>
+</body>
+</html>
