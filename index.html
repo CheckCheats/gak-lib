@@ -157,6 +157,7 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   <a href="#combat">⚔️ 战斗系统</a>
   <a href="#vending">🥤 贩卖机</a>
   <a href="#work">💼 工作</a>
+  <a href="#vehicle">🛹 载具</a>
   <a href="#talents">🌟 天赋树</a>
   <a href="#height">📏 身高系统</a>
   <a href="gacha.html" class="nav-gacha">🎰 抽卡图鉴</a>
@@ -202,6 +203,7 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
         <option value="Capoeira">Capoeira（卡波耶拉）</option>
         <option value="Kure">Kure（吴）</option>
         <option value="Ali">Ali（阿里）</option>
+        <option value="WingChun">WingChun（咏春）</option>
       </select>
     </div>
   </div>
@@ -245,9 +247,10 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <tr><td>Wrestling（摔跤）</td><td>0.25%</td><td>0.36s</td><td>0.525s</td><td>12s</td><td>-5（吸）</td><td>M2抓取1.5x+霸体</td></tr>
     <tr><td>Capoeira（卡波耶拉）</td><td>0.25%</td><td>0.35s</td><td>0.45s</td><td>12s</td><td>22.5</td><td>M2抓取，闪避CD-25%</td></tr>
     <tr><td>Kure（吴）</td><td>0.25%</td><td>0.32s</td><td><strong>0.30s</strong></td><td>12s</td><td>15</td><td>极速M2头槌抓取1.5x</td></tr>
-    <tr><td>Ali（阿里）</td><td><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td>0.075%</td><td>0.28s</td><td>0.53s</td><td>7s</td><td>6</td><td>无敌突进+闪避反击</td></tr>
+    <tr><td>Ali（阿里）</td><td rowspan="2"><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td rowspan="2">0.0375%</td><td>0.28s</td><td>0.53s</td><td>7s</td><td>6</td><td>无敌突进+闪避反击</td></tr>
+    <tr><td>WingChun（咏春）</td><td>0.40s</td><td>0.525s</td><td>10s</td><td>15</td><td>M2反击流（1.25×反击伤）· SwiftHands 快拳</td></tr>
   </table>
-  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Ali 为神秘稀有度（Mystery），仅 0.075% 概率。</p>
+  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Mystery 神秘稀有度（???）含 Ali 与 WingChun 两风格，合计 0.075%（各 0.0375%）。WingChun 于 v7538 由变体升级为可抽取神秘风格。</p>
   <h4>变体风格 · 不可抽取</h4>
   <table>
     <tr><th>变体</th><th>M1 / M2 延迟</th><th>抓取</th><th>特征（豆包AI生成）</th></tr>
@@ -256,9 +259,9 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <tr><td>Taekwondo</td><td>— / 0.46s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 跆拳道：垫步 1s 窗口内命中减 50% 闪避 CD；穿伤+5%；M2 击退 25</td></tr>
     <tr><td>Variant</td><td>— / 0.35s</td><td>45%</td><td><span class="badge badge-variant">Variant</span> 45% 抓取；穿伤+10%、破防+5%、姿态伤+10%；M2 击退 25</td></tr>
     <tr><td>Wild</td><td>— / 0.525s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 野性风格：M2 击中使对手架势回复中断 3s；M2 击退 25</td></tr>
-    <tr><td>WingChun</td><td>0.28s / 0.525s</td><td>15%</td><td><span class="badge badge-variant">Variant</span> 咏春寸劲：总伤 −5%、穿伤 −5%、架势抗性 −10%；M2 击退 30</td></tr>
     <tr><td>Skygaolang</td><td>— / 0.35s</td><td>15%</td><td><span class="badge badge-variant">Variant</span> 无特殊乘区（全 1×）；M2 击退 25</td></tr>
   </table>
+  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">WingChun 已于 v7538 升级为 Mystery 可抽取风格（见上方总览与天赋树），不再属于变体。</p>
 </div>
 
 <!-- 👔 UNIFORMS -->
@@ -337,19 +340,6 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
       </table>
     </div>
 
-    <!-- Boxing 拳击 -->
-    <div class="style-card">
-      <div class="sc-title"><span>Boxing（拳击）</span><span class="badge badge-epic">Epic 10%</span></div>
-      <table class="sc-table">
-        <tr><td>无懈可击<br>Untouchable</td><td>M2两段攻击带无敌帧；每段独立判定，可分开格挡</td><td><span class="badge badge-epic">专属</span></td></tr>
-        <tr><td>完美反射<br>Perfect Reflex</td><td>完美格挡减M2冷却1秒</td><td><span class="badge badge-epic">专属</span></td></tr>
-        <tr><td>破防穿透III<br>Guard Pierce III</td><td>M1格挡穿透20%；M2每段格挡消耗75%姿态而非必定破防</td><td><span class="badge badge-common">通用被动</span></td></tr>
-      </table>
-      <div class="sc-stat" style="font-size:.72rem;color:#7a6a5a;margin-top:.4rem">
-        ⚠️ 拳击特殊说明：M2为两段攻击（两拳），每段独立判定，可吃第一段后格挡第二段。M2使用独立规则：每次被格挡的拳击消耗75%姿态而非必定破防。
-      </div>
-    </div>
-
     <!-- Karate 空手道 -->
     <div class="style-card">
       <div class="sc-title"><span>Karate（空手道）</span><span class="badge badge-uncommon">Uncommon 10%</span></div>
@@ -372,6 +362,29 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
         <tr><td>破防穿透V<br>Guard Pierce V MAX</td><td>格挡伤害穿透30%</td><td><span class="badge badge-common">通用被动</span></td></tr>
         <tr><td>韧性V<br>Resilience V MAX</td><td>M1碰撞55%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
       </table>
+    </div>
+
+    <!-- Slugger 重炮手 -->
+    <div class="style-card">
+      <div class="sc-title"><span>Slugger（重炮手）</span><span class="badge badge-uncommon">Uncommon 10%</span></div>
+      <table class="sc-table">
+        <tr><td>不稳定<br>Unstable</td><td>伤害+40%但受伤+15%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>破防穿透V<br>Guard Pierce V MAX</td><td>格挡伤害穿透30%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+        <tr><td>韧性III<br>Resilience III</td><td>M1碰撞35%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+    </div>
+
+    <!-- Boxing 拳击 -->
+    <div class="style-card">
+      <div class="sc-title"><span>Boxing（拳击）</span><span class="badge badge-epic">Epic 10%</span></div>
+      <table class="sc-table">
+        <tr><td>无懈可击<br>Untouchable</td><td>M2两段攻击带无敌帧；每段独立判定，可分开格挡</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>完美反射<br>Perfect Reflex</td><td>完美格挡减M2冷却1秒</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>破防穿透III<br>Guard Pierce III</td><td>M1格挡穿透20%；M2每段格挡消耗75%姿态而非必定破防</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+      <div class="sc-stat" style="font-size:.72rem;color:#7a6a5a;margin-top:.4rem">
+        ⚠️ 拳击特殊说明：M2为两段攻击（两拳），每段独立判定，可吃第一段后格挡第二段。M2使用独立规则：每次被格挡的拳击消耗75%姿态而非必定破防。
+      </div>
     </div>
 
     <!-- Wrestling 摔跤 -->
@@ -420,16 +433,6 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
       </table>
     </div>
 
-    <!-- Slugger 重炮手 -->
-    <div class="style-card">
-      <div class="sc-title"><span>Slugger（重炮手）</span><span class="badge badge-uncommon">Uncommon 10%</span></div>
-      <table class="sc-table">
-        <tr><td>不稳定<br>Unstable</td><td>伤害+40%但受伤+15%</td><td><span class="badge badge-epic">专属</span></td></tr>
-        <tr><td>破防穿透V<br>Guard Pierce V MAX</td><td>格挡伤害穿透30%</td><td><span class="badge badge-common">通用被动</span></td></tr>
-        <tr><td>韧性III<br>Resilience III</td><td>M1碰撞35%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
-      </table>
-    </div>
-
     <!-- Ali 阿里 -->
     <div class="style-card">
       <div class="sc-title"><span>Ali（阿里）</span><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">神秘稀有</span></div>
@@ -439,6 +442,18 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
         <tr><td>反击<br>Counterstrike</td><td>完美格挡后下次攻击+5%伤害</td><td><span class="badge badge-common">通用</span></td></tr>
         <tr><td>破防穿透III<br>Guard Pierce III</td><td>格挡伤害穿透20%</td><td><span class="badge badge-common">通用被动</span></td></tr>
         <tr><td>韧性II<br>Resilience II</td><td>M1碰撞25%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+    </div>
+
+    <!-- WingChun 咏春 -->
+    <div class="style-card">
+      <div class="sc-title"><span>WingChun（咏春）</span><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">神秘稀有</span></div>
+      <table class="sc-table">
+        <tr><td>反击寸劲<br>Counter M2</td><td>M2 需反击命中（窗口 0.5s），反击伤害 1.25×、眩晕 2.2s；挥空自晕 1s</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>迅捷手<br>Swift Hands</td><td>M1 攻击速度 +12.5%，代价总伤害 −5%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>强固I<br>Fortified I</td><td>架势抗性 +10%，格挡时减少架势损耗</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>破防穿透I<br>Guard Pierce I</td><td>格挡伤害穿透10%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+        <tr><td>韧性I<br>Resilience I</td><td>M1碰撞15%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
       </table>
     </div>
 
@@ -574,6 +589,7 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <tr><td>Variant（变体）</td><td>45%</td><td></td></tr>
     <tr><td>Taekwondo</td><td>—</td><td>配置缺省</td></tr>
     <tr><td>WingChun</td><td>15%</td><td></td></tr>
+    <tr><td>WingChun</td><td>15%</td><td></td></tr>
     <tr><td>Skygaolang</td><td>15%</td><td></td></tr>
   </table>
 
@@ -613,7 +629,8 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   • <strong>Dirty</strong>：抓取时长 <strong>2s</strong>（4 连击关键补充，网页原缺失）。<br>
   • <strong>Hakari（秤）</strong>：动量 M2 Hitbox 延迟 <strong>0.48s</strong>；前置条件为连中 3 次 M1；命中后 ×<strong>3</strong> 伤害 + 击退 ×<strong>1.5</strong> + 垂直 <strong>0.5</strong>；黑闪特效 <strong>2.5s</strong>。<br>
   • <strong>Ali（阿里）</strong>：M2 变招——右键 = <strong>1.25×</strong> 伤害 / 击退 1 / 扑倒布娃娃；左键 = <strong>0.8×</strong> 伤害 / 击退 0.6 / 不扑倒；M2 延迟 <strong>0.53s</strong>，并切换相机。<br>
-  • <strong>Kure / Wrestling / Capoeira</strong>：抓取得手后目标前偏 <strong>2.7</strong>；Kure 头槌锁定 <strong>0.5s</strong> · 延迟 <strong>0.3s</strong>，且 Kure 摔倒会取消对方格挡 <strong>2s</strong>。</p>
+  • <strong>Kure / Wrestling / Capoeira</strong>：抓取得手后目标前偏 <strong>2.7</strong>；Kure 头槌锁定 <strong>0.5s</strong> · 延迟 <strong>0.3s</strong>，且 Kure 摔倒会取消对方格挡 <strong>2s</strong>。<br>
+  • <strong>WingChun（咏春·v7538 新增神秘风格）</strong>：M2 为<strong>反击技</strong>——需先被对手攻击进入反击窗口（<strong>0.5s</strong>）再出 M2 命中，反击伤害 <strong>1.25×</strong>、击退 <strong>46</strong>、拉拽 <strong>3.6 studs</strong>、布娃娃 <strong>2.2s</strong>；挥空则自晕 <strong>1s</strong>。M2 CD <strong>10s</strong>、延迟 <strong>0.525s</strong>。M1 延迟 <strong>0.4s</strong>（第 1 击 0.4 / 第 2-3 击 0.36 / 第 4 击 0.7s），第 4 击伤害覆盖为 <strong>10</strong>。专属天赋：Swift Hands（+12.5% M1 速度、总伤 −5%）、Fortified Ⅰ（+10% 架势抗性）。缠斗率 <strong>15%</strong>。</p>
 
   <h4>战斗状态机</h4>
   <table>
@@ -715,18 +732,32 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <img src="assets/work_indeed.png" alt="Indeed 手机 App 界面" style="max-width:320px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
   </p>
 
-  <h4>🏪 四个雇主（场地）</h4>
+  <h4>🏪 四个雇主（场地 · JobConfig v7538）</h4>
   <table>
-    <tr><th>雇主</th><th>场地</th></tr>
-    <tr><td>GAKUMART</td><td>超市</td></tr>
-    <tr><td>COFFEE SHOP</td><td>咖啡店</td></tr>
-    <tr><td>7-ELEVEN</td><td>便利店</td></tr>
-    <tr><td>CLUB AKUMA</td><td>夜店（仅 1 个名额，时薪封顶 ¥720，全服最抢手）</td></tr>
+    <tr><th>雇主</th><th>场地</th><th>时薪区间</th><th>名额</th></tr>
+    <tr><td>GAKUMART</td><td>超市</td><td>¥280–400</td><td>2</td></tr>
+    <tr><td>COFFEE SHOP</td><td>咖啡店</td><td>¥300–420</td><td>2</td></tr>
+    <tr><td>7-ELEVEN</td><td>便利店</td><td>¥280–400</td><td>2</td></tr>
+    <tr><td>CLUB AKUMA</td><td>夜店</td><td>¥520–720</td><td>1</td></tr>
   </table>
-  <p style="margin:.4rem 0"><strong>目前实装状态：</strong>四个雇主里 <strong>只有 GAKUMART（超市）已实装</strong>，COFFEE SHOP / 7-ELEVEN / CLUB AKUMA 仍在配置中（手机 App 能刷到班次，但地图上暂无 WorkLocker 与打卡交互）。</p>
+  <p style="margin:.4rem 0"><strong>实装进度（v7538，数据来自 Real MCP）：</strong>JobConfig 已为四家配齐时薪与名额参数；目前仅 <strong>GAKUMART（超市）</strong> 地图实装了 WorkLocker 与打卡交互，COFFEE SHOP / 7-ELEVEN / CLUB AKUMA 的班次可在 Indeed App 刷到，但实体场地交互仍在陆续上线中。</p>
   <p style="text-align:center;margin:.4rem 0 .8rem">
     <img src="assets/work_gakumart.jpg" alt="GAKUMART 超市内部" style="max-width:560px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
   </p>
+
+  <h4>📸 校报摄影 SchoolNewspaper（v7538 新增 · 学校独立工作）</h4>
+  <p>除了上面四家「场地班次」，v7538 还新增了一类<strong>独立工作（Standalone Job）</strong>——<strong>SCHOOL NEWSPAPER 校报摄影</strong>。它不走 Venue 固定班次，而是从手机接单后，到学校（Nishikata High）各处完成<strong>拍照任务</strong>，<strong>按张计费</strong>，且全时段开放（无需等班次、随时可接）。</p>
+  <table>
+    <tr><th>项目</th><th> 校报摄影 </th></tr>
+    <tr><td>计费方式</td><td><strong>¥90 / 张</strong> 基础；连击每张 +¥18，上限 +¥90 → 连击封顶 <strong>¥180 / 张</strong></td></tr>
+    <tr><td>接单名额</td><td>MaxSlots = 3（同时最多 3 人在岗）</td></tr>
+    <tr><td>单任务时限</td><td>180 秒（超时该任务作废："too slow, that ones dead"）</td></tr>
+    <tr><td>提交冷却</td><td>1.5 秒 / 张</td></tr>
+    <tr><td>拍照判定</td><td>目标需落在 <strong>42° 半视角</strong> 内；距离上限：玩家 120 / 区域 200 / 地标 160 studs；中间不能有遮挡（"something was in the way"）</td></tr>
+    <tr><td>任务类型 / 权重</td><td>Area 区域(×3) · Player 玩家(×5) · Landmark 地标(×2)，共 13 个拍照点</td></tr>
+    <tr><td>拍照点</td><td>Rooftop 天台 / Courtyard 中庭 / Cafeteria 食堂 / Basketball Court 篮球场 / Dojo Room 道场 / Music Room 音乐室 / Parking Lot 停车场 / Nishikata High Entrance 校门 / Infirmary 保健室 / Study Room 自习室 / Lounge 休息室 / GAKUMART / Nishikata District 街区</td></tr>
+    <tr><td>限制</td><td>私人服务器不可用（"the paper doesn't run in private servers"）</td></tr>
+  </table>
 
   <h4>⏱️ 班次怎么排（How shifts work）</h4>
   <p>• 每个场所<strong>每天生成 6 个班次</strong>，错开时间，每班间隔至少 20 分钟。<br>
@@ -746,7 +777,7 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   • 地图上的 <strong>WorkLocker</strong> 带蓝色 Glow 高亮（加了 WorkLocker 标签 + Cull_NoReparent），一眼能认出。<br>
   • 到点后去对应场地，靠近储物柜触发 <strong>ProximityPrompt</strong> 交互。<br>
   • 必须先<strong>换制服（uniform）+ 打卡</strong>才算「on the clock」开始计时。<br>
-  • 规定：<strong>班次开始前 60 分钟内</strong>才准换装打卡。</p>
+  • 规定：<strong>班次开始（StartMinutes）那一刻起</strong>才可换装打卡（PRE_SHIFT_LOCKER_GRACE = 0，不提前）；接单需该班剩余 ≥ 15 分钟（MIN_REMAINING_TO_APPLY）。</p>
 
   <h4>💰 怎么才算「在赚钱」（赚钱公式）</h4>
   <p style="text-align:center;font-size:1rem;background:rgba(200,168,110,.14);padding:.6rem;border-radius:4px;margin:.5rem 0 .7rem"><strong>EarnedYen = 时薪 × 实际工作分钟数 ÷ 60</strong>　（封顶 = 该班预设总流水 PayoutYen）</p>
@@ -761,12 +792,13 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   <h4>💸 四种结账方式（PayReason）</h4>
   <p>钱直接打进余额（Yen 账户），手机 YenApp 里能看到明细；每次结算手机还会弹通知 + 一段角色旁白（如「终于，从超市拿到 ¥X」）。</p>
   <table>
-    <tr><th>结局</th><th>含义</th></tr>
+    <tr><th>结算原因（PayReason）</th><th>含义</th></tr>
     <tr><td>ShiftEnded</td><td>正常做到结束（按实际工时拿满钱）</td></tr>
     <tr><td>Quit</td><td>中途辞职（已干的分钟数仍结算）</td></tr>
+    <tr><td>DayEnded</td><td>当日时间结束被强制结算（按已干工时）</td></tr>
     <tr><td>Died</td><td>工作途中死亡</td></tr>
-    <tr><td>NoShow</td><td>被录用但没去打卡（<strong>0 日元</strong>，班位白占）</td></tr>
   </table>
+  <p style="margin-top:.4rem;font-size:.78rem;color:#7a6a5a">注：被录用却没去打卡属于 <strong>Status.NoShow</strong>（不是 PayReason 维度），结算为 0 日元且占着班位。</p>
 
   <h4>⏰ 现实时间换算（你能等多久）</h4>
   <p>时间系统：<strong>白天 1 游戏小时 = 200 秒</strong>，<strong>夜晚 1 小时 = 50 秒</strong>（游戏内几点看手机时钟 / 顶栏）。游戏有日夜 + 气象切换，夜跑较快。</p>
@@ -782,6 +814,71 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   3. 🚫 别迟到 / 别鸽——被录用不去 = NoShow = 0 日元，班位还占着。<br>
   4. 🏃 下班前主动 QUIT 也要算已干活的部分，比想起的时候被踢下去强。<br>
   5. 📅 一天最多 1 班，规划好挑时薪高的时段。</p>
+</div>
+
+<!-- 🛹 VEHICLE / SKATEBOARD -->
+<div class="lib-card" id="vehicle">
+  <h3>🛹 载具 · 滑板（Skateboard）</h3>
+  <p>加库兰 v7538 的<strong>首个也是目前唯一的载具</strong>，在表情轮盘里被归类到 <strong>Vehicles（载具）</strong> 资产类别下。</p>
+
+  <h4>🎫 怎么搞到板子</h4>
+  <p style="text-align:center;margin:.6rem 0 .8rem">
+    <img src="assets/skateboard_shop.jpg" alt="SkateboardShop 校门旁的板子购买点" style="max-width:560px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
+  </p>
+  <table>
+    <tr><th>获取方式</th><th>说明</th></tr>
+    <tr><td>游戏内商店购买</td><td>靠近 <strong>SkateboardShop</strong>（CollectionService 标签）触发近距离提示，提示距离 <strong>10 studs</strong>，按钮显示 "Buy"</td></tr>
+    <tr><td>Gamepass 直购</td><td>售价 <strong>800 Robux</strong>（Gamepass ID <strong>1940874362</strong>），买完直接拥有（OwnsSkateboard 属性置真）</td></tr>
+  </table>
+
+  <h4>🔄 板子的四种状态</h4>
+  <table>
+    <tr><th>状态</th><th>含义</th></tr>
+    <tr><td>Stowed</td><td>收起 / 未装备（默认）</td></tr>
+    <tr><td>OnBack</td><td>背在角色背后（可从这里一键召唤骑行）</td></tr>
+    <tr><td>Dropped</td><td>丢在地上（向前丢出 4 studs）</td></tr>
+    <tr><td>Riding</td><td>正在滑行（角色获得 OnSkateboard / SkateboardRiding 属性）</td></tr>
+  </table>
+
+  <h4>🎮 操作方式</h4>
+  <p><strong>PC 键盘：</strong><br>
+  • <strong>V</strong>：从背上召唤骑行（绑定优先级 2001）；再次 <strong>V / Backspace / DPadDown</strong> 下车（优先级 2002）<br>
+  • <strong>W / ↑</strong> 加速，<strong>S / ↓</strong> 刹车 / 倒车，<strong>A·D / ←·→</strong> 转向<br>
+  • <strong>空格（跳跃）</strong>：起跳 Ollie（等价于按下 Ollie 键）<br>
+  • <strong>蹬地 Push</strong>：触发加速动作（见下方「加速机制」）</p>
+  <p><strong>手机端（MobileServiceClient）：</strong>三个专用按钮——<strong>SkateboardOllieBtn（OLLIE 起跳）</strong>、<strong>SkateboardHopOff（下车）</strong>、<strong>SkateboardPush（蹬地加速）</strong>。</p>
+
+  <h4>📊 核心数值（SkateboardServiceClient 实机逻辑）</h4>
+  <table>
+    <tr><th>参数</th><th>数值</th></tr>
+    <tr><td>最高速度（常规）</td><td><strong>30 studs/s</strong></td></tr>
+    <tr><td>最高速度（蹬地加速 Boost 期间）</td><td>叠加 +22 → 峰值约 <strong>52 studs/s</strong>（窗口 2.5s 线性衰减）</td></tr>
+    <tr><td>倒车极速</td><td>正向的 40% = <strong>−12 studs/s</strong>（Boost 时 ≈ −20.8）</td></tr>
+    <tr><td>加速度（前进）</td><td><strong>38 studs/s²</strong></td></tr>
+    <tr><td>加速度（刹车 / 反向）</td><td><strong>22 studs/s²</strong></td></tr>
+    <tr><td>滑行摩擦（松手减速）</td><td>约 <strong>4 studs/s²</strong></td></tr>
+    <tr><td>转向速率（满速）</td><td>约 <strong>2.5 rad/s（≈143°/s）</strong>，随速度比例缩放（低速封底 0.15）</td></tr>
+    <tr><td>Ollie 起跳</td><td>需贴地或离地 <strong>0.12s</strong> 内触发；输入缓冲 <strong>0.18s</strong>；起跳冲量使 Y 速度封顶约 <strong>60 studs/s</strong></td></tr>
+    <tr><td>坠毁 Crash</td><td>速度 ≥ <strong>18 studs/s</strong> 且正面撞墙（法线点积 ≤ −0.55）→ 摔倒，向后施加 Wipeout 力（幅度 (|速度|/30×0.6+0.4)×32，峰值 32）；速度 &lt;18 仅急停不摔</td></tr>
+    <tr><td>垂直速度上限</td><td>爬坡 / 起跳 Y 速度封顶 <strong>60 studs/s</strong>（爬山计算上限 70）</td></tr>
+    <tr><td>落地冲击</td><td>下落速度 &gt; <strong>18</strong> 触发镜头 landPunch 反馈，强度封顶 (v−18)/52</td></tr>
+  </table>
+
+  <h4>⚡ 加速机制（Push / Boost）</h4>
+  <p>每次<strong>蹬地（Push）</strong>会播放 Boost 动画，动画走到 "Push" 标记帧时调用 <code>_applyPush</code> 注入速度；同时开启一个 <strong>2.5s</strong> 的加速窗口（boostTimer），期间极速从 30 抬升到最多 52 并随窗口线性回落。持续蹬地 / 按住前进可在窗口内维持高速。镜头也会随速度产生 FOV 拉伸与倾斜特效（按 |速度|/30 归一）。</p>
+
+  <h4>📌 杂项参数 &amp; 限制</h4>
+  <table>
+    <tr><th>项目</th><th>数值 / 规则</th></tr>
+    <tr><td>动作冷却 ACTION_COOLDOWN</td><td><strong>0.35s</strong></td></tr>
+    <tr><td>召回 / 拾取距离</td><td><strong>30 studs</strong>（RETRIEVE_MAX_DISTANCE）</td></tr>
+    <tr><td>丢弃前抛</td><td><strong>4 studs</strong>（DROP_FORWARD_STUDS）</td></tr>
+    <tr><td>商店提示距离</td><td><strong>10 studs</strong>（SHOP_PROMPT_DISTANCE）</td></tr>
+    <tr><td>背板挂点偏移</td><td>BACK_ATTACH_OFFSET ≈ (−0.14, −0.408, 0.17)</td></tr>
+    <tr><td>板子图标</td><td>rbxassetid://118020312904010</td></tr>
+    <tr><td>战斗中上板</td><td><strong>禁止</strong>：处于 InCombat 时骑行被拦截，并弹出「打斗中别滑」旁白</td></tr>
+    <tr><td>骑行时跳跃</td><td>常规跳跃被禁用（SetJumpBlocked），改用 Ollie</td></tr>
+  </table>
 </div>
 
 <!-- 📏 HEIGHT SYSTEM -->
@@ -802,24 +899,24 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <tr><td>行走速度</td><td>12（恒定）</td></tr>
     <tr><td>闪避距离</td><td>30（恒定）</td></tr>
     <tr><td>M1伤害（范围修正）</td><td>5 × (clamped × 0.3 + 0.85)</td></tr>
-    <tr><td>M2伤害（范围修正）</td><td>8.5 × (clamped × 0.3 + 0.85)</td></tr>
+    <tr><td>M2伤害（范围修正·含重击被动 1.25×）</td><td>8.5 × 1.25 × (clamped × 0.3 + 0.85)</td></tr>
   </table>
   <h4>可抽取身高对照表</h4>
   <table>
     <tr><th>身高</th><th>Scale</th><th>血量</th><th>攻速</th><th>冲刺</th><th>M1范围</th><th>M1伤害</th><th>M2伤害</th></tr>
-    <tr><td>150 cm</td><td>0.983</td><td>85.0</td><td>1.15×</td><td>25.0</td><td>3.40</td><td>4.25</td><td>7.23</td></tr>
-    <tr><td>155 cm</td><td>1.016</td><td>88.4</td><td>1.11×</td><td>24.2</td><td>3.54</td><td>4.42</td><td>7.52</td></tr>
-    <tr><td>160 cm</td><td>1.049</td><td>91.7</td><td>1.08×</td><td>23.3</td><td>3.67</td><td>4.59</td><td>7.80</td></tr>
-    <tr><td>165 cm</td><td>1.082</td><td>95.0</td><td>1.04×</td><td>22.5</td><td>3.80</td><td>4.75</td><td>8.08</td></tr>
-    <tr><td>170 cm</td><td>1.115</td><td>98.3</td><td>1.01×</td><td>21.7</td><td>3.93</td><td>4.91</td><td>8.35</td></tr>
-    <tr><td>175 cm</td><td>1.148</td><td>101.7</td><td>0.98×</td><td>20.8</td><td>4.06</td><td>5.07</td><td>8.62</td></tr>
-    <tr><td>180 cm</td><td>1.181</td><td>104.9</td><td>0.95×</td><td>20.0</td><td>4.20</td><td>5.25</td><td>8.93</td></tr>
-    <tr><td>185 cm</td><td>1.214</td><td>108.2</td><td>0.91×</td><td>19.2</td><td>4.33</td><td>5.41</td><td>9.20</td></tr>
-    <tr><td>190 cm</td><td>1.247</td><td>111.5</td><td>0.88×</td><td>18.4</td><td>4.46</td><td>5.58</td><td>9.48</td></tr>
-    <tr><td>195 cm</td><td>1.280</td><td>114.8</td><td>0.85×</td><td>17.5</td><td>4.59</td><td>5.74</td><td>9.76</td></tr>
-    <tr><td>200 cm</td><td>1.313</td><td>118.2</td><td>0.81×</td><td>16.7</td><td>4.72</td><td>5.90</td><td>10.03</td></tr>
-    <tr><td>205 cm</td><td>1.348</td><td>121.7</td><td>0.78×</td><td>15.9</td><td>4.86</td><td>6.08</td><td>10.33</td></tr>
-    <tr><td>211 cm</td><td>1.383</td><td>125.4</td><td>0.74×</td><td>15.1</td><td>5.00</td><td>6.25</td><td>10.63</td></tr>
+    <tr><td>150 cm</td><td>0.983</td><td>85.0</td><td>1.15×</td><td>25.0</td><td>3.40</td><td>4.25</td><td>9.03</td></tr>
+    <tr><td>155 cm</td><td>1.016</td><td>88.4</td><td>1.11×</td><td>24.2</td><td>3.54</td><td>4.42</td><td>9.40</td></tr>
+    <tr><td>160 cm</td><td>1.049</td><td>91.7</td><td>1.08×</td><td>23.3</td><td>3.67</td><td>4.59</td><td>9.75</td></tr>
+    <tr><td>165 cm</td><td>1.082</td><td>95.0</td><td>1.04×</td><td>22.5</td><td>3.80</td><td>4.75</td><td>10.09</td></tr>
+    <tr><td>170 cm</td><td>1.115</td><td>98.3</td><td>1.01×</td><td>21.7</td><td>3.93</td><td>4.91</td><td>10.43</td></tr>
+    <tr><td>175 cm</td><td>1.148</td><td>101.7</td><td>0.98×</td><td>20.8</td><td>4.06</td><td>5.07</td><td>10.77</td></tr>
+    <tr><td>180 cm</td><td>1.181</td><td>104.9</td><td>0.95×</td><td>20.0</td><td>4.20</td><td>5.25</td><td>11.16</td></tr>
+    <tr><td>185 cm</td><td>1.214</td><td>108.2</td><td>0.91×</td><td>19.2</td><td>4.33</td><td>5.41</td><td>11.50</td></tr>
+    <tr><td>190 cm</td><td>1.247</td><td>111.5</td><td>0.88×</td><td>18.4</td><td>4.46</td><td>5.58</td><td>11.86</td></tr>
+    <tr><td>195 cm</td><td>1.280</td><td>114.8</td><td>0.85×</td><td>17.5</td><td>4.59</td><td>5.74</td><td>12.20</td></tr>
+    <tr><td>200 cm</td><td>1.313</td><td>118.2</td><td>0.81×</td><td>16.7</td><td>4.72</td><td>5.90</td><td>12.54</td></tr>
+    <tr><td>205 cm</td><td>1.348</td><td>121.7</td><td>0.78×</td><td>15.9</td><td>4.86</td><td>6.08</td><td>12.92</td></tr>
+    <tr><td>211 cm</td><td>1.383</td><td>125.4</td><td>0.74×</td><td>15.1</td><td>5.00</td><td>6.25</td><td>13.28</td></tr>
   </table>
 </div>
 </div>
@@ -880,7 +977,12 @@ const S = {
     m1Base:0.22,offsets:[0.06,0.15,0.2,0],m1Final:0.22,
     m2Delay:0.53,m2Dur:"—",m2Cd:7,m2KB:6,m2Desc:"M2左右变招",
     fwd:[0.3,0.2],grapple:25,
-    comboDescs:["0.28s","0.37s","0.42s","0.22s"]}
+    comboDescs:["0.28s","0.37s","0.42s","0.22s"]},
+  WingChun:{rarity:"Mystery 0.0375%",cls:"badge-legendary",desc:"M2反击流（1.25×反击伤+眩晕2.2s），SwiftHands 快拳",
+    m1Base:0.4,offsets:[0,-0.04,-0.04,0.3],m1Final:0.4,
+    m2Delay:0.525,m2Dur:"—",m2Cd:10,m2KB:15,m2Desc:"反击寸劲",
+    fwd:[0.3,0.2],grapple:15,
+    comboDescs:["0.40s","0.36s","0.36s","0.70s"]}
 };
 
 // ===== HEIGHT CONSTANTS =====
@@ -896,7 +998,7 @@ function calc(cm){
     w:12,d:30,
     hm:+(cl*.3+.85).toFixed(3),
     m1:+(5*(cl*.3+.85)).toFixed(2),
-    m2:+(8.5*(cl*.3+.85)).toFixed(2),
+    m2:+(8.5*(cl*.3+.85)*1.25).toFixed(2),  /* 重击被动 1.25x 伤害倍率 */
     r:+(4*(cl*.3+.85)).toFixed(2)}
 }
 
@@ -938,23 +1040,23 @@ function buildStyleCards(){
   const data=[
     {k:"Basic",n:"Basic（基础）",c:"#8a8a8a",
      m1b:0.32,o:[0.02,0.02,0.02,0.02],m1f:[0.34,0.34,0.34,0.34],
-     m2d:0.525,m2kb:2,cd:"—",fwd:"M1+0.3/M2+0.2",gr:25,
+     m2d:0.525,m2kb:2,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
      sp:"均衡格斗·完美格挡+5%"},
     {k:"Karate",n:"Karate（空手道）",c:"#2a9d5a",
      m1b:0.24,o:[0.0375,0.075,0.15,0.225],m1f:[0.2775,0.315,0.39,0.465],
-     m2d:0.4875,m2kb:15,cd:"—",fwd:"M1+0.3/M2+0.2",gr:25,
+     m2d:0.4875,m2kb:15,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
      sp:"极快M1·M2回姿态"},
     {k:"MuayThai",n:"Muay Thai（泰拳）",c:"#2a9d5a",
      m1b:0.3,o:[0,0,0,0],m1f:[0.3,0.3,0.3,0.3],
-     m2d:0.6,m2kb:20,cd:"—",fwd:"无加成",gr:55,
+     m2d:0.6,m2kb:20,cd:"7s",fwd:"无加成",gr:55,
      sp:"强力M2膝撞·姿态伤+15%"},
     {k:"Slugger",n:"Slugger（重炮手）",c:"#2a9d5a",
      m1b:0.2,o:[0.3,0.25,0.25,0.17],m1f:[0.5,0.45,0.45,0.37],
-     m2d:0.82,m2kb:25,cd:"—",fwd:"无加成",gr:35,
+     m2d:0.82,m2kb:25,cd:"7s",fwd:"无加成",gr:35,
      sp:"总伤+40%·受伤+15%"},
     {k:"Boxing",n:"Boxing（拳击）",c:"#7b3fa0",
      m1b:0.32,o:[0.02,0.02,0.02,0.06],m1f:[0.34,0.34,0.34,0.38],
-     m2d:0.43,m2kb:15,cd:"—",fwd:"M1+0.3/M2+0.2",gr:0,
+     m2d:0.43,m2kb:15,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:0,
      sp:"M2无敌帧两连拳"},
     {k:"Hakari",n:"Hakari（秤）",c:"#ffd700",
      m1b:0.21,o:[0.14,0.16,0.07,0.17],m1f:[0.35,0.37,0.28,0.38],
@@ -974,11 +1076,15 @@ function buildStyleCards(){
      sp:"极速M2头槌抓取"},
     {k:"Ali",n:"Ali（阿里）",c:"#c8a86e",
      m1b:0.22,o:[0.06,0.15,0.2,0],m1f:[0.28,0.37,0.42,0.22],
-     m2d:0.53,m2kb:6,cd:"—",fwd:"M1+0.3/M2+0.2",gr:25,
-     sp:"神秘·无敌突进+闪避反击"}
+     m2d:0.53,m2kb:6,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
+     sp:"神秘·无敌突进+闪避反击"},
+    {k:"WingChun",n:"WingChun（咏春）",c:"#c8a86e",
+     m1b:0.4,o:[0,-0.04,-0.04,0.3],m1f:[0.4,0.36,0.36,0.7],
+     m2d:0.525,m2kb:15,cd:"10s",fwd:"M1+0.3/M2+0.2",gr:15,
+     sp:"神秘·M2反击寸劲（1.25×）"}
   ];
-  const cls=['common','uncommon','uncommon','uncommon','epic','legendary','legendary','legendary','legendary','legendary'];
-  const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Epic','Legendary','Legendary','Legendary','Legendary','Mystery'];
+  const cls=['common','uncommon','uncommon','uncommon','epic','legendary','legendary','legendary','legendary','legendary','legendary'];
+  const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Epic','Legendary','Legendary','Legendary','Legendary','Mystery','Mystery'];
   data.forEach((d,i)=>{
     const card=document.createElement('div');card.className='style-card';
     let m1Detail='';
@@ -1027,7 +1133,8 @@ const STYLE_EMBLEM = {
   Capoeira:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><path d="M19 45 A18 18 0 1 1 45 25" fill="none" stroke="#ffd24b" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="25" r="5" fill="#ffd24b"/></svg>`,
   Kure:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><circle cx="32" cy="34" r="11" fill="#ffd24b"/><path d="M44 16 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2 z" fill="#fff"/></svg>`,
   Hakari:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g stroke="#ffd24b" stroke-width="3" fill="#ffd24b"><line x1="32" y1="16" x2="32" y2="46"/><line x1="18" y1="26" x2="46" y2="26"/><path d="M18 26 l-6 9 h12 z" stroke="none"/><path d="M46 26 l-6 9 h12 z" stroke="none"/><circle cx="32" cy="14" r="3"/></g></svg>`,
-  Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`
+  Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`,
+  WingChun:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g stroke="#8ad7ff" stroke-width="3" fill="none" stroke-linecap="round"><path d="M22 26 C26 20 30 20 34 26"/><path d="M22 38 C26 44 30 44 34 38"/><path d="M38 24 L44 30"/><path d="M38 40 L44 34"/></g></svg>`
 };
 (function injectEmblems(){
   document.querySelectorAll('.style-card').forEach(function(card){
