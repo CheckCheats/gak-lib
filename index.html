@@ -224,6 +224,22 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   </div>
 </div>
 
+<!-- 🎴 RARITY INTRO — below height calculator -->
+<div class="lib-card" id="rarity-intro">
+  <h3>🎴 战斗风格稀有度 · 真实配置</h3>
+  <p>身高计算器里可选的 10 种风格，全部按游戏内 <code>CombatStyleRarityConfig</code> 的<strong>真实稀有度权重</strong>抽取，并非均匀概率。稀有度越高，单次抽取概率越低：</p>
+  <table>
+    <tr><th>稀有度</th><th>占比</th></tr>
+    <tr><td>常见</td><td>59%</td></tr>
+    <tr><td>罕见</td><td>30%</td></tr>
+    <tr><td>史诗</td><td>10%</td></tr>
+    <tr><td>传奇级</td><td>1%</td></tr>
+    <tr><td>???</td><td>0.075%</td></tr>
+  </table>
+  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">风格归属：Basic → 常见；Karate · Muay Thai · Slugger → 罕见（各 10%）；Boxing → 史诗；Hakari · Wrestling · Capoeira · Kure → 传奇级（各 0.25%）；Ali · WingChun → ???（各约 0.0375%）。</p>
+  <div class="data-source">数据来源：<strong>Real MCP 实时反编译 · CombatStyleRarityConfig (v7538)</strong></div>
+</div>
+
 <!-- 🥋 STYLE DETAIL SECTION — per-style complete data -->
 <div class="lib-card" id="style-detail">
   <h3>🥋 战斗风格 · 详解卷宗</h3>
@@ -535,6 +551,34 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   </table>
   <p style="margin-top:.5rem"><strong>衍生机制：</strong>Counterstrike（完美格挡后下一击 +5% 伤害）· Revenge（2.5s 内受 3 击 → 2× 伤害 + 超甲 10s）· Concussive（M2 砸地封对方格挡 2s）。<br>
   <strong>布娃娃 / 硬直：</strong>战斗布娃娃眩晕 2s · 破防锁 2s · 被地面命中触发布娃娃（true）。</p>
+
+  <h4>减伤 / 受伤机制（v7538 反编译）</h4>
+  <p>游戏<strong>没有</strong>名为 <code>DamageReduction</code> / <code>DefenseMultiplier</code> 的全局减伤字段（全库 grep 为 0）。实际"少挨打"由下面几层机制叠加决定，全部来自 <code>CombatConfig</code> / <code>CombatPerksConfig</code> 的真实配置值。</p>
+  <table>
+    <tr><th>机制</th><th>字段 / 取值</th><th>怎么减少伤害</th></tr>
+    <tr><td>格挡芯片伤</td><td><code>BlockChipPercent</code>：默认 0.15；Boxing 0.2（其 M2 被挡 0.75）；Slugger 0.3；部分风格 0.25</td><td>格挡成功只吃该比例作芯片伤，其余 (100%−该比例) 完全格挡（不掉血）。攻击方 <strong>Guard Pierce Ⅰ~Ⅴ = 10/15/20/25/30%</strong> 会增加穿透格挡的芯片比例。</td></tr>
+    <tr><td>完美格挡</td><td>窗口 0.125s；<code>PerfectBlockNextHitDamageMultiplier</code>：默认 nil，Basic = 1.05</td><td>完全免伤并开反击窗口；完美格挡后下一击 +5%（Basic）。</td></tr>
+    <tr><td>招架 Parry</td><td>读 <code>CombatConfig.Shared.ParryStun.M2</code> / <code>CombatConfig.M1.RecoveryLockout</code></td><td>令对手进入 Parried/Stunned，期间无法格挡/行动；Concussive 天赋封对方格挡 2s。</td></tr>
+    <tr><td>破防 Guardbreak</td><td>姿态阈值 <code>GuardbreakStaminaThreshold=10</code>；<code>GuardbreakDamageMultiplier</code>：默认 1，某风格 1.05；锁 <code>GuardbreakLockoutSeconds=2</code></td><td>姿态打空即 GuardBroken（CantAnything+Stunned，2s 不能格挡）；破防期间你受到的伤害 ×该乘区。Heavy Hitter Ⅰ/Ⅲ：破防命中 +5%/+15%。</td></tr>
+    <tr><td>姿态系统 Posture</td><td><code>PostureDamageMultiplier</code> 默认 1（某风格 1.1）；<code>PostureResistanceMultiplier</code> 默认 1</td><td>你造成的姿态伤 ×前者，受到的姿态伤 ×后者（Fortified Ⅰ +10% 架势抗性、格挡掉姿态更少；Crushing Force Ⅰ/Ⅱ 每击 +10%/+15% 姿态伤）。姿态归零→破防，故"管姿态"本身就是减伤。</td></tr>
+    <tr><td>受到伤害乘数</td><td><code>IncomingDamageMultiplier</code>：默认 nil；Slugger = 1.15</td><td>你受到的<strong>直接伤害</strong> ×该值。Slugger 多挨 15%（与"猛击手脆"吻合）。目前无风格 &lt;1（无天生更肉者）。</td></tr>
+  </table>
+
+  <h5>增伤 / 减伤相关天赋（CombatPerksConfig）</h5>
+  <table>
+    <tr><th>天赋</th><th>效果</th></tr>
+    <tr><td>Unstable</td><td>+40% 伤害但 +15% 受伤</td></tr>
+    <tr><td>Last Stand</td><td>血量 &lt;25% 时总伤 +15%</td></tr>
+    <tr><td>Revenge</td><td>2.5s 内被 2 名不同攻击者打 3 次 → 2× 伤害 + 霸体 10s</td></tr>
+    <tr><td>Momentum Rush</td><td>连中 3 次 M1 → 7s 内 M2 ×3 伤害</td></tr>
+    <tr><td>Takedown</td><td>M2 抓取砸地 1.5× 伤害</td></tr>
+    <tr><td>Swift Hands</td><td>M1 快 12.5%、总伤 −5%</td></tr>
+    <tr><td>Counterstrike</td><td>完美格挡后下一击 +5%</td></tr>
+    <tr><td>Heavy Hitter Ⅰ/Ⅲ</td><td>破防命中 M1/M2 +5%/+15%</td></tr>
+  </table>
+
+  <p style="margin-top:.5rem"><strong>架构边界（数据准确性说明）：</strong>客户端索引（<code>CombatSystemClient/Combat/Base/{Block,M1,M2}</code>）只负责输入、动画、命中预测与"格挡·破防状态机"，并把 <code>{Type="Combat",...}</code> 发往 <code>ReplicatedStorage.Remotes.Server</code>。真正的伤害结算（BaseDamage × 身高系数 × 风格乘区，再叠 BlockChipPercent / IncomingDamageMultiplier / Guardbreak / Posture / 天赋）发生在<strong>服务端 ServerScriptService</strong>，不在本客户端反编译索引内（索引中 <code>OnServerEvent</code> 仅见于 Kohl's Admin 与摔跤远程，无战斗结算处理器）。上表各乘区取自真实配置；最终算术由服务端权威裁决。另：<code>CombatUtils.GetDamageMultiplier(scale)=clamp((scale−0.983)/0.467,0,1)×0.3+0.85</code> 虽是配置中存在的身高→伤害公式，但在客户端索引中<strong>无调用点</strong>（仅定义），其是否真实参与伤害取决于不可见的服务端——本页身高计算器对"伤害随身高缩放"的建模属推断，服务端未公开验证。</p>
+  <div class="data-source">数据来源：<strong>Real MCP 实时反编译 · CombatConfig / CombatPerksConfig (v7538)</strong></div>
 
   <h4>闪避 Evasive</h4>
   <p>按 Q 触发闪避，提供短暂无敌帧脱出。</p>
