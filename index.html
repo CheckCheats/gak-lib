@@ -892,31 +892,31 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   <h4>统计公式</h4>
   <table>
     <tr><th>属性</th><th>演算公式</th></tr>
-    <tr><td>clamped</td><td>clamp((scale − 0.983) / 0.467, 0, 1)</td></tr>
-    <tr><td>血量</td><td>100 × (clamped × 0.3 + 0.85)</td></tr>
-    <tr><td>攻击速度</td><td>1.15 − clamped × 0.3</td></tr>
-    <tr><td>冲刺速度</td><td>25 − clamped × 6</td></tr>
+    <tr><td>clamped</td><td>clamp((scale − 0.983) / 0.4, 0, 1)</td></tr>
+    <tr><td>血量</td><td>100 × (clamped × 0.4 + 0.85)</td></tr>
+    <tr><td>攻击速度</td><td>1.15 − clamped × 0.4</td></tr>
+    <tr><td>冲刺速度</td><td>25 − clamped × 9.9</td></tr>
     <tr><td>行走速度</td><td>12（恒定）</td></tr>
     <tr><td>闪避距离</td><td>30（恒定）</td></tr>
-    <tr><td>M1伤害（范围修正）</td><td>5 × (clamped × 0.3 + 0.85)</td></tr>
-    <tr><td>M2伤害（范围修正·含重击被动 1.25×）</td><td>8.5 × 1.25 × (clamped × 0.3 + 0.85)</td></tr>
+    <tr><td>M1伤害（范围修正）</td><td>5 × (clamped × 0.4 + 0.85)</td></tr>
+    <tr><td>M2伤害（范围修正·含重击被动 1.25×）</td><td>8.5 × 1.25 × (clamped × 0.4 + 0.85)</td></tr>
   </table>
   <h4>可抽取身高对照表</h4>
   <table>
     <tr><th>身高</th><th>Scale</th><th>血量</th><th>攻速</th><th>冲刺</th><th>M1范围</th><th>M1伤害</th><th>M2伤害</th></tr>
     <tr><td>150 cm</td><td>0.983</td><td>85.0</td><td>1.15×</td><td>25.0</td><td>3.40</td><td>4.25</td><td>9.03</td></tr>
-    <tr><td>155 cm</td><td>1.016</td><td>88.4</td><td>1.11×</td><td>24.2</td><td>3.54</td><td>4.42</td><td>9.40</td></tr>
-    <tr><td>160 cm</td><td>1.049</td><td>91.7</td><td>1.08×</td><td>23.3</td><td>3.67</td><td>4.59</td><td>9.75</td></tr>
-    <tr><td>165 cm</td><td>1.082</td><td>95.0</td><td>1.04×</td><td>22.5</td><td>3.80</td><td>4.75</td><td>10.09</td></tr>
-    <tr><td>170 cm</td><td>1.115</td><td>98.3</td><td>1.01×</td><td>21.7</td><td>3.93</td><td>4.91</td><td>10.43</td></tr>
-    <tr><td>175 cm</td><td>1.148</td><td>101.7</td><td>0.98×</td><td>20.8</td><td>4.06</td><td>5.07</td><td>10.77</td></tr>
-    <tr><td>180 cm</td><td>1.181</td><td>104.9</td><td>0.95×</td><td>20.0</td><td>4.20</td><td>5.25</td><td>11.16</td></tr>
-    <tr><td>185 cm</td><td>1.214</td><td>108.2</td><td>0.91×</td><td>19.2</td><td>4.33</td><td>5.41</td><td>11.50</td></tr>
-    <tr><td>190 cm</td><td>1.247</td><td>111.5</td><td>0.88×</td><td>18.4</td><td>4.46</td><td>5.58</td><td>11.86</td></tr>
-    <tr><td>195 cm</td><td>1.280</td><td>114.8</td><td>0.85×</td><td>17.5</td><td>4.59</td><td>5.74</td><td>12.20</td></tr>
-    <tr><td>200 cm</td><td>1.313</td><td>118.2</td><td>0.81×</td><td>16.7</td><td>4.72</td><td>5.90</td><td>12.54</td></tr>
-    <tr><td>205 cm</td><td>1.348</td><td>121.7</td><td>0.78×</td><td>15.9</td><td>4.86</td><td>6.08</td><td>12.92</td></tr>
-    <tr><td>211 cm</td><td>1.383</td><td>125.4</td><td>0.74×</td><td>15.1</td><td>5.00</td><td>6.25</td><td>13.28</td></tr>
+    <tr><td>155 cm</td><td>1.016</td><td>88.3</td><td>1.11×</td><td>24.2</td><td>3.54</td><td>4.42</td><td>9.40</td></tr>
+    <tr><td>160 cm</td><td>1.049</td><td>91.6</td><td>1.08×</td><td>23.3</td><td>3.67</td><td>4.59</td><td>9.75</td></tr>
+    <tr><td>165 cm</td><td>1.082</td><td>94.8</td><td>1.04×</td><td>22.5</td><td>3.80</td><td>4.75</td><td>10.09</td></tr>
+    <tr><td>170 cm</td><td>1.115</td><td>98.1</td><td>1.01×</td><td>21.7</td><td>3.93</td><td>4.91</td><td>10.43</td></tr>
+    <tr><td>175 cm</td><td>1.148</td><td>101.4</td><td>0.98×</td><td>20.8</td><td>4.06</td><td>5.07</td><td>10.77</td></tr>
+    <tr><td>180 cm</td><td>1.181</td><td>104.7</td><td>0.95×</td><td>20.0</td><td>4.20</td><td>5.25</td><td>11.16</td></tr>
+    <tr><td>185 cm</td><td>1.214</td><td>108.0</td><td>0.91×</td><td>19.2</td><td>4.33</td><td>5.41</td><td>11.50</td></tr>
+    <tr><td>190 cm</td><td>1.247</td><td>111.2</td><td>0.88×</td><td>18.4</td><td>4.46</td><td>5.58</td><td>11.86</td></tr>
+    <tr><td>195 cm</td><td>1.280</td><td>114.5</td><td>0.85×</td><td>17.5</td><td>4.59</td><td>5.74</td><td>12.20</td></tr>
+    <tr><td>200 cm</td><td>1.313</td><td>117.8</td><td>0.81×</td><td>16.7</td><td>4.72</td><td>5.90</td><td>12.54</td></tr>
+    <tr><td>205 cm</td><td>1.348</td><td>121.1</td><td>0.78×</td><td>15.9</td><td>4.86</td><td>6.08</td><td>12.92</td></tr>
+    <tr><td>211 cm</td><td>1.383</td><td>125.0</td><td>0.74×</td><td>15.1</td><td>5.00</td><td>6.25</td><td>13.28</td></tr>
   </table>
 </div>
 </div>
@@ -986,20 +986,20 @@ const S = {
 };
 
 // ===== HEIGHT CONSTANTS =====
-const MIN_H=150,MAX_H=211,MIN_SC=0.983,MAX_SC=1.383,RNG=0.467;
+const MIN_H=150,MAX_H=211,MIN_SC=0.983,MAX_SC=1.383,RNG=0.4;
 
 function cm2s(c){if(c<=MIN_H)return MIN_SC;if(c>=MAX_H)return MAX_SC;return MIN_SC+(c-MIN_H)*(MAX_SC-MIN_SC)/(MAX_H-MIN_H)}
 function calc(cm){
   const sc=cm2s(cm),cl=Math.max(0,Math.min(1,(sc-MIN_SC)/RNG));
   return {sc:+sc.toFixed(3),cl:+cl.toFixed(3),
-    hp:+(100*(cl*.3+.85)).toFixed(1),
-    atk:+(1.15-cl*.3).toFixed(2),
-    sp:+(25-cl*6).toFixed(1),
+    hp:+(100*(cl*.4+.85)).toFixed(1),
+    atk:+(1.15-cl*.4).toFixed(2),
+    sp:+(25-cl*9.9).toFixed(1),
     w:12,d:30,
-    hm:+(cl*.3+.85).toFixed(3),
-    m1:+(5*(cl*.3+.85)).toFixed(2),
-    m2:+(8.5*(cl*.3+.85)*1.25).toFixed(2),  /* 重击被动 1.25x 伤害倍率 */
-    r:+(4*(cl*.3+.85)).toFixed(2)}
+    hm:+(cl*.4+.85).toFixed(3),
+    m1:+(5*(cl*.4+.85)).toFixed(2),
+    m2:+(8.5*(cl*.4+.85)*1.25).toFixed(2),  /* 重击被动 1.25x 伤害倍率 */
+    r:+(4*(cl*.4+.85)).toFixed(2)}
 }
 
 function calculate(){
