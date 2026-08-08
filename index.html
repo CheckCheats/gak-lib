@@ -898,8 +898,8 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
     <tr><td>冲刺速度</td><td>25 − clamped × 9.9</td></tr>
     <tr><td>行走速度</td><td>12（恒定）</td></tr>
     <tr><td>闪避距离</td><td>30（恒定）</td></tr>
-    <tr><td>M1伤害（范围修正）</td><td>5 × (clamped × 0.4 + 0.85)</td></tr>
-    <tr><td>M2伤害（范围修正·含猛击手被动 +40%）</td><td>8.5 × 1.4 × (clamped × 0.4 + 0.85)</td></tr>
+    <tr><td>M1伤害（范围修正·×风格伤害乘区）</td><td>5 × (clamped × 0.4 + 0.85) × 风格伤害乘区</td></tr>
+    <tr><td>M2伤害（范围修正·含猛击手被动 +40%·×风格M2乘区）</td><td>8.5 × 1.4 × (clamped × 0.4 + 0.85) × 风格M2乘区</td></tr>
   </table>
   <h4>可抽取身高对照表</h4>
   <table>
@@ -932,7 +932,7 @@ const S = {
     fwd:[0,0],grapple:55,
     comboDescs:["0.30s","0.30s","0.30s","0.30s"]},
   Slugger:{rarity:"Uncommon 10%",cls:"badge-uncommon",desc:"总伤害+40%但受伤+15%，M2击退25",
-    m1Base:0.2,offsets:[0.3,0.25,0.25,0.17],m1Final:0.5,
+    m1Base:0.2,offsets:[0.3,0.25,0.25,0.17],m1Final:0.5,m1Mult:1.4,m2Mult:1.4,
     m2Delay:0.82,m2Dur:"—",m2Cd:7,m2KB:25,m2Desc:"最高击退",
     fwd:[0,0],grapple:35,
     comboDescs:["0.50s","0.45s","0.45s","0.37s"]},
@@ -967,7 +967,7 @@ const S = {
     fwd:[0.3,0.2],grapple:25,
     comboDescs:["0.28s","0.37s","0.42s","0.22s"]},
   WingChun:{rarity:"Mystery 0.0375%",cls:"badge-legendary",desc:"M2反击流（1.25×反击伤+眩晕2.2s），SwiftHands 快拳",
-    m1Base:0.4,offsets:[0,-0.04,-0.04,0.3],m1Final:0.4,m2Mult:1.25,
+    m1Base:0.4,offsets:[0,-0.04,-0.04,0.3],m1Final:0.4,m1Mult:0.95,m2Mult:1.1875,
     m2Delay:0.525,m2Dur:"—",m2Cd:10,m2KB:15,m2Desc:"反击寸劲",
     fwd:[0.3,0.2],grapple:15,
     comboDescs:["0.40s","0.36s","0.36s","0.70s"]}
@@ -1010,7 +1010,7 @@ function calculate(){
   document.getElementById('resSprint').textContent=r.sp;
   document.getElementById('resWalk').textContent=r.w;
   document.getElementById('resDash').textContent=r.d;
-  document.getElementById('resM1').textContent=r.m1;
+  document.getElementById('resM1').textContent=+(r.m1*(sd.m1Mult||1)).toFixed(2);
   document.getElementById('resM2').textContent=+(r.m2*(S[sk].m2Mult||1)).toFixed(2);
   const dd=document.getElementById('styleDetails');dd.style.display='block';
   document.getElementById('sdTitle').textContent='✦ '+sk+' · '+sd.rarity+' ✦';
@@ -1027,8 +1027,10 @@ function calculate(){
   }else html+='M1：'+sd.m1Final;
   html+='<br>M2延迟:'+(typeof sd.m2Delay==='number'?sd.m2Delay+'s':sd.m2Delay)+' · M2CD:'+sd.m2Cd+' · 击退:'+sd.m2KB+' · 抓取率:'+sd.grapple+'%';
   html+='<br>身高缩放:'+r.sc+' · HP:'+r.hp+' · 攻速:'+r.atk+'× · 冲刺:'+r.sp;
+  const styleM1=+(r.m1*(sd.m1Mult||1)).toFixed(2);
   const styleM2=+(r.m2*(sd.m2Mult||1)).toFixed(2);
-  html+=' · 范围倍率:'+r.hm+' · M1范围:'+r.r+'studs · M1伤害:'+r.m1;
+  html+=' · 范围倍率:'+r.hm+' · M1范围:'+r.r+'studs';
+  html+=' · M1伤害(基础):'+r.m1+' · 本风格M1:'+styleM1+'（×'+(sd.m1Mult||1)+'）';
   html+=' · M2伤害(基础·含猛击手被动+40%):'+r.m2;
   html+=' · 本风格M2:'+styleM2+'（×'+(sd.m2Mult||1)+'）';
   document.getElementById('sdBody').innerHTML=html;
@@ -1089,7 +1091,9 @@ function buildStyleCards(){
   data.forEach((d,i)=>{
     const _sd=S[d.k];
     const _mult=_sd&&_sd.m2Mult?_sd.m2Mult:1;
+    const _m1mult=_sd&&_sd.m1Mult?_sd.m1Mult:1;
     const _refM2=+(calc(175).m2*_mult).toFixed(2);
+    const _refM1=+(calc(175).m1*_m1mult).toFixed(2);
     const card=document.createElement('div');card.className='style-card';
     let m1Detail='';
     if(d.m1b!=='—'&&d.o){
@@ -1110,6 +1114,7 @@ function buildStyleCards(){
         '<span>⏱ CD: <b>'+d.cd+'</b></span>'+
         '<span>🔄 抓取: <b>'+d.gr+'%</b></span>'+
       '</div>'+
+      '<div class=sc-stat style="font-size:.74rem;color:#c9a14b">💥 M1伤害(基准175cm·每击): <b>'+_refM1+'</b>'+(_m1mult!==1?' <span style="color:#ff7a7a">×'+_m1mult+'</span>':'')+'</div>'+
       '<div class=sc-stat style="font-size:.74rem;color:#c9a14b">💥 M2伤害(基准175cm·含猛击手被动+40%): <b>'+_refM2+'</b>'+(_mult!==1?' <span style="color:#ff7a7a">×'+_mult+'</span>':'')+'</div>'+
       '<div class=sc-stat style="font-size:.72rem;color:#9a8a7a">📏 '+d.fwd+'</div>';
     grid.appendChild(card);

@@ -14,6 +14,10 @@ dump_rarity2.luau
 gakuran_live_data.json
 probe_mcp.py
 real_mcp.py
+real_client.py
+real_run.py
+probe*.lua
+verify_m2.js
 resolve_thumbs.ps1
 resolve_all.ps1
 run_eval.py
