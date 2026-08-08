@@ -886,20 +886,20 @@ nav a.nav-sim:hover{background:linear-gradient(135deg,#8ab9ff,#4d96ff);color:#ff
   <h3>📏 身高系统 · 秘传公式</h3>
   <p>身高影响：<strong>血量 · 攻击速度 · 冲刺速度 · 攻击范围</strong>。仅收录可抽取范围的数据。</p>
   <p style="margin-bottom:.6rem">
-    可抽取缩放：<strong>0.983</strong>（≈150cm）~ <strong>1.383</strong>（≈211cm）<br>
+    可抽取缩放：<strong>0.983</strong>（≈150cm）~ <strong>1.45</strong>（≈211cm；真实上限 HEIGHT_SCALE_MAX）<br>
     BaseHealth：<strong>100</strong>
   </p>
   <h4>统计公式</h4>
   <table>
     <tr><th>属性</th><th>演算公式</th></tr>
-    <tr><td>clamped</td><td>clamp((scale − 0.983) / 0.4, 0, 1)</td></tr>
-    <tr><td>血量</td><td>100 × (clamped × 0.4 + 0.85)</td></tr>
-    <tr><td>攻击速度</td><td>1.15 − clamped × 0.4</td></tr>
-    <tr><td>冲刺速度</td><td>25 − clamped × 9.9</td></tr>
+    <tr><td>clamped</td><td>clamp((scale − 0.983) / 0.467, 0, 1)　// 0.467 = HEIGHT_SCALE_MAX(1.45) − HEIGHT_SCALE_MIN(0.983)</td></tr>
+    <tr><td>血量</td><td>100 × (clamped × 0.3 + 0.85)</td></tr>
+    <tr><td>攻击速度</td><td>1.15 − clamped × 0.3</td></tr>
+    <tr><td>冲刺速度</td><td>25 − clamped × 6</td></tr>
     <tr><td>行走速度</td><td>12（恒定）</td></tr>
     <tr><td>闪避距离</td><td>30（恒定）</td></tr>
-    <tr><td>M1伤害（范围修正·×风格伤害乘区）</td><td>5 × (clamped × 0.4 + 0.85) × 风格伤害乘区</td></tr>
-    <tr><td>M2伤害（范围修正·含猛击手被动 +40%·×风格M2乘区）</td><td>8.5 × 1.4 × (clamped × 0.4 + 0.85) × 风格M2乘区</td></tr>
+    <tr><td>M1伤害（范围修正·×风格伤害乘区）</td><td>5 × (clamped × 0.3 + 0.85) × 风格伤害乘区</td></tr>
+    <tr><td>M2伤害（范围修正·×风格M2乘区）</td><td>8.5 × (clamped × 0.3 + 0.85) × 风格M2乘区</td></tr>
   </table>
   <h4>可抽取身高对照表</h4>
   <table>
@@ -974,20 +974,20 @@ const S = {
 };
 
 // ===== HEIGHT CONSTANTS =====
-const MIN_H=150,MAX_H=211,MIN_SC=0.983,MAX_SC=1.383,RNG=0.4;
+const MIN_H=150,MAX_H=211,MIN_SC=0.983,MAX_SC=1.45,RNG=0.467;  // RNG = 真实身高跨度 = HEIGHT_SCALE_MAX(1.45) − HEIGHT_SCALE_MIN(0.983)
 
 function cm2s(c){if(c<=MIN_H)return MIN_SC;if(c>=MAX_H)return MAX_SC;return MIN_SC+(c-MIN_H)*(MAX_SC-MIN_SC)/(MAX_H-MIN_H)}
 function calc(cm){
   const sc=cm2s(cm),cl=Math.max(0,Math.min(1,(sc-MIN_SC)/RNG));
   return {sc:+sc.toFixed(3),cl:+cl.toFixed(3),
-    hp:+(100*(cl*.4+.85)).toFixed(1),
-    atk:+(1.15-cl*.4).toFixed(2),
-    sp:+(25-cl*9.9).toFixed(1),
+    hp:+(100*(cl*.3+.85)).toFixed(1),
+    atk:+(1.15-cl*.3).toFixed(2),
+    sp:+(25-cl*6).toFixed(1),
     w:12,d:30,
-    hm:+(cl*.4+.85).toFixed(3),
-    m1:+(5*(cl*.4+.85)).toFixed(2),
-    m2:+(8.5*(cl*.4+.85)*1.4).toFixed(2),  /* 猛击手被动 重击被动 +40% 伤害倍率 */
-    r:+(4*(cl*.4+.85)).toFixed(2)}
+    hm:+(cl*.3+.85).toFixed(3),
+    m1:+(5*(cl*.3+.85)).toFixed(2),
+    m2:+(8.5*(cl*.3+.85)).toFixed(2),  /* M2基础=8.5×身高伤害乘区；"猛击手+40%"实为Slugger专属DamageMultiplier=1.4，已在各风格乘区(m2Mult)单独计入 */
+    r:+(4*(cl*.3+.85)).toFixed(2)}
 }
 
 // ===== AUTO-FILL HEIGHT TABLE FROM calc() (guarantees table == live calculator) =====
@@ -1031,7 +1031,7 @@ function calculate(){
   const styleM2=+(r.m2*(sd.m2Mult||1)).toFixed(2);
   html+=' · 范围倍率:'+r.hm+' · M1范围:'+r.r+'studs';
   html+=' · M1伤害(基础):'+r.m1+' · 本风格M1:'+styleM1+'（×'+(sd.m1Mult||1)+'）';
-  html+=' · M2伤害(基础·含猛击手被动+40%):'+r.m2;
+  html+=' · M2伤害(基础):'+r.m2;
   html+=' · 本风格M2:'+styleM2+'（×'+(sd.m2Mult||1)+'）';
   document.getElementById('sdBody').innerHTML=html;
 }
@@ -1115,7 +1115,7 @@ function buildStyleCards(){
         '<span>🔄 抓取: <b>'+d.gr+'%</b></span>'+
       '</div>'+
       '<div class=sc-stat style="font-size:.74rem;color:#c9a14b">💥 M1伤害(基准175cm·每击): <b>'+_refM1+'</b>'+(_m1mult!==1?' <span style="color:#ff7a7a">×'+_m1mult+'</span>':'')+'</div>'+
-      '<div class=sc-stat style="font-size:.74rem;color:#c9a14b">💥 M2伤害(基准175cm·含猛击手被动+40%): <b>'+_refM2+'</b>'+(_mult!==1?' <span style="color:#ff7a7a">×'+_mult+'</span>':'')+'</div>'+
+      '<div class=sc-stat style="font-size:.74rem;color:#c9a14b">💥 M2伤害(基准175cm): <b>'+_refM2+'</b>'+(_mult!==1?' <span style="color:#ff7a7a">×'+_mult+'</span>':'')+'</div>'+
       '<div class=sc-stat style="font-size:.72rem;color:#9a8a7a">📏 '+d.fwd+'</div>';
     grid.appendChild(card);
   });
