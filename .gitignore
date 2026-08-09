@@ -2,6 +2,7 @@
 .workbuddy/
 .omo/
 .codegraph
+.cache/
 
 # NEVER commit secrets — Roblox cookie temp file (used only for one-off local image generation)
 _rbx_cookie.txt

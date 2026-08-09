@@ -2,7 +2,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a06">
 <title>加库兰 · 模拟抽取</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
@@ -103,6 +104,82 @@ a{color:#c8a86e;text-decoration:none}
 .result-flash .burst{position:absolute;left:50%;top:50%;width:30vmin;height:30vmin;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--flashColor,#c8a86e) 0%,transparent 70%);filter:blur(8px)}
 
 .lib-footer{text-align:center;padding:1.6rem 1rem;color:#5a4a3a;font-size:.7rem;letter-spacing:1px;border-top:1px solid #2a1a10;margin-top:1rem;background:linear-gradient(180deg,rgba(15,9,5,.6),#0d0a06)}
+
+/* ══════════════════ 📱 移动端适配 ══════════════════ */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+@supports(overflow:clip){html{overflow-x:clip}}
+body{-webkit-tap-highlight-color:rgba(200,168,110,.22)}
+img,svg{max-width:100%}
+@media(hover:none){
+  body{background-attachment:scroll}
+  .actions button:hover,.eth-btn:hover{transform:none}
+}
+
+/* ── 手机 ≤640px ── */
+@media(max-width:640px){
+  /* 返回键改为静态排布，避免与标题重叠 */
+  .lib-header{padding:.9rem .8rem .8rem;text-align:center}
+  .lib-back{position:static;display:inline-block;margin:0 0 .7rem;font-size:.72rem;padding:.35rem .7rem}
+  .lib-title{font-size:1.2rem;letter-spacing:3px;line-height:1.35}
+  .lib-subtitle{font-size:.64rem;letter-spacing:1.5px}
+
+  /* 顶部页签：单行横向滑动 */
+  .tabs{gap:1rem;padding:.7rem .8rem;overflow-x:auto;justify-content:flex-start;
+        scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;white-space:nowrap;font-size:.8rem;padding:.35rem .15rem}
+
+  .gender-row{flex-wrap:wrap;gap:.5rem;font-size:.74rem;padding:.6rem .8rem}
+  .gender-row select{font-size:16px;padding:.42rem .6rem}
+
+  /* 抽取槽 */
+  .slots{gap:.9rem;padding:.8rem .7rem}
+  .slot{padding:.9rem .75rem .85rem}
+  .slot-head .slot-num{font-size:.95rem}
+  .mode-toggle{margin-bottom:.8rem}
+  .mode-toggle button{font-size:.72rem;padding:.45rem .4rem;letter-spacing:0}
+  .equip{min-height:196px;padding:.9rem .6rem .7rem}
+  .equip .style-emblem{width:88px;height:88px}
+  .equip .uni-vis img{max-width:100px;max-height:64px}
+  .equip .item-name{font-size:.95rem}
+  .equip .item-meta{font-size:.62rem}
+
+  /* 操作按钮：主按钮独占一行，其余平分 */
+  .actions{gap:.4rem;margin-top:.8rem}
+  .actions button{flex:1 1 0;min-width:0;font-size:.75rem;padding:.55rem .5rem;letter-spacing:0}
+  .actions .pull-main{flex:1 1 100%;order:-1;padding:.68rem .6rem;font-size:.85rem;letter-spacing:1px}
+
+  /* 统计 / 历史 / 收集 */
+  .panel{padding:0 .7rem;margin:.85rem auto}
+  .card{padding:.85rem .8rem}
+  .card h3{font-size:.78rem;letter-spacing:1px}
+  .stats-row{grid-template-columns:repeat(5,1fr);gap:.3rem;font-size:.58rem}
+  .stat-cell{padding:.35rem .12rem}
+  .stat-cell .v{font-size:.9rem}
+  .stat-cell .l{font-size:.52rem;letter-spacing:0}
+  .history-row{max-height:140px}
+  .history-chip{font-size:.64rem;padding:.16rem .4rem}
+  .coll{grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:.4rem;max-height:240px}
+  .coll-item img,.coll-item svg{max-width:40px;max-height:40px}
+  .lib-footer{padding:1.3rem .8rem}
+}
+
+/* ── 小屏 ≤380px ── */
+@media(max-width:380px){
+  .lib-title{font-size:1.05rem;letter-spacing:2px}
+  .stats-row{gap:.22rem;font-size:.54rem}
+  .stat-cell .v{font-size:.8rem}
+  .stat-cell .l{font-size:.48rem}
+  .equip{min-height:176px}
+  .equip .style-emblem{width:74px;height:74px}
+  .coll{grid-template-columns:repeat(auto-fill,minmax(62px,1fr))}
+}
+
+/* 刘海屏安全区 */
+@supports(padding:max(0px)){
+  .slots{padding-left:max(.7rem,env(safe-area-inset-left));padding-right:max(.7rem,env(safe-area-inset-right))}
+  .lib-footer{padding-bottom:max(1.3rem,env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
