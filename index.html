@@ -251,6 +251,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <nav>
   <a href="#calc">📐 身高计算器</a>
   <a href="#style-detail">🥋 风格详解</a>
+  <a href="#talents">🌟 天赋树</a>
   <a href="#styles">🏷️ 风格总览</a>
   <a href="#uniforms">👔 校服</a>
   <a href="#faces">😊 脸型</a>
@@ -259,7 +260,6 @@ img,svg,video,iframe{max-width:100%;height:auto}
   <a href="#vending">🥤 贩卖机</a>
   <a href="#work">💼 工作</a>
   <a href="#vehicle">🛹 载具</a>
-  <a href="#talents">🌟 天赋树</a>
   <a href="#height">📏 身高系统</a>
   <a href="gacha.html" class="nav-gacha">🎰 抽卡图鉴</a>
   <a href="simulator.html" class="nav-sim">🎰 模拟抽取</a>
@@ -328,7 +328,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <!-- 🎴 RARITY INTRO — below height calculator -->
 <div class="lib-card" id="rarity-intro">
   <h3>🎴 战斗风格稀有度 · 真实配置</h3>
-  <p>身高计算器里可选的 10 种风格，全部按游戏内 <code>CombatStyleRarityConfig</code> 的<strong>真实稀有度权重</strong>抽取，并非均匀概率。稀有度越高，单次抽取概率越低：</p>
+  <p>身高计算器里可选的 11 种风格，全部按游戏内 <code>CombatStyleRarityConfig</code> 的<strong>真实稀有度权重</strong>抽取，并非均匀概率。稀有度越高，单次抽取概率越低：</p>
   <table>
     <tr><th>稀有度</th><th>占比</th></tr>
     <tr><td>常见</td><td>59%</td></tr>
@@ -346,93 +346,17 @@ img,svg,video,iframe{max-width:100%;height:auto}
   <p>每项风格的完整数据，涵盖M1连击延迟、M2配置、攻击范围加成、抓取率及特殊效果。所有延迟数据已含身高攻速修正前的原始值。</p>
 
   <div class="style-grid" id="styleGrid"></div>
-</div>
 
-<!-- 🏷️ STYLE OVERVIEW TABLE -->
-<div class="lib-card" id="styles">
-  <h3>🏷️ 战斗风格总览</h3>
-  <p>10种可抽取风格。各稀有度概率如下：</p>
+  <h4>✨ 风格专属视觉特效（最新更新）</h4>
   <table>
-    <tr><th>风格</th><th>稀有度</th><th>单抽概率</th><th>M1基础延迟</th><th>M2延迟</th><th>M2 CD</th><th>击退</th><th>特性</th></tr>
-    <tr><td>Basic（基础）</td><td><span class="badge badge-common">Common</span></td><td>58.93%</td><td>0.34s</td><td>0.525s</td><td>7s</td><td>2</td><td>均衡格斗，完美格挡+5%</td></tr>
-    <tr><td>Karate（空手道）</td><td rowspan="3"><span class="badge badge-uncommon">Uncommon</span></td><td>30%</td><td><strong>0.2775s</strong></td><td>0.4875s</td><td>7s</td><td>15</td><td>极快M1，M2回姿态25%</td></tr>
-    <tr><td>Muay Thai（泰拳）</td><td>30%</td><td>0.30s</td><td>0.60s</td><td>7s</td><td>20</td><td>强力M2膝撞，姿态伤+15%</td></tr>
-    <tr><td>Slugger（重炮手）</td><td>30%</td><td>0.50s</td><td>0.82s</td><td>7s</td><td>25</td><td>总伤+40%，受伤+15%</td></tr>
-    <tr><td>Boxing（拳击）</td><td><span class="badge badge-epic">Epic</span></td><td>10%</td><td>0.34s</td><td>0.43s</td><td>7s</td><td>15</td><td>M2无敌帧两连拳</td></tr>
-    <tr><td>Hakari（秤）</td><td rowspan="4"><span class="badge badge-legendary">Legendary</span></td><td>1%</td><td>0.35s</td><td>0.35s</td><td>7s</td><td>25</td><td>满连3倍M2（7s窗口）</td></tr>
-    <tr><td>Wrestling（摔跤）</td><td>1%</td><td>0.36s</td><td>0.525s</td><td>12s</td><td>-5（吸）</td><td>M2抓取1.5x+霸体</td></tr>
-    <tr><td>Capoeira（卡波耶拉）</td><td>1%</td><td>0.35s</td><td>0.45s</td><td>12s</td><td>22.5</td><td>M2抓取，闪避CD-25%</td></tr>
-    <tr><td>Kure（吴）</td><td>1%</td><td>0.32s</td><td><strong>0.30s</strong></td><td>12s</td><td>15</td><td>极速M2头槌抓取1.5x</td></tr>
-    <tr><td>Ali（阿里）</td><td rowspan="2"><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td rowspan="2">0.075%</td><td>0.28s</td><td>0.53s</td><td>7s</td><td>6</td><td>无敌突进+闪避反击</td></tr>
-    <tr><td>WingChun（咏春）</td><td>0.40s</td><td>0.525s</td><td>10s</td><td>15</td><td>M2反击流（1.25×反击伤）· SwiftHands 快拳</td></tr>
+    <tr><th>风格</th><th>特效</th><th>说明</th></tr>
+    <tr><td>Ali（阿里）</td><td>残影 + 相机晃动 + 命中闪光</td><td>M2 出招拖出<strong>黑色残影</strong>（每 0.08s 一帧、最多 10 个、持续 0.75s）；M2 左右变招伴随<strong>镜头抖动与拉近</strong>；自带专属待机动画</td></tr>
+    <tr><td>Hakari（秤）</td><td>黑闪 Black Flash</td><td>动量满连的 3× M2 命中触发<strong>黑闪特效</strong>（状态持续 2.5s、脚击帧 27、60fps 高帧率演出），命中高亮为<strong>绿色</strong>（区别于默认红色）</td></tr>
+    <tr><td>Boxing（拳击）</td><td>M2 紫色高亮</td><td>M2 命中高亮为<strong>紫色</strong>；反击（Counter）命中为<strong>蓝色脉冲</strong>高亮</td></tr>
+    <tr><td>Capoeira（卡波耶拉）</td><td>M2 蓝色高亮</td><td>M2 旋风踢命中高亮为<strong>蓝色</strong></td></tr>
+    <tr><td>WingChun（咏春）</td><td>专属待机 + 反击架势</td><td>唯一拥有<strong>独立待机动画</strong>的风格之一（另一为 Ali）；M2 反击起手有专属架势演出</td></tr>
+    <tr><td>通用</td><td>受击闪身动画</td><td>Ali 等风格被格挡命中时会播放<strong>左右/下方位闪身</strong>动画（BlockHitVariants）</td></tr>
   </table>
-  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Mystery 神秘稀有度（???）含 Ali 与 WingChun 两风格，合计 0.075%（各 0.0375%）。WingChun 于 v7538 由变体升级为可抽取神秘风格。</p>
-  <h4>变体风格 · 不可抽取</h4>
-  <table>
-    <tr><th>变体</th><th>M1 / M2 延迟</th><th>抓取</th><th>特征（豆包AI生成）</th></tr>
-    <tr><td>Bulky</td><td>— / 0.43s</td><td>100%</td><td><span class="badge badge-variant">Variant</span> 必擒获 100% 抓取；穿伤+10%、破防+5%、姿态伤+10%；M2 击退 7</td></tr>
-    <tr><td>Dirty</td><td>— / 0.30s</td><td>35%</td><td><span class="badge badge-variant">Variant</span> 35% 抓取；穿伤+10%、姿态伤+10%；免疫 M2 布娃娃；复仇：3 击 / 2 名不同攻击者、窗口 2.5s、2× 伤害、脉冲范围 14、击退 50、霸体脉冲 10s</td></tr>
-    <tr><td>Taekwondo</td><td>— / 0.46s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 跆拳道：垫步 1s 窗口内命中减 50% 闪避 CD；穿伤+5%；M2 击退 25</td></tr>
-    <tr><td>Variant</td><td>— / 0.35s</td><td>45%</td><td><span class="badge badge-variant">Variant</span> 45% 抓取；穿伤+10%、破防+5%、姿态伤+10%；M2 击退 25</td></tr>
-    <tr><td>Wild</td><td>— / 0.525s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 野性风格：M2 击中使对手架势回复中断 3s；M2 击退 25</td></tr>
-    <tr><td>Skygaolang</td><td>— / 0.35s</td><td>15%</td><td><span class="badge badge-variant">Variant</span> 无特殊乘区（全 1×）；M2 击退 25</td></tr>
-  </table>
-  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">WingChun 已于 v7538 升级为 Mystery 可抽取风格（见上方总览与天赋树），不再属于变体。</p>
-</div>
-
-<!-- 👔 UNIFORMS -->
-<div class="lib-card" id="uniforms">
-  <h3>👔 校服图鉴</h3>
-  <p>共 <strong>13种</strong> 校服外观，经由 Reroll 或 UniformSlotSwap 获取。</p>
-  <table>
-    <tr><th>#</th><th>中文名</th><th>英文名</th></tr>
-    <tr><td>1</td><td>另类</td><td>Alt</td></tr>
-    <tr><td>2</td><td>典礼服</td><td>Ceremonial</td></tr>
-    <tr><td>3</td><td>链子</td><td>Chain</td></tr>
-    <tr><td>4</td><td>女装制服</td><td>Female Uniform</td></tr>
-    <tr><td>5</td><td>学兰</td><td>Gakuran</td></tr>
-    <tr><td>6</td><td>辣妹</td><td>Gyaru</td></tr>
-    <tr><td>7</td><td>女式学兰</td><td>Joshi Gakuran</td></tr>
-    <tr><td>8</td><td>宽松标准</td><td>Loose Regular</td></tr>
-    <tr><td>9</td><td>男装制服</td><td>Male Uniform</td></tr>
-    <tr><td>10</td><td>无外衣</td><td>No Overshirt</td></tr>
-    <tr><td>11</td><td>开衫学兰</td><td>Open Gakuran</td></tr>
-    <tr><td>12</td><td>樱花</td><td>Sakura</td></tr>
-    <tr><td>13</td><td>无袖</td><td>Sleeveless</td></tr>
-  </table>
-</div>
-
-<!-- 😊 FACES -->
-<div class="lib-card" id="faces">
-  <h3>😊 脸型典藏</h3>
-  <p>共 <strong>112个</strong> Face ID 位在 AnimationRemap 模块中。按稀有度分列如下：</p>
-  <table>
-    <tr><th>稀有度</th><th>概率</th><th>说明</th></tr>
-    <tr><td>Regular（普通）</td><td>~61%</td><td>基础脸型，最为常见</td></tr>
-    <tr><td>Rare（稀有）</td><td>~25%</td><td>精致脸型，较为少见</td></tr>
-    <tr><td>Epic（史诗）</td><td>~10%</td><td>极为精致的脸孔</td></tr>
-    <tr><td>Gyaru（辣妹）</td><td>~5%</td><td>女性专属风格脸</td></tr>
-    <tr><td>Neko（猫耳）</td><td>~2%</td><td>可爱的猫娘脸</td></tr>
-    <tr><td>Mogger（帅哥）</td><td>~1%</td><td>高颜值男性脸型</td></tr>
-    <tr><td>EuroMogger（欧系帅哥）</td><td>~0.1%</td><td>男性欧系高颜脸</td></tr>
-    <tr><td>Mystery（神秘）</td><td>~0.1%</td><td>特殊未知脸型</td></tr>
-  </table>
-  <p style="margin-top:.6rem;font-size:.8rem;color:#7a6a5a">
-    💡 猫耳（Cat Ears）独立于脸型系统，有 <strong>5%</strong> 附加概率。民族分布：日本 95%，其余各国各 ~1%。
-  </p>
-</div>
-
-<!-- 💇 HAIR -->
-<div class="lib-card" id="hair">
-  <h3>💇 发色谱</h3>
-  <table>
-    <tr><th>类型</th><th>概率</th><th>备注</th></tr>
-    <tr><td>自然色（黑/棕/深色系）</td><td>~94%</td><td>初始默认发色</td></tr>
-    <tr><td>随机染色</td><td>~5%</td><td>彩色染发效果</td></tr>
-    <tr><td>粉色</td><td>0.0015%</td><td>超稀有粉色系</td></tr>
-    <tr><td>白色</td><td><strong>0.0005%</strong></td><td>✨ 至尊稀有 · 两万分之一</td></tr>
-  </table>
-  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">Reroll 需消耗 GamePass 道具。</p>
 </div>
 
 <!-- 🌟 TALENT TREES -->
@@ -565,10 +489,12 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <div class="style-card">
       <div class="sc-title"><span>WingChun（咏春）</span><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">神秘稀有</span></div>
       <table class="sc-table">
-        <tr><td>反击寸劲<br>Counter M2</td><td>M2 需反击命中（窗口 0.5s），反击伤害 1.25×、眩晕 2.2s；挥空自晕 1s</td><td><span class="badge badge-epic">专属</span></td></tr>
-        <tr><td>迅捷手<br>Swift Hands</td><td>M1 攻击速度 +12.5%，代价总伤害 −5%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>反击寸劲<br>Counter M2</td><td>M2 需反击命中（窗口 0.58s），反击伤害 1.647×、眩晕 2.8s；挥空自晕 0.6s</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>迅捷手<br>Swift Hands</td><td>M1 攻击速度 +6%，代价每击伤害 −0.2</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>终结技<br>Final Blow</td><td>连击最后一击（4A）伤害 ×1.5</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>眩晕打击<br>Concussive</td><td>反击命中移除对手招架能力 1.35 秒</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>强固I<br>Fortified I</td><td>架势抗性 +10%，格挡时减少架势损耗</td><td><span class="badge badge-epic">专属</span></td></tr>
-        <tr><td>破防穿透I<br>Guard Pierce I</td><td>格挡伤害穿透10%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+        <tr><td>破防穿透III<br>Guard Pierce III</td><td>格挡伤害穿透20%</td><td><span class="badge badge-common">通用被动</span></td></tr>
         <tr><td>韧性I<br>Resilience I</td><td>M1碰撞15%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
       </table>
     </div>
@@ -599,6 +525,97 @@ img,svg,video,iframe{max-width:100%;height:auto}
   </table>
 
 </div>
+
+<!-- 🏷️ STYLE OVERVIEW TABLE -->
+<div class="lib-card" id="styles">
+  <h3>🏷️ 战斗风格总览</h3>
+  <p>11种可抽取风格。各稀有度概率如下：</p>
+  <table>
+    <tr><th>风格</th><th>稀有度</th><th>单抽概率</th><th>M1基础延迟</th><th>M2延迟</th><th>M2 CD</th><th>击退</th><th>特性</th></tr>
+    <tr><td>Basic（基础）</td><td><span class="badge badge-common">Common</span></td><td>58.93%</td><td>0.34s</td><td>0.525s</td><td>7s</td><td>2</td><td>均衡格斗，完美格挡+5%</td></tr>
+    <tr><td>Karate（空手道）</td><td rowspan="3"><span class="badge badge-uncommon">Uncommon</span></td><td>30%</td><td><strong>0.2775s</strong></td><td>0.4875s</td><td>7s</td><td>15</td><td>极快M1，M2回姿态25%</td></tr>
+    <tr><td>Muay Thai（泰拳）</td><td>30%</td><td>0.30s</td><td>0.60s</td><td>7s</td><td>20</td><td>强力M2膝撞，姿态伤+15%</td></tr>
+    <tr><td>Slugger（重炮手）</td><td>30%</td><td>0.50s</td><td>0.82s</td><td>7s</td><td>25</td><td>总伤+40%，受伤+15%</td></tr>
+    <tr><td>Boxing（拳击）</td><td><span class="badge badge-epic">Epic</span></td><td>10%</td><td>0.34s</td><td>0.43s</td><td>7s</td><td>15</td><td>M2无敌帧两连拳</td></tr>
+    <tr><td>Hakari（秤）</td><td rowspan="4"><span class="badge badge-legendary">Legendary</span></td><td>1%</td><td>0.35s</td><td>0.35s（动量0.48s）</td><td>7s</td><td>25</td><td>满连3倍M2（7s窗口·黑闪）</td></tr>
+    <tr><td>Wrestling（摔跤）</td><td>1%</td><td>0.36s</td><td>0.525s</td><td>12s</td><td>-5（吸）</td><td>M2抓取1.5x+霸体</td></tr>
+    <tr><td>Capoeira（卡波耶拉）</td><td>1%</td><td>0.35s</td><td>0.45s</td><td>12s</td><td>22.5</td><td>M2旋风踢·击飞(发射99)·闪避CD-25%</td></tr>
+    <tr><td>Kure（吴）</td><td>1%</td><td>0.32s</td><td><strong>0.30s</strong></td><td>12s</td><td>15</td><td>极速M2头槌抓取1.5x</td></tr>
+    <tr><td>Ali（阿里）</td><td rowspan="2"><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td rowspan="2">0.075%</td><td>0.28s</td><td>0.53s（右0.67）</td><td>7s</td><td>6</td><td>M2左右变招(0.8×/1.25×)+无敌帧+闪避反击</td></tr>
+    <tr><td>WingChun（咏春）</td><td>0.30s（4A 0.7s）</td><td>0.525s</td><td>7.5s</td><td>30</td><td>M2反击寸劲（1.647×）· 4A终结1.5×</td></tr>
+  </table>
+  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Mystery 神秘稀有度（???）含 Ali 与 WingChun 两风格，合计 0.075%（各 0.0375%）。WingChun 于 v7538 由变体升级为可抽取神秘风格，v7541 反击流重做（1.25× → 1.647×，M1 提速至 0.3s）。</p>
+  <h4>变体风格 · 不可抽取</h4>
+  <table>
+    <tr><th>变体</th><th>M1 / M2 延迟</th><th>抓取</th><th>特征（豆包AI生成）</th></tr>
+    <tr><td>Bulky</td><td>— / 0.43s</td><td>100%</td><td><span class="badge badge-variant">Variant</span> 必擒获 100% 抓取；姿态伤+10%、破防伤+5%、破防穿透IV 25%；M2 击退 7</td></tr>
+    <tr><td>Dirty</td><td>— / 0.30s</td><td>35%</td><td><span class="badge badge-variant">Variant</span> 35% 抓取；姿态伤+10%、破防穿透IV 25%；免疫 M2 布娃娃；复仇：3 击 / 2 名不同攻击者、窗口 2.5s、2× 伤害、脉冲范围 14、击退 50、霸体脉冲 10s</td></tr>
+    <tr><td>Taekwondo</td><td>— / 0.46s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 跆拳道：垫步 1s 窗口内命中减 50% 闪避 CD；M2 布娃娃（Powerful）、破防穿透III 20%；M2 击退 25</td></tr>
+    <tr><td>Variant</td><td>— / 0.35s</td><td>45%</td><td><span class="badge badge-variant">Variant</span> 45% 抓取；姿态伤+10%、破防伤+5%、破防穿透IV 25%；M2 击退 25</td></tr>
+    <tr><td>Wild</td><td>— / 0.525s</td><td>—</td><td><span class="badge badge-variant">Variant</span> 野性风格：M2 击中使对手架势回复中断 3s（Disorienting）、破防穿透II 15%；M2 击退 25</td></tr>
+    <tr><td>Skygaolang</td><td>— / 0.35s</td><td>15%</td><td><span class="badge badge-variant">Variant</span> 无特殊乘区（全 1×）；破防穿透II 15%、韧性I 15%；M2 击退 25</td></tr>
+  </table>
+  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">WingChun 已于 v7538 升级为 Mystery 可抽取风格（见上方总览与天赋树），不再属于变体。</p>
+</div>
+
+<!-- 👔 UNIFORMS -->
+<div class="lib-card" id="uniforms">
+  <h3>👔 校服图鉴</h3>
+  <p>共 <strong>13种</strong> 校服外观，经由 Reroll 或 UniformSlotSwap 获取。</p>
+  <table>
+    <tr><th>#</th><th>中文名</th><th>英文名</th></tr>
+    <tr><td>1</td><td>另类</td><td>Alt</td></tr>
+    <tr><td>2</td><td>典礼服</td><td>Ceremonial</td></tr>
+    <tr><td>3</td><td>链子</td><td>Chain</td></tr>
+    <tr><td>4</td><td>女装制服</td><td>Female Uniform</td></tr>
+    <tr><td>5</td><td>学兰</td><td>Gakuran</td></tr>
+    <tr><td>6</td><td>辣妹</td><td>Gyaru</td></tr>
+    <tr><td>7</td><td>女式学兰</td><td>Joshi Gakuran</td></tr>
+    <tr><td>8</td><td>宽松标准</td><td>Loose Regular</td></tr>
+    <tr><td>9</td><td>男装制服</td><td>Male Uniform</td></tr>
+    <tr><td>10</td><td>无外衣</td><td>No Overshirt</td></tr>
+    <tr><td>11</td><td>开衫学兰</td><td>Open Gakuran</td></tr>
+    <tr><td>12</td><td>樱花</td><td>Sakura</td></tr>
+    <tr><td>13</td><td>无袖</td><td>Sleeveless</td></tr>
+  </table>
+</div>
+
+<!-- 😊 FACES -->
+<div class="lib-card" id="faces">
+  <h3>😊 脸型典藏</h3>
+  <p>共 <strong>112个</strong> Face ID 位在 AnimationRemap 模块中。按稀有度分列如下：</p>
+  <table>
+    <tr><th>稀有度</th><th>概率</th><th>说明</th></tr>
+    <tr><td>Regular（普通）</td><td>~61%</td><td>基础脸型，最为常见</td></tr>
+    <tr><td>Rare（稀有）</td><td>~25%</td><td>精致脸型，较为少见</td></tr>
+    <tr><td>Epic（史诗）</td><td>~10%</td><td>极为精致的脸孔</td></tr>
+    <tr><td>Gyaru（辣妹）</td><td>~5%</td><td>女性专属风格脸</td></tr>
+    <tr><td>Neko（猫耳）</td><td>~2%</td><td>可爱的猫娘脸</td></tr>
+    <tr><td>Mogger（帅哥）</td><td>~1%</td><td>高颜值男性脸型</td></tr>
+    <tr><td>EuroMogger（欧系帅哥）</td><td>~0.1%</td><td>男性欧系高颜脸</td></tr>
+    <tr><td>Mystery（神秘）</td><td>~0.1%</td><td>特殊未知脸型</td></tr>
+  </table>
+  <p style="margin-top:.6rem;font-size:.8rem;color:#7a6a5a">
+    💡 猫耳（Cat Ears）独立于脸型系统，有 <strong>5%</strong> 附加概率。民族分布：日本 95%，其余各国各 ~1%。
+  </p>
+  <p style="margin-top:.4rem;font-size:.8rem;color:#7a6a5a">
+    ✨ <strong>最新外观更新：</strong>① 新增<strong>眨眼动画系统（Blink）</strong>——绝大多数脸型配备对应眨眼贴图，Mogger（帅哥）专属眨眼变体，角色待机时会自然眨眼；② <strong>面部饰品位置修正扩展</strong>：眼镜/口罩等面部饰品会按脸型自动调整佩戴高度（全脸型适配）；③ 教师女装制服裤子款式更新。
+  </p>
+</div>
+
+<!-- 💇 HAIR -->
+<div class="lib-card" id="hair">
+  <h3>💇 发色谱</h3>
+  <table>
+    <tr><th>类型</th><th>概率</th><th>备注</th></tr>
+    <tr><td>自然色（黑/棕/深色系）</td><td>~94%</td><td>初始默认发色</td></tr>
+    <tr><td>随机染色</td><td>~5%</td><td>彩色染发效果</td></tr>
+    <tr><td>粉色</td><td>0.0015%</td><td>超稀有粉色系</td></tr>
+    <tr><td>白色</td><td><strong>0.0005%</strong></td><td>✨ 至尊稀有 · 两万分之一</td></tr>
+  </table>
+  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">Reroll 需消耗 GamePass 道具。</p>
+</div>
+
 <!-- ⚔️ COMBAT SYSTEM -->
 <div class="lib-card" id="combat">
   <h3>⚔️ 战斗系统详解</h3>
@@ -652,33 +669,44 @@ img,svg,video,iframe{max-width:100%;height:auto}
   <p style="margin-top:.5rem"><strong>衍生机制：</strong>Counterstrike（完美格挡后下一击 +5% 伤害）· Revenge（2.5s 内受 3 击 → 2× 伤害 + 超甲 10s）· Concussive（M2 砸地封对方格挡 2s）。<br>
   <strong>布娃娃 / 硬直：</strong>战斗布娃娃眩晕 2s · 破防锁 2s · 被地面命中触发布娃娃（true）。</p>
 
-  <h4>减伤 / 受伤机制（v7538 反编译）</h4>
-  <p>游戏<strong>没有</strong>名为 <code>DamageReduction</code> / <code>DefenseMultiplier</code> 的全局减伤字段（全库 grep 为 0）。实际"少挨打"由下面几层机制叠加决定，全部来自 <code>CombatConfig</code> / <code>CombatPerksConfig</code> 的真实配置值。</p>
+  <h4>减伤 / 受伤机制</h4>
+  <p>游戏<strong>没有</strong>名为 <code>DamageReduction</code> / <code>DefenseMultiplier</code> 的全局减伤字段。实际"少挨打"由下面几层机制叠加决定，全部来自 <code>CombatConfig</code> / <code>CombatPerksConfig</code> 的真实配置值。</p>
   <table>
     <tr><th>机制</th><th>字段 / 取值</th><th>怎么减少伤害</th></tr>
-    <tr><td>格挡芯片伤</td><td><code>BlockChipPercent</code>：默认 0.15；Boxing 0.2（其 M2 被挡 0.75）；Slugger 0.3；部分风格 0.25</td><td>格挡成功只吃该比例作芯片伤，其余 (100%−该比例) 完全格挡（不掉血）。攻击方 <strong>Guard Pierce Ⅰ~Ⅴ = 10/15/20/25/30%</strong> 会增加穿透格挡的芯片比例。</td></tr>
-    <tr><td>完美格挡</td><td>窗口 0.125s；<code>PerfectBlockNextHitDamageMultiplier</code>：默认 nil，Basic = 1.05</td><td>完全免伤并开反击窗口；完美格挡后下一击 +5%（Basic）。</td></tr>
-    <tr><td>招架 Parry</td><td>读 <code>CombatConfig.Shared.ParryStun.M2</code> / <code>CombatConfig.M1.RecoveryLockout</code></td><td>令对手进入 Parried/Stunned，期间无法格挡/行动；Concussive 天赋封对方格挡 2s。</td></tr>
-    <tr><td>破防 Guardbreak</td><td>姿态阈值 <code>GuardbreakStaminaThreshold=10</code>；<code>GuardbreakDamageMultiplier</code>：默认 1，某风格 1.05；锁 <code>GuardbreakLockoutSeconds=2</code></td><td>姿态打空即 GuardBroken（CantAnything+Stunned，2s 不能格挡）；破防期间你受到的伤害 ×该乘区。Heavy Hitter Ⅰ/Ⅲ：破防命中 +5%/+15%。</td></tr>
-    <tr><td>姿态系统 Posture</td><td><code>PostureDamageMultiplier</code> 默认 1（某风格 1.1）；<code>PostureResistanceMultiplier</code> 默认 1</td><td>你造成的姿态伤 ×前者，受到的姿态伤 ×后者（Fortified Ⅰ +10% 架势抗性、格挡掉姿态更少；Crushing Force Ⅰ/Ⅱ 每击 +10%/+15% 姿态伤）。姿态归零→破防，故"管姿态"本身就是减伤。</td></tr>
+    <tr><td>格挡芯片伤</td><td><code>BlockChipPercent</code>：默认 0.15；Boxing 0.2（其 M2 被挡 0.75）；MuayThai / Slugger 0.3；Ali 0.2；部分风格 0.25</td><td>格挡成功只吃该比例作芯片伤，其余 (100%−该比例) 完全格挡（不掉血）。攻击方 <strong>Guard Pierce Ⅰ~Ⅴ = 10/15/20/25/30%</strong> 会增加穿透格挡的芯片比例。</td></tr>
+    <tr><td>完美格挡</td><td>窗口 0.125s；<code>PerfectBlockNextHitDamageMultiplier</code>：默认 nil，Basic / Ali = 1.05</td><td>完全免伤并开反击窗口；完美格挡后下一击 +5%（Basic / Ali）。</td></tr>
+    <tr><td>招架 Parry</td><td>读 <code>CombatConfig.Shared.ParryStun.M2</code> / <code>CombatConfig.M1.RecoveryLockout</code></td><td>令对手进入 Parried/Stunned，期间无法格挡/行动；Concussive 天赋封对方招架 2s（WingChun 反击命中 1.35s）。</td></tr>
+    <tr><td>破防 Guardbreak</td><td>姿态阈值 <code>GuardbreakStaminaThreshold=10</code>；<code>GuardbreakDamageMultiplier</code>：默认 1，Bulky/Variant/Capoeira 1.05，Wrestling 1.15；锁 <code>GuardbreakLockoutSeconds=2</code></td><td>姿态打空即 GuardBroken（CantAnything+Stunned，2s 不能格挡）；破防期间你受到的伤害 ×该乘区。Heavy Hitter Ⅰ/Ⅲ：破防命中 +5%/+15%。</td></tr>
+    <tr><td>姿态系统 Posture</td><td><code>PostureDamageMultiplier</code>：默认 1（MuayThai 1.15 / Bulky·Dirty·Variant 1.1）；<code>PostureResistanceMultiplier</code>：默认 1，WingChun 0.9（更抗姿态）</td><td>你造成的姿态伤 ×前者，受到的姿态伤 ×后者（Fortified Ⅰ +10% 架势抗性、格挡掉姿态更少；Crushing Force Ⅰ/Ⅱ 每击 +10%/+15% 姿态伤）。姿态归零→破防，故"管姿态"本身就是减伤。</td></tr>
     <tr><td>受到伤害乘数</td><td><code>IncomingDamageMultiplier</code>：默认 nil；Slugger = 1.15</td><td>你受到的<strong>直接伤害</strong> ×该值。Slugger 多挨 15%（与"猛击手脆"吻合）。目前无风格 &lt;1（无天生更肉者）。</td></tr>
   </table>
 
-  <h5>增伤 / 减伤相关天赋（CombatPerksConfig）</h5>
+  <h5>增伤 / 减伤相关天赋</h5>
   <table>
     <tr><th>天赋</th><th>效果</th></tr>
-    <tr><td>Unstable</td><td>+40% 伤害但 +15% 受伤</td></tr>
-    <tr><td>Last Stand</td><td>血量 &lt;25% 时总伤 +15%</td></tr>
-    <tr><td>Revenge</td><td>2.5s 内被 2 名不同攻击者打 3 次 → 2× 伤害 + 霸体 10s</td></tr>
-    <tr><td>Momentum Rush</td><td>连中 3 次 M1 → 7s 内 M2 ×3 伤害</td></tr>
-    <tr><td>Takedown</td><td>M2 抓取砸地 1.5× 伤害</td></tr>
-    <tr><td>Swift Hands</td><td>M1 快 12.5%、总伤 −5%</td></tr>
-    <tr><td>Counterstrike</td><td>完美格挡后下一击 +5%</td></tr>
+    <tr><td>Unstable</td><td>+40% 伤害但 +15% 受伤（Slugger）</td></tr>
+    <tr><td>Last Stand</td><td>血量 &lt;25% 时总伤 +15%（Kure）</td></tr>
+    <tr><td>Revenge</td><td>2.5s 内被 2 名不同攻击者打 3 次 → 脉冲击退 + 2× 伤害 + 霸体 10s（Dirty）</td></tr>
+    <tr><td>Momentum Rush</td><td>连中 3 次 M1 → 7s 内 M2 ×3 伤害（Hakari）</td></tr>
+    <tr><td>Takedown</td><td>M2 抓取砸地 1.5× 伤害（Wrestling / Kure）</td></tr>
+    <tr><td>Swift Hands</td><td>M1 快 +6%，每击伤害 −0.2（WingChun）</td></tr>
+    <tr><td>Final Blow</td><td>连击最后一击 ×1.5（WingChun，对应 4A 覆盖 7.5）</td></tr>
+    <tr><td>Counterstrike</td><td>完美格挡后下一击 +5%（Basic / Ali）</td></tr>
+    <tr><td>Steady Nerves</td><td>完美格挡后姿态回复 +15% 持续 3s（Karate）</td></tr>
+    <tr><td>Balanced Strike</td><td>M2 命中返还 25% 当前姿态消耗（Karate）</td></tr>
+    <tr><td>Perfect Reflex</td><td>完美格挡减 M2 冷却 1s（Boxing）</td></tr>
+    <tr><td>Untouchable</td><td>M2 全程无敌帧，两拳可分别格挡（Boxing）</td></tr>
+    <tr><td>Quickstep</td><td>闪避后 1s 内命中减 50% 闪避冷却（Taekwondo）</td></tr>
+    <tr><td>Ginga</td><td>闪避冷却缩短 25%（Capoeira）</td></tr>
+    <tr><td>Float / Sting</td><td>蝴蝶步：突进全程无敌帧；蜜蜂叮：闪避后瞬发反击突进（Ali）</td></tr>
+    <tr><td>Sticky Hands / Chain Punch</td><td>咏春重击为招架架势，挡下攻击后 2× 反击连段；反击后对方站立眩晕可接满连</td></tr>
     <tr><td>Heavy Hitter Ⅰ/Ⅲ</td><td>破防命中 M1/M2 +5%/+15%</td></tr>
+    <tr><td>Guard Pierce Ⅰ~Ⅴ</td><td>格挡芯片穿透 10/15/20/25/30%</td></tr>
+    <tr><td>Resilience Ⅰ~Ⅴ</td><td>M1 相撞触发缠斗概率 15~55%</td></tr>
+    <tr><td>Crushing Force Ⅰ/Ⅱ</td><td>每击姿态伤害 +10%/+15%</td></tr>
   </table>
 
-  <p style="margin-top:.5rem"><strong>架构边界（数据准确性说明）：</strong>客户端索引（<code>CombatSystemClient/Combat/Base/{Block,M1,M2}</code>）只负责输入、动画、命中预测与"格挡·破防状态机"，并把 <code>{Type="Combat",...}</code> 发往 <code>ReplicatedStorage.Remotes.Server</code>。真正的伤害结算（BaseDamage × 身高系数 × 风格乘区，再叠 BlockChipPercent / IncomingDamageMultiplier / Guardbreak / Posture / 天赋）发生在<strong>服务端 ServerScriptService</strong>，不在本客户端反编译索引内（索引中 <code>OnServerEvent</code> 仅见于 Kohl's Admin 与摔跤远程，无战斗结算处理器）。上表各乘区取自真实配置；最终算术由服务端权威裁决。另：<code>CombatUtils.GetDamageMultiplier(scale)=clamp((scale−0.983)/0.467,0,1)×0.3+0.85</code> 虽是配置中存在的身高→伤害公式，但在客户端索引中<strong>无调用点</strong>（仅定义），其是否真实参与伤害取决于不可见的服务端——本页身高计算器对"伤害随身高缩放"的建模属推断，服务端未公开验证。</p>
-  <div class="data-source">数据来源：<strong>Real MCP 实时反编译 · CombatConfig / CombatPerksConfig (v7538)</strong></div>
+  <p style="margin-top:.5rem"><strong>架构边界（数据准确性说明）：</strong>客户端（<code>CombatSystemClient/Combat/Base/{Block,M1,M2}</code>）只负责输入、动画、命中预测与"格挡·破防状态机"，并把 <code>{Type="Combat",...}</code> 发往 <code>ReplicatedStorage.Remotes.Server</code>。真正的伤害结算（BaseDamage × 身高系数 × 风格乘区，再叠 BlockChipPercent / IncomingDamageMultiplier / Guardbreak / Posture / 天赋）发生在<strong>服务端 ServerScriptService</strong>，客户端数据中 <code>OnServerEvent</code> 仅见于 Kohl's Admin 与摔跤远程，无战斗结算处理器。上表各乘区取自真实配置；最终算术由服务端权威裁决。另：<code>CombatUtils.GetDamageMultiplier(scale)=clamp((scale−0.983)/0.467,0,1)×0.3+0.85</code> 虽是配置中存在的身高→伤害公式，但在客户端数据中<strong>无调用点</strong>（仅定义），其是否真实参与伤害取决于不可见的服务端——本页身高计算器对"伤害随身高缩放"的建模属推断，服务端未公开验证。</p>
 
   <h4>闪避 Evasive</h4>
   <p>按 Q 触发闪避，提供短暂无敌帧脱出。</p>
@@ -774,7 +802,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
   • <strong>Hakari（秤）</strong>：动量 M2 Hitbox 延迟 <strong>0.48s</strong>；前置条件为连中 3 次 M1；命中后 ×<strong>3</strong> 伤害 + 击退 ×<strong>1.5</strong> + 垂直 <strong>0.5</strong>；黑闪特效 <strong>2.5s</strong>。<br>
   • <strong>Ali（阿里）</strong>：M2 变招——右键 = <strong>1.25×</strong> 伤害 / 击退 1 / 扑倒布娃娃；左键 = <strong>0.8×</strong> 伤害 / 击退 0.6 / 不扑倒；M2 延迟 <strong>0.53s</strong>，并切换相机。<br>
   • <strong>Kure / Wrestling / Capoeira</strong>：抓取得手后目标前偏 <strong>2.7</strong>；Kure 头槌锁定 <strong>0.5s</strong> · 延迟 <strong>0.3s</strong>，且 Kure 摔倒会取消对方格挡 <strong>2s</strong>。<br>
-  • <strong>WingChun（咏春·v7538 新增神秘风格）</strong>：M2 为<strong>反击技</strong>——需先被对手攻击进入反击窗口（<strong>0.5s</strong>）再出 M2 命中，反击伤害 <strong>1.25×</strong>、击退 <strong>46</strong>、拉拽 <strong>3.6 studs</strong>、布娃娃 <strong>2.2s</strong>；挥空则自晕 <strong>1s</strong>。M2 CD <strong>10s</strong>、延迟 <strong>0.525s</strong>。M1 延迟 <strong>0.4s</strong>（第 1 击 0.4 / 第 2-3 击 0.36 / 第 4 击 0.7s），第 4 击伤害覆盖为 <strong>10</strong>。专属天赋：Swift Hands（+12.5% M1 速度、总伤 −5%）、Fortified Ⅰ（+10% 架势抗性）。缠斗率 <strong>15%</strong>。</p>
+  • <strong>WingChun（咏春·v7538 新增神秘风格，v7541 重做）</strong>：M2 为<strong>反击技</strong>——需先被对手攻击进入反击窗口（<strong>0.58s</strong>）再出 M2 命中，反击伤害 <strong>1.647×</strong>、击退 <strong>30</strong>、拉拽 <strong>3.6 studs</strong>、布娃娃 <strong>2.8s</strong>；挥空则自晕 <strong>0.6s</strong>，并封对方招架 <strong>1.35s</strong>。M2 CD <strong>7.5s</strong>、延迟 <strong>0.525s</strong>。M1 延迟 <strong>0.3s</strong>（第 1-3 击 0.3 / 第 4 击 0.7s），每击伤害 ×<strong>0.96</strong>，第 4 击伤害覆盖为 <strong>7.5</strong>（终结技 1.5×）。架势抗性 ×<strong>0.9</strong>。专属天赋：Swift Hands（+6% M1 攻速、每击 −0.2 伤害）、Final Blow、Concussive、Fortified Ⅰ。缠斗率 <strong>15%</strong>。</p>
 
   <h4>战斗状态机</h4>
   <table>
@@ -884,7 +912,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <tr><td>7-ELEVEN</td><td>便利店</td><td>¥280–400</td><td>2</td></tr>
     <tr><td>CLUB AKUMA</td><td>夜店</td><td>¥520–720</td><td>1</td></tr>
   </table>
-  <p style="margin:.4rem 0"><strong>实装进度（v7538，数据来自 Real MCP）：</strong>JobConfig 已为四家配齐时薪与名额参数；目前仅 <strong>GAKUMART（超市）</strong> 地图实装了 WorkLocker 与打卡交互，COFFEE SHOP / 7-ELEVEN / CLUB AKUMA 的班次可在 Indeed App 刷到，但实体场地交互仍在陆续上线中。</p>
+  <p style="margin:.4rem 0"><strong>实装进度：</strong>JobConfig 已为四家配齐时薪与名额参数；目前仅 <strong>GAKUMART（超市）</strong> 地图实装了 WorkLocker 与打卡交互，COFFEE SHOP / 7-ELEVEN / CLUB AKUMA 的班次可在 Indeed App 刷到，但实体场地交互仍在陆续上线中。</p>
   <p style="text-align:center;margin:.4rem 0 .8rem">
     <img src="assets/work_gakumart.jpg" alt="GAKUMART 超市内部" style="max-width:560px;width:100%;border:1px solid #4a3a28;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">
   </p>
@@ -1085,7 +1113,7 @@ const S = {
     m2Delay:0.43,m2Dur:"—",m2Cd:7,m2KB:15,m2Desc:"无敌帧两连拳",
     fwd:[0.3,0.2],grapple:0,
     comboDescs:["0.34s","0.34s","0.34s","0.38s"]},
-  Hakari:{rarity:"Legendary 0.25%",cls:"badge-legendary",desc:"连中3次M1开启7秒窗口，期间M2伤害×3",
+  Hakari:{rarity:"Legendary 0.25%",cls:"badge-legendary",desc:"连中3次M1开启7秒窗口，期间M2伤害×3（动量M2延迟0.48s）",
     m1Base:0.21,offsets:[0.14,0.16,0.07,0.17],m1Final:0.35,
     m2Delay:0.35,m2Dur:"—",m2Cd:7,m2KB:25,m2Desc:"满连3倍M2",
     fwd:[0.3,0.2],grapple:0,
@@ -1095,9 +1123,9 @@ const S = {
     m2Delay:0.525,m2Dur:"—",m2Cd:12,m2KB:-5,m2Desc:"吸入（负击退）",
     fwd:[0,0],grapple:55,
     comboDescs:["0.36s","0.37s","0.36s","0.35s"]},
-  Capoeira:{rarity:"Legendary 0.25%",cls:"badge-legendary",desc:"M2抓取，闪避CD-25%，4A极快",
+  Capoeira:{rarity:"Legendary 0.25%",cls:"badge-legendary",desc:"M2旋风踢·击飞（发射强度99），闪避CD-25%",
     m1Base:0.33,offsets:[0.02,0.1,0.02,-0.05],m1Final:0.35,
-    m2Delay:0.45,m2Dur:"—",m2Cd:12,m2KB:22.5,m2Desc:"抓取+长持续",
+    m2Delay:0.45,m2Dur:0.32,m2Cd:12,m2KB:22.5,m2Desc:"旋风踢+长持续",
     fwd:[0,0],grapple:0,
     comboDescs:["0.35s","0.43s","0.35s","0.28s"]},
   Kure:{rarity:"Legendary 0.25%",cls:"badge-legendary",desc:"极速M2头槌抓取1.5倍伤害，低血+15%伤害",
@@ -1105,16 +1133,16 @@ const S = {
     m2Delay:0.3,m2Dur:"—",m2Cd:12,m2KB:15,m2Desc:"头槌抓取",
     fwd:[0,0],grapple:15,
     comboDescs:["0.32s","0.32s","0.32s","0.32s"]},
-  Ali:{rarity:"Mystery 0.075%",cls:"badge-legendary",desc:"暴击突进全程无敌帧，闪避后反击突进",
+  Ali:{rarity:"Mystery 0.075%",cls:"badge-legendary",desc:"M2左右变招（右键1.25×布娃娃/左键0.8×不扑倒）+全程无敌帧，闪避后瞬发反击",
     m1Base:0.22,offsets:[0.06,0.15,0.2,0],m1Final:0.22,
     m2Delay:0.53,m2Dur:"—",m2Cd:7,m2KB:6,m2Desc:"M2左右变招",
     fwd:[0.3,0.2],grapple:25,
     comboDescs:["0.28s","0.37s","0.42s","0.22s"]},
-  WingChun:{rarity:"Mystery 0.0375%",cls:"badge-legendary",desc:"M2反击流（1.25×反击伤+眩晕2.2s），SwiftHands 快拳",
-    m1Base:0.4,offsets:[0,-0.04,-0.04,0.3],m1Final:0.4,m1Mult:0.95,m2Mult:1.1875,
-    m2Delay:0.525,m2Dur:"—",m2Cd:10,m2KB:15,m2Desc:"反击寸劲",
-    fwd:[0.3,0.2],grapple:15,
-    comboDescs:["0.40s","0.36s","0.36s","0.70s"]}
+  WingChun:{rarity:"Mystery 0.0375%",cls:"badge-legendary",desc:"M2反击寸劲（1.647×反击伤+眩晕2.8s），SwiftHands 快拳+4A终结1.5×",
+    m1Base:0.3,offsets:[0,0,0,0.4],m1Final:0.3,m1Mult:0.96,m2Mult:1.647,
+    m2Delay:0.525,m2Dur:"—",m2Cd:7.5,m2KB:30,m2Desc:"反击寸劲",
+    fwd:[0,0],grapple:15,
+    comboDescs:["0.30s","0.30s","0.30s","0.70s"]}
 };
 
 // ===== HEIGHT CONSTANTS =====
@@ -1208,7 +1236,7 @@ function buildStyleCards(){
     {k:"Hakari",n:"Hakari（秤）",c:"#ffd700",
      m1b:0.21,o:[0.14,0.16,0.07,0.17],m1f:[0.35,0.37,0.28,0.38],
      m2d:0.35,m2kb:25,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:0,
-     sp:"满连3倍M2（7s窗口）"},
+     sp:"满连3倍M2（7s窗口·动量M2延迟0.48s）"},
     {k:"Wrestling",n:"Wrestling（摔跤）",c:"#ffd700",
      m1b:0.32,o:[0.04,0.05,0.04,0.03],m1f:[0.36,0.37,0.36,0.35],
      m2d:0.525,m2kb:-5,cd:"12s",fwd:"无加成",gr:55,
@@ -1216,7 +1244,7 @@ function buildStyleCards(){
     {k:"Capoeira",n:"Capoeira（卡波耶拉）",c:"#ffd700",
      m1b:0.33,o:[0.02,0.1,0.02,-0.05],m1f:[0.35,0.43,0.35,0.28],
      m2d:0.45,m2kb:22.5,cd:"12s",fwd:"无加成",gr:0,
-     sp:"M2抓取·闪避CD-25%"},
+     sp:"M2旋风踢·击飞（发射99）·闪避CD-25%"},
     {k:"Kure",n:"Kure（吴）",c:"#ffd700",
      m1b:0.32,o:[0,0,0,0],m1f:[0.32,0.32,0.32,0.32],
      m2d:0.3,m2kb:15,cd:"12s",fwd:"无加成",gr:15,
@@ -1224,11 +1252,11 @@ function buildStyleCards(){
     {k:"Ali",n:"Ali（阿里）",c:"#c8a86e",
      m1b:0.22,o:[0.06,0.15,0.2,0],m1f:[0.28,0.37,0.42,0.22],
      m2d:0.53,m2kb:6,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
-     sp:"神秘·无敌突进+闪避反击"},
+     sp:"神秘·M2左右变招(0.8×/1.25×)+无敌帧+闪避反击"},
     {k:"WingChun",n:"WingChun（咏春）",c:"#c8a86e",
-     m1b:0.4,o:[0,-0.04,-0.04,0.3],m1f:[0.4,0.36,0.36,0.7],
-     m2d:0.525,m2kb:15,cd:"10s",fwd:"M1+0.3/M2+0.2",gr:15,
-     sp:"神秘·M2反击寸劲（1.25×）"}
+     m1b:0.3,o:[0,0,0,0.4],m1f:[0.3,0.3,0.3,0.7],
+     m2d:0.525,m2kb:30,cd:"7.5s",fwd:"无加成",gr:15,
+     sp:"神秘·M2反击寸劲（1.647×）·4A终结1.5×"}
   ];
   const cls=['common','uncommon','uncommon','uncommon','epic','legendary','legendary','legendary','legendary','legendary','legendary'];
   const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Epic','Legendary','Legendary','Legendary','Legendary','Mystery','Mystery'];
