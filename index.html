@@ -343,7 +343,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <!-- 🥋 STYLE DETAIL SECTION — per-style complete data -->
 <div class="lib-card" id="style-detail">
   <h3>🥋 战斗风格 · 详解卷宗</h3>
-  <p>每项风格的完整数据，涵盖M1连击延迟、M2配置、攻击范围加成、抓取率及特殊效果。所有延迟数据已含身高攻速修正前的原始值。</p>
+  <p>每项风格的完整数据，涵盖M1连击延迟、M2配置、攻击范围加成、抓取率及特殊效果。<strong>所有延迟均为 175cm 身高（攻速 ×1.03）修正后的实际值</strong>，灰色小字为基础原始值。</p>
 
   <div class="style-grid" id="styleGrid"></div>
 
@@ -1260,6 +1260,7 @@ function buildStyleCards(){
   ];
   const cls=['common','uncommon','uncommon','uncommon','epic','legendary','legendary','legendary','legendary','legendary','legendary'];
   const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Epic','Legendary','Legendary','Legendary','Legendary','Mystery','Mystery'];
+  const ATK175 = calc(175).atk;   // 175cm 攻速倍率（≈1.03），卡面延迟统一按此修正
   data.forEach((d,i)=>{
     const _sd=S[d.k];
     const _mult=_sd&&_sd.m2Mult?_sd.m2Mult:1;
@@ -1269,10 +1270,11 @@ function buildStyleCards(){
     const card=document.createElement('div');card.className='style-card';
     let m1Detail='';
     if(d.m1b!=='—'&&d.o){
-      m1Detail='<table class=sc-table><tr><td>基础</td><td>'+d.m1b+'s</td></tr>';
+      m1Detail='<table class=sc-table><tr><td>M1各击</td><td>延迟（175cm · 攻速 ×'+ATK175.toFixed(2)+'）</td></tr>';
       ['1A','2A','3A','4A'].forEach((a,j)=>{
-        const sign=d.o[j]>=0?'+':'';
-        m1Detail+='<tr><td>'+a+'偏移</td><td>'+sign+d.o[j]+'s → <b>'+d.m1f[j]+'s</b></td></tr>';
+        const base=+(d.m1b+d.o[j]).toFixed(3);
+        const sc175=+(base/ATK175).toFixed(3);
+        m1Detail+='<tr><td>'+a+'</td><td><b>'+sc175+'s</b> <span style="color:#9a8a7a;font-size:.7rem">基础 '+base+'s</span></td></tr>';
       });
       m1Detail+='</table>';
     }else m1Detail='<div class=sc-stat>无M1攻击数据</div>';
@@ -1281,7 +1283,7 @@ function buildStyleCards(){
       '<div style="font-size:.73rem;color:#7a6a5a;margin-bottom:.3rem">'+d.sp+'</div>'+
       m1Detail+
       '<div class=sc-stat>'+
-        '<span>⚡ M2: <b>'+(typeof d.m2d==='number'?d.m2d+'s':'—')+'</b></span>'+
+        '<span>⚡ M2: <b>'+(typeof d.m2d==='number'?+(d.m2d/ATK175).toFixed(3)+'s':'—')+'</b>'+(typeof d.m2d==='number'?' <span style="color:#9a8a7a;font-size:.7rem">基础 '+d.m2d+'s</span>':'')+'</span>'+
         '<span>💥 KB: <b>'+d.m2kb+'</b></span>'+
         '<span>⏱ CD: <b>'+d.cd+'</b></span>'+
         '<span>🔄 抓取: <b>'+d.gr+'%</b></span>'+
