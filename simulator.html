@@ -199,8 +199,8 @@ img,svg{max-width:100%}
 <div class="gender-row">
   <span>制服池：</span>
   <select id="genderSel">
-    <option value="Student_Male">♂ 男生池（9 款）</option>
-    <option value="Student_Female">♀ 女生池（11 款）</option>
+    <option value="Student_Male">♂ 男生池（10 款）</option>
+    <option value="Student_Female">♀ 女生池（14 款）</option>
   </select>
   <span style="color:#5a4a3a;margin-left:.4rem">· 抽取次数 <input id="pullN" type="number" min="1" max="50" value="1" style="width:50px;background:#1a0f08;color:#e8d5b0;border:1px solid #4a3a28;padding:.2rem .4rem;border-radius:3px;font-family:inherit;font-size:.78rem"></span>
 </div>
@@ -286,9 +286,10 @@ const STYLE_EMBLEM = {
   Capoeira:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><path d="M19 45 A18 18 0 1 1 45 25" fill="none" stroke="#ffd24b" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="25" r="5" fill="#ffd24b"/></svg>`,
   Kure:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><circle cx="32" cy="34" r="11" fill="#ffd24b"/><path d="M44 16 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2 z" fill="#fff"/></svg>`,
   Hakari:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g stroke="#ffd24b" stroke-width="3" fill="#ffd24b"><line x1="32" y1="16" x2="32" y2="46"/><line x1="18" y1="26" x2="46" y2="26"/><path d="M18 26 l-6 9 h12 z" stroke="none"/><path d="M46 26 l-6 9 h12 z" stroke="none"/><circle cx="32" cy="14" r="3"/></g></svg>`,
-  Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`
+  Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`,
+  Striker:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#b06bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#b06bff" stroke-width="1" opacity=".35"/><path d="M18 46 Q18 32 34 22 L46 16 Q44 32 34 42 Q28 48 24 48 Z" fill="#b06bff"/><g fill="#b06bff"><circle cx="27" cy="22" r="2.2"/><circle cx="34" cy="28" r="2.2"/><circle cx="41" cy="34" r="2.2"/></g></svg>`
 };
-const STYLE_EMBLEM_KEY = {Basic:'Basic',Karate:'Karate','MuayThai':'Muay Thai',Slugger:'Slugger',Boxing:'Boxing',Wrestling:'Wrestling',Capoeira:'Capoeira',Kure:'Kure',Hakari:'Hakari',Ali:'Ali'};
+const STYLE_EMBLEM_KEY = {Basic:'Basic',Karate:'Karate','MuayThai':'Muay Thai',Slugger:'Slugger',Boxing:'Boxing',Wrestling:'Wrestling',Capoeira:'Capoeira',Kure:'Kure',Hakari:'Hakari',Ali:'Ali',Striker:'Striker'};
 
 const G = GACHA_DATA, T = THUMBS;
 
@@ -296,7 +297,7 @@ const G = GACHA_DATA, T = THUMBS;
 const RAR_COLOR = {};
 G.uniformRarities.forEach(r => RAR_COLOR[r.key] = r.color);
 G.combatStyles.rarities.forEach(r => RAR_COLOR[r.key] = r.color);
-const RAR_ORDER = ['Common','Rare','Epic','Legendary','Mystery'];
+const RAR_ORDER = ['Common','Rare','Epic','Legendary','Unique','Mystery'];
 function rarRank(k){ return RAR_ORDER.indexOf(k); }
 
 function rollRarity(rarities){
@@ -331,7 +332,7 @@ const state = {
   gender: 'Student_Male',
   history: [],          // [{ts, slot, mode, item}]
   collection: { style: new Set(), uniform: new Set() }, // keys
-  counts: { Common:0, Rare:0, Epic:0, Legendary:0, Mystery:0 },
+  counts: { Common:0, Rare:0, Epic:0, Legendary:0, Unique:0, Mystery:0 },
   slots: [
     { id:1, mode:'style',  equip:null, equippedTag:false },
     { id:2, mode:'uniform', equip:null, equippedTag:false }
@@ -355,7 +356,7 @@ function loadState(){
     state.history = slim.history || [];
     state.collection.style = new Set(slim.collection.style||[]);
     state.collection.uniform = new Set(slim.collection.uniform||[]);
-    state.counts = Object.assign({Common:0,Rare:0,Epic:0,Legendary:0,Mystery:0}, slim.counts||{});
+    state.counts = Object.assign({Common:0,Rare:0,Epic:0,Legendary:0,Unique:0,Mystery:0}, slim.counts||{});
     if(Array.isArray(slim.slots) && slim.slots.length===2){
       state.slots = slim.slots;
     }
@@ -366,7 +367,7 @@ function loadState(){
 function resetAll(){
   state.history = [];
   state.collection = { style: new Set(), uniform: new Set() };
-  state.counts = { Common:0, Rare:0, Epic:0, Legendary:0, Mystery:0 };
+  state.counts = { Common:0, Rare:0, Epic:0, Legendary:0, Unique:0, Mystery:0 };
   state.slots[0] = { id:1, mode:'style',  equip:rollInitialStyle(), equippedTag:false };
   state.slots[1] = { id:2, mode:'uniform', equip:rollInitialUniform(state.gender), equippedTag:false };
   saveState(); renderAll();

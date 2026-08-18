@@ -239,13 +239,13 @@ img,svg{max-width:100%}
   <div class="lib-card">
     <h2>👔 制服稀有度概率（♂ 男生池 / ♀ 女生池）</h2>
     <div id="uniOddsTable"></div>
-    <p class="note"><b>说明：</b>按稀有度权重抽取，命中稀有度后再随机该稀有度内的一件制服。Mystery（「???」）制服女生池含 <b>Elite / Dragon / Bocchi</b> 三款，男生池含 <b>Elite / Dragon</b> 两款。</p>
+    <p class="note"><b>说明：</b>按稀有度权重抽取，命中稀有度后再随机该稀有度内的一件制服。Unique 稀有度为新晋档位（女生池 <b>Kakegurui</b> 一款）。Mystery（「???」）制服女生池含 <b>Elite / Dragon / Bocchi</b> 三款，男生池含 <b>Elite / Dragon</b> 两款。</p>
   </div>
 
   <div class="lib-card">
     <h2>🥋 战斗风格概率</h2>
     <div id="styleOddsTable"></div>
-    <p class="note"><b>说明：</b>Common 池仅「Basic」；Uncommon 池 3 种均分；Legendary 池 4 种均分；Mystery 池含「Ali」与「WingChun」（各 0.0375%，WingChun 于 v7538 由变体升级，后续版本重做反击机制）。</p>
+    <p class="note"><b>说明：</b>Common 池仅「Basic」；Uncommon 池 3 种均分；Epic 池含「Boxing」与「Striker」（各 5%）；Legendary 池 4 种均分；Mystery 池含「Ali」与「WingChun」（各 0.0375%）。</p>
   </div>
 </div>
 
@@ -279,7 +279,7 @@ img,svg{max-width:100%}
 <div class="panel" id="tab-uni">
   <div class="lib-card">
     <h2>👔 制服图鉴 · 角色试穿</h2>
-    <p class="note" style="margin-top:0"><b>说明：</b>共 20 款（男 9 / 女 11），按稀有度从高到低排序，稀有度按游戏配置 <code>UniformRarityConfig</code> 修正。每抽获得一套完整制服（衣服+裤子），性别由右上角 ♂/♀ 图标区分。<b style="color:#a03020">⚠ 本页只展示制服款式（衣服 + 裤子）的官方缩略图，不渲染真人穿着效果</b>，原因：Roblox 公开 API 无法匿名获取"自定义穿着后的角色图"（无登录态都返回 404）。</p>
+    <p class="note" style="margin-top:0"><b>说明：</b>共 24 款（男 10 / 女 14），按稀有度从高到低排序，稀有度按游戏配置 <code>UniformRarityConfig</code> 修正。每抽获得一套完整制服（衣服+裤子），性别由右上角 ♂/♀ 图标区分。<b style="color:#a03020">⚠ 本页只展示制服款式（衣服 + 裤子）的官方缩略图，不渲染真人穿着效果</b>，原因：Roblox 公开 API 无法匿名获取"自定义穿着后的角色图"（无登录态都返回 404）。</p>
     <div class="uni-grid" id="uniGrid"></div>
   </div>
   <div class="lib-card">
@@ -424,7 +424,7 @@ function uniOddsRows(g){
   }).join('');
 }
 function renderUniOdds(){
-  const tbl = g=>`<div class="odds-sub"><b>${g==='Student_Male'?'♂ 男生池（9 款）':'♀ 女生池（11 款）'}</b><table><tr><th>稀有度</th><th>总概率</th><th>件数</th><th>款式</th></tr>${uniOddsRows(g)}</table></div>`;
+  const tbl = g=>`<div class="odds-sub"><b>${g==='Student_Male'?'♂ 男生池':'♀ 女生池'}（${G.uniforms[g].length} 款）</b><table><tr><th>稀有度</th><th>总概率</th><th>件数</th><th>款式</th></tr>${uniOddsRows(g)}</table></div>`;
   $('uniOddsTable').innerHTML = tbl('Student_Male')+tbl('Student_Female');
 }
 function renderStyleOdds(){
@@ -544,7 +544,7 @@ function renderAcc(){
 const AV={};
 AV.Male={face:G.faceBuckets.Male[0],hair:G.hair.Male.Japanese[0]};
 AV.Female={face:G.faceBuckets.Female[0],hair:G.hair.Female.Japanese[0]};
-const UNI_ORDER=['Common','Rare','Epic','Legendary','Mystery'];
+const UNI_ORDER=['Common','Rare','Epic','Legendary','Unique','Mystery'];
 function uniSort(list){ return list.slice().sort((a,b)=>UNI_ORDER.indexOf(b.rarity)-UNI_ORDER.indexOf(a.rarity)); }
 function buildUni2D(){
   const all=[];
@@ -616,8 +616,6 @@ function renderStyle(){
 /* ---------- skateboard ---------- */
 function skateThumb(id){
   if(T[id]) return `<img src="${T[id]}" loading="lazy" alt="滑板 ${id}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'thumb-miss',textContent:'#${id}'}))">`;
-  // Oni (132003984) 被 Roblox Blocked，缩略图以「纯白」文字占位
-  if(id===132003984) return `<div class="thumb-miss" style="font-size:1rem;font-weight:700;color:#7a6a5a">纯白</div>`;
   return `<div class="thumb-miss">#${id}</div>`;
 }
 function skateBoardMap(){
@@ -660,22 +658,28 @@ function renderSkateboard(){
     </div>`;
   }).join('');
   const groups = G.skateboardRarities.map(r=>{
-    const subs = list.filter(s=>s.rarity===r.key);
+    const subs = list.filter(s=>s.rarity===r.key && s.rollable!==false);
+    const nonRoll = list.filter(s=>s.rarity===r.key && s.rollable===false);
     const per = perOf[r.key];
     const perTxt = per>=1? per.toFixed(2)+'%' : per>=0.1? per.toFixed(2)+'%' : per.toFixed(3)+'%';
-    return `<h3><span class="dot" style="background:${r.color}"></span>${r.displayName} · ${r.weight/totalWeight*100>=1? (r.weight/totalWeight*100).toFixed(1)+'%' : '<0.1%'} · ${subs.length} 款 · 每款 ${perTxt}</h3>
-      <div class="grid">${list.filter(s=>s.rarity===r.key).map(s=>{
-        const def = s.default? '<span class="badge badge-default">初始</span>':'';
-        const perTxt2 = perOf[s.rarity]>=1? perOf[s.rarity].toFixed(2)+'%' : perOf[s.rarity]>=0.1? perOf[s.rarity].toFixed(2)+'%' : perOf[s.rarity].toFixed(3)+'%';
-        return `<div class="grid-item">
-          <span class="rarity-tag" style="background:${r.color}">${r.displayName}</span>
-          ${skateThumb(s.colorMapId)}
-          <div class="gname">${s.name}</div>
-          <div class="gid">${s.colorMapId}</div>
-          <div style="margin-top:.3rem;font-size:.7rem;font-weight:700;color:${r.color}">${perTxt2}</div>
-          ${def}
-        </div>`;
-      }).join('')}</div>`;
+    const cell = (s,label)=>{
+      const def = s.default? '<span class="badge badge-default">初始</span>':'';
+      return `<div class="grid-item">
+        <span class="rarity-tag" style="background:${r.color}">${r.displayName}</span>
+        ${skateThumb(s.colorMapId)}
+        <div class="gname">${s.name}</div>
+        <div class="gid">${s.colorMapId}</div>
+        <div style="margin-top:.3rem;font-size:.7rem;font-weight:700;color:${s.rollable===false?'#9a8a7a':r.color}">${label}</div>
+        ${def}
+      </div>`;
+    };
+    let html = `<h3><span class="dot" style="background:${r.color}"></span>${r.displayName} · ${r.weight/totalWeight*100>=1? (r.weight/totalWeight*100).toFixed(1)+'%' : '<0.1%'} · ${subs.length} 款 · 每款 ${perTxt}</h3>
+      <div class="grid">${subs.map(s=>cell(s,perTxt)).join('')}</div>`;
+    if(nonRoll.length){
+      html += `<h3 style="margin-top:.7rem"><span class="dot" style="background:${r.color}"></span>${r.displayName} · 不可抽取（${nonRoll.length} 款 · 特殊获取）</h3>
+        <div class="grid">${nonRoll.map(s=>cell(s,'不可抽取')).join('')}</div>`;
+    }
+    return html;
   }).join('');
   $('skateSkinGrid').innerHTML = groups;
 }
