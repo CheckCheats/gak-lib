@@ -227,7 +227,7 @@ img,svg{max-width:100%}
     <h2>💇 发色概率</h2>
     <div id="hairColorOdds"></div>
     <div class="swatch-row" id="hairSwatches"></div>
-    <p class="note"><b>说明：</b>天然发色按族裔专属色板随机；染发（Unique Dye）使用非天然色板；白发与粉发为超稀有特殊色。</p>
+    <p class="note"><b>说明：</b>天然发色按族裔专属色板随机；染发（Unique Dye）使用非天然色板；白发、粉发与冰川蓝为超稀有特殊色。</p>
   </div>
 
   <div class="lib-card">
@@ -368,19 +368,22 @@ function renderFaceOdds(){
   $('faceOddsTable').innerHTML = tbl('Male')+tbl('Female');
 }
 function renderHairColor(){
+  const h = G.hairColors;
   $('hairColorOdds').innerHTML = `<table>
     <tr><th>类型</th><th>概率</th><th>说明</th></tr>
-    <tr><td>天然发色</td><td style="font-weight:700">94.998%</td><td style="color:#7a6a5a;font-size:.78rem">按族裔色板随机</td></tr>
-    <tr><td>染发 Unique Dye</td><td style="font-weight:700">4.9999%</td><td style="color:#7a6a5a;font-size:.78rem">非天然色板</td></tr>
-    <tr><td>粉发 Pastel Pink</td><td style="font-weight:700">0.0015%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
-    <tr><td>白发 White</td><td style="font-weight:700">0.0005%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+    <tr><td>天然发色</td><td style="font-weight:700">${h.naturalChance}%</td><td style="color:#7a6a5a;font-size:.78rem">按族裔色板随机</td></tr>
+    <tr><td>染发 Unique Dye</td><td style="font-weight:700">${h.uniqueDyeChance}%</td><td style="color:#7a6a5a;font-size:.78rem">非天然色板</td></tr>
+    <tr><td>粉发 Pastel Pink</td><td style="font-weight:700">${h.pastelPinkChance}%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+    <tr><td>冰川蓝 Glacier Blue</td><td style="font-weight:700">${h.glacierBlueChance}%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
+    <tr><td>白发 White</td><td style="font-weight:700">${h.whiteChance}%</td><td style="color:#7a6a5a;font-size:.78rem">超稀有</td></tr>
   </table>`;
   const sw = c=>`<div class="swatch" style="background:rgb(${c.join(',')})"></div>`;
   $('hairSwatches').innerHTML =
     `<div style="margin-right:.6rem"><b>天然色板（男女共用 · ${ethnicity}）</b></div>`+
     G.hairColors.naturalPalettes[ethnicity].map(sw).join('')+
     `<div style="margin:0 .6rem"><b>白发</b></div>`+G.hairColors.whitePalette.map(sw).join('')+
-    `<div style="margin:0 .6rem"><b>粉发</b></div>`+G.hairColors.pastelPinkPalette.map(sw).join('');
+    `<div style="margin:0 .6rem"><b>粉发</b></div>`+G.hairColors.pastelPinkPalette.map(sw).join('')+
+    `<div style="margin:0 .6rem"><b>冰川蓝</b></div>`+G.hairColors.glacierBluePalette.map(sw).join('');
 }
 function accCounts(g){
   const slots = G.accessorySlots;
