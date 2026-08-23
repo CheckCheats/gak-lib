@@ -199,8 +199,8 @@ img,svg{max-width:100%}
 <div class="gender-row">
   <span>制服池：</span>
   <select id="genderSel">
-    <option value="Student_Male">♂ 男生池（10 款）</option>
-    <option value="Student_Female">♀ 女生池（14 款）</option>
+    <option value="Student_Male">♂ 男生池（13 款）</option>
+    <option value="Student_Female">♀ 女生池（17 款）</option>
   </select>
   <span style="color:#5a4a3a;margin-left:.4rem">· 抽取次数 <input id="pullN" type="number" min="1" max="50" value="1" style="width:50px;background:#1a0f08;color:#e8d5b0;border:1px solid #4a3a28;padding:.2rem .4rem;border-radius:3px;font-family:inherit;font-size:.78rem"></span>
 </div>
@@ -287,9 +287,12 @@ const STYLE_EMBLEM = {
   Kure:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><circle cx="32" cy="34" r="11" fill="#ffd24b"/><path d="M44 16 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2 z" fill="#fff"/></svg>`,
   Hakari:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g stroke="#ffd24b" stroke-width="3" fill="#ffd24b"><line x1="32" y1="16" x2="32" y2="46"/><line x1="18" y1="26" x2="46" y2="26"/><path d="M18 26 l-6 9 h12 z" stroke="none"/><path d="M46 26 l-6 9 h12 z" stroke="none"/><circle cx="32" cy="14" r="3"/></g></svg>`,
   Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`,
-  Striker:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#b06bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#b06bff" stroke-width="1" opacity=".35"/><path d="M18 46 Q18 32 34 22 L46 16 Q44 32 34 42 Q28 48 24 48 Z" fill="#b06bff"/><g fill="#b06bff"><circle cx="27" cy="22" r="2.2"/><circle cx="34" cy="28" r="2.2"/><circle cx="41" cy="34" r="2.2"/></g></svg>`
+  Striker:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#b06bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#b06bff" stroke-width="1" opacity=".35"/><path d="M18 46 Q18 32 34 22 L46 16 Q44 32 34 42 Q28 48 24 48 Z" fill="#b06bff"/><g fill="#b06bff"><circle cx="27" cy="22" r="2.2"/><circle cx="34" cy="28" r="2.2"/><circle cx="41" cy="34" r="2.2"/></g></svg>`,
+  Kickboxing:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#5f9bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#5f9bff" stroke-width="1" opacity=".35"/><path d="M20 44 L42 18 L48 22 L28 46 Z" fill="#5f9bff"/><path d="M40 14 L46 10 L48 16 L42 20 Z" fill="#5f9bff"/></svg>`,
+  Kyokushin:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><rect x="24" y="16" width="16" height="28" rx="8" fill="#ffd24b"/><g stroke="#1a0f08" stroke-width="2"><line x1="24" y1="24" x2="40" y2="24"/><line x1="24" y1="30" x2="40" y2="30"/></g><path d="M24 52 h16" stroke="#ffd24b" stroke-width="3" stroke-linecap="round"/></svg>`,
+  CQC:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ff374b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ff374b" stroke-width="1" opacity=".35"/><g fill="none" stroke="#ff374b" stroke-width="4" stroke-linecap="round"><path d="M32 20 A12 12 0 1 1 32 44"/><path d="M32 14 V20 M32 44 V50 M14 32 H20 M44 32 H50"/></g><circle cx="32" cy="32" r="5" fill="#ff374b"/></svg>`
 };
-const STYLE_EMBLEM_KEY = {Basic:'Basic',Karate:'Karate','MuayThai':'Muay Thai',Slugger:'Slugger',Boxing:'Boxing',Wrestling:'Wrestling',Capoeira:'Capoeira',Kure:'Kure',Hakari:'Hakari',Ali:'Ali',Striker:'Striker'};
+const STYLE_EMBLEM_KEY = {Basic:'Basic',Karate:'Karate','MuayThai':'Muay Thai',Slugger:'Slugger',Boxing:'Boxing',Wrestling:'Wrestling',Capoeira:'Capoeira',Kure:'Kure',Hakari:'Hakari',Ali:'Ali',Striker:'Striker',Kickboxing:'Kickboxing',Kyokushin:'Kyokushin',CQC:'CQC'};
 
 const G = GACHA_DATA, T = THUMBS;
 

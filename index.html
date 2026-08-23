@@ -260,6 +260,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
   <a href="#vending">🥤 贩卖机</a>
   <a href="#work">💼 工作</a>
   <a href="#vehicle">🛹 载具</a>
+  <a href="#gym">🏟️ 体育馆</a>
   <a href="#height">📏 身高系统</a>
   <a href="gacha.html" class="nav-gacha">🎰 抽卡图鉴</a>
   <a href="simulator.html" class="nav-sim">🎰 模拟抽取</a>
@@ -296,6 +297,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
       <select id="styleSelect">
         <option value="Basic">Basic（基础）</option>
         <option value="Karate">Karate（空手道）</option>
+        <option value="Kickboxing">Kickboxing（踢拳）</option>
         <option value="MuayThai">Muay Thai（泰拳）</option>
         <option value="Slugger">Slugger（重击手）</option>
         <option value="Boxing">Boxing（拳击）</option>
@@ -304,8 +306,10 @@ img,svg,video,iframe{max-width:100%;height:auto}
         <option value="Wrestling">Wrestling（摔跤）</option>
         <option value="Capoeira">Capoeira（卡波耶拉）</option>
         <option value="Kure">Kure（吴）</option>
+        <option value="Kyokushin">Kyokushin（极真流）</option>
         <option value="Ali">Ali（阿里）</option>
         <option value="WingChun">WingChun（咏春）</option>
+        <option value="CQC">CQC（???）</option>
       </select>
     </div>
   </div>
@@ -329,16 +333,16 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <!-- 🎴 RARITY INTRO — below height calculator -->
 <div class="lib-card" id="rarity-intro">
   <h3>🎴 战斗风格稀有度 · 真实配置</h3>
-  <p>身高计算器里可选的 12 种风格，全部按游戏内 <code>CombatStyleRarityConfig</code> 的<strong>真实稀有度权重</strong>抽取，并非均匀概率。稀有度越高，单次抽取概率越低：</p>
+  <p>身高计算器里可选的 14 种风格，全部按游戏内 <code>CombatStyleRarityConfig</code> 的<strong>真实稀有度权重</strong>抽取，并非均匀概率。稀有度越高，单次抽取概率越低：</p>
   <table>
     <tr><th>稀有度</th><th>占比</th></tr>
-    <tr><td>常见</td><td>59%</td></tr>
+    <tr><td>常见</td><td>58.95%</td></tr>
     <tr><td>罕见</td><td>30%</td></tr>
     <tr><td>史诗</td><td>10%</td></tr>
     <tr><td>传奇级</td><td>1%</td></tr>
-    <tr><td>???</td><td>0.075%</td></tr>
+    <tr><td>???</td><td>0.05%</td></tr>
   </table>
-  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">风格归属：Basic → 常见；Karate · Muay Thai · Slugger → 罕见；Boxing · Striker → 史诗；Hakari · Wrestling · Capoeira · Kure → 传奇级；Ali · WingChun → ???。</p>
+  <p style="margin-top:.5rem;font-size:.8rem;color:#7a6a5a">风格归属：Basic → 常见；Karate · Kickboxing · Muay Thai · Slugger → 罕见；Boxing · Striker → 史诗；Hakari · Wrestling · Capoeira · Kure · Kyokushin → 传奇级；Ali · WingChun · CQC → ???。</p>
 </div>
 
 <!-- 🥋 STYLE DETAIL SECTION — per-style complete data -->
@@ -357,6 +361,9 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <tr><td>Capoeira（卡波耶拉）</td><td>M2 蓝色高亮</td><td>M2 旋风踢命中高亮为<strong>蓝色</strong></td></tr>
     <tr><td>WingChun（咏春）</td><td>专属待机 + 反击架势</td><td>拥有<strong>独立待机动画</strong>的风格之一（Ali / Striker 同为）；M2 反击起手有专属架势演出</td></tr>
     <tr><td>Striker（打击者）</td><td>右腿残影 + 专属待机</td><td>M2 右腿踢击拖出<strong>腿部残影</strong>（每 0.05s 一帧、最多 12 个、持续 0.3s、渐隐 45%）；拥有<strong>独立待机动画</strong>（与 Ali / WingChun 并列）</td></tr>
+    <tr><td>CQC（???）</td><td>暴击杀意特效</td><td>M2 蓄力标记圈内目标，自动冲刺连打 <strong>5 连击</strong>（每击 2.8 伤害、冲刺 55 studs/s）；蓄力期间不可移动，开场 0.5s 内被击中可打断；命中附带<strong>橙红光圈与粒子</strong>演出（暴击特效）</td></tr>
+    <tr><td>Kyokushin（极真流）</td><td>铁身金光</td><td>M2 蓄力（最长 0.82s）带<strong>霸体</strong>，被打不打断、反而叠加<strong>铁身</strong>（每层 +15% 伤害、最多 3 层），命中时<strong>金色高亮</strong>（吸收演出）</td></tr>
+    <tr><td>Kickboxing（踢拳）</td><td>换架姿态</td><td>第 4 击 M1 命中返还 <strong>1.5s</strong> M2 冷却；命中触发<strong>下段防守</strong>层数（第 3、4 击叠加，两层命中使对手闪避冷却 +40% 持续 5s）</td></tr>
     <tr><td>通用</td><td>受击闪身动画</td><td>Ali 等风格被格挡命中时会播放<strong>左右/下方位闪身</strong>动画（BlockHitVariants）</td></tr>
   </table>
 </div>
@@ -390,6 +397,19 @@ img,svg,video,iframe{max-width:100%;height:auto}
         <tr><td>沉着<br>Steady Nerves</td><td>完美格挡后姿态回复+15%持续3秒</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>平衡打击<br>Balanced Strike</td><td>M2命中回25%当前姿态消耗</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>破防穿透II<br>Guard Pierce II</td><td>格挡伤害穿透15%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+        <tr><td>韧性II<br>Resilience II</td><td>M1碰撞25%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+    </div>
+
+    <!-- Kickboxing 踢拳 -->
+    <div class="style-card">
+      <div class="sc-title"><span>Kickboxing（踢拳）</span><span class="badge badge-uncommon">Uncommon 7.5%</span></div>
+      <table class="sc-table">
+        <tr class="sc-delay"><td>连击延迟<br>Combo Delay</td><td>M1: 0.30s（第1击 0.25s）· M2: 0.50s（CD 7s）</td><td><span class="badge badge-common">M1/M2</span></td></tr>
+        <tr><td>下段防守<br>Low Guard</td><td>踢击命中两次后，5 秒内使对手闪避冷却 +40%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>换架<br>Switch Stance</td><td>第 4 击 M1 命中返还 1.5s M2 冷却</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>碾压力I<br>Crushing Force I</td><td>每次命中姿态伤害 +10%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+        <tr><td>破防穿透III<br>Guard Pierce III</td><td>格挡伤害穿透20%</td><td><span class="badge badge-common">通用被动</span></td></tr>
         <tr><td>韧性II<br>Resilience II</td><td>M1碰撞25%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
       </table>
     </div>
@@ -480,6 +500,18 @@ img,svg,video,iframe{max-width:100%;height:auto}
       </table>
     </div>
 
+    <!-- Kyokushin 极真流 -->
+    <div class="style-card">
+      <div class="sc-title"><span>Kyokushin（极真流空手道）</span><span class="badge badge-legendary">Legendary 0.2%</span></div>
+      <table class="sc-table">
+        <tr class="sc-delay"><td>连击延迟<br>Combo Delay</td><td>M1: 0.20s（第4击 0.5s）· M2: 0.82s（CD 7s）</td><td><span class="badge badge-common">M1/M2</span></td></tr>
+        <tr><td>铁身<br>Iron Body</td><td>M2 蓄力期间被打不打断，每吃一击叠加 <strong>+15%</strong> 伤害（最多 3 层），M2 伤害 ×1.35</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>黑曜骨架<br>Obsidian Skeleton</td><td>受到所有来源伤害 −15%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>反击<br>Counterstrike</td><td>完美格挡后下次攻击 +5% 伤害</td><td><span class="badge badge-common">通用</span></td></tr>
+        <tr><td>破防穿透V<br>Guard Pierce V MAX</td><td>格挡伤害穿透30%</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+    </div>
+
     <!-- Hakari 秤 -->
     <div class="style-card">
       <div class="sc-title"><span>Hakari（秤）</span><span class="badge badge-legendary">Legendary 0.25%</span></div>
@@ -506,13 +538,26 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <div class="style-card">
       <div class="sc-title"><span>WingChun（咏春）</span><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">神秘稀有</span></div>
       <table class="sc-table">
-        <tr><td>反击寸劲<br>Counter M2</td><td>M2 需反击命中（窗口 0.58s），反击伤害 1.647×、眩晕 2.8s；挥空自晕 0.6s</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>反击寸劲<br>Counter M2</td><td>M2 需反击命中（窗口 0.58s），反击伤害 1.318×、眩晕 2.8s；挥空自晕 0.6s</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>迅捷手<br>Swift Hands</td><td>M1 攻击速度 +6%，代价每击伤害 −0.2</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>终结技<br>Final Blow</td><td>连击最后一击（4A）伤害 ×1.5</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>眩晕打击<br>Concussive</td><td>反击命中移除对手招架能力 1.35 秒</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>强固I<br>Fortified I</td><td>架势抗性 +10%，格挡时减少架势损耗</td><td><span class="badge badge-epic">专属</span></td></tr>
         <tr><td>破防穿透III<br>Guard Pierce III</td><td>格挡伤害穿透20%</td><td><span class="badge badge-common">通用被动</span></td></tr>
         <tr><td>韧性I<br>Resilience I</td><td>M1碰撞15%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
+      </table>
+    </div>
+
+    <!-- CQC -->
+    <div class="style-card">
+      <div class="sc-title"><span>CQC（???）</span><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">神秘稀有</span></div>
+      <table class="sc-table">
+        <tr class="sc-delay"><td>连击延迟<br>Combo Delay</td><td>M1: 0.40s（第3击 0.3s）· M2: 0.50s（CD 11s）</td><td><span class="badge badge-common">M1/M2</span></td></tr>
+        <tr><td>杀意<br>Killing Intent</td><td>M2 标记圈内目标并自动冲刺连打 <strong>5 连击</strong>（每击 2.8 伤害）；蓄力 1.5s 不可移动，开场 0.5s 内被打断则失败，否则不可阻挡；带无敌帧</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>近身格斗<br>Close Quarters</td><td>离对手越近伤害越高，贴脸最高 +25%（18 studs 外无加成）</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>上风<br>Upper Hand</td><td>赢得缠斗后 5 秒窗口内所有攻击伤害 +25%</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>首领战<br>Boss Raid</td><td>本命内每多一个不同攻击者打中你，总伤害 +2%（最多 10 人）</td><td><span class="badge badge-epic">专属</span></td></tr>
+        <tr><td>韧性III<br>Resilience III</td><td>M1碰撞35%概率触发摔跤</td><td><span class="badge badge-common">通用被动</span></td></tr>
       </table>
     </div>
 
@@ -546,23 +591,26 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <!-- 🏷️ STYLE OVERVIEW TABLE -->
 <div class="lib-card" id="styles">
   <h3>🏷️ 战斗风格总览</h3>
-  <p>11种可抽取风格。各稀有度概率如下：</p>
+  <p>14种可抽取风格。各稀有度概率如下：</p>
   <table>
     <tr><th>风格</th><th>稀有度</th><th>单抽概率</th><th>M1基础延迟</th><th>M2延迟</th><th>M2 CD</th><th>击退</th><th>特性</th></tr>
-    <tr><td>Basic（基础）</td><td><span class="badge badge-common">Common</span></td><td>58.93%</td><td>0.34s</td><td>0.525s</td><td>7s</td><td>2</td><td>均衡格斗，完美格挡+5%</td></tr>
-    <tr><td>Karate（空手道）</td><td rowspan="3"><span class="badge badge-uncommon">Uncommon</span></td><td>30%</td><td><strong>0.2775s</strong></td><td>0.4875s</td><td>7s</td><td>15</td><td>极快M1，M2回姿态25%</td></tr>
+    <tr><td>Basic（基础）</td><td><span class="badge badge-common">Common</span></td><td>58.95%</td><td>0.34s</td><td>0.525s</td><td>7s</td><td>2</td><td>均衡格斗，完美格挡+5%</td></tr>
+    <tr><td>Karate（空手道）</td><td rowspan="4"><span class="badge badge-uncommon">Uncommon</span></td><td>30%</td><td><strong>0.2775s</strong></td><td>0.4875s</td><td>7s</td><td>15</td><td>极快M1，M2回姿态25%</td></tr>
+    <tr><td>Kickboxing（踢拳）</td><td>30%</td><td>0.30s（第1击0.25s）</td><td>0.50s</td><td>7s</td><td>18（踢飞65）</td><td>换架减CD·下段防守·姿态伤+10%</td></tr>
     <tr><td>Muay Thai（泰拳）</td><td>30%</td><td>0.30s</td><td>0.60s</td><td>7s</td><td>20</td><td>强力M2膝撞，姿态伤+15%</td></tr>
     <tr><td>Slugger（重炮手）</td><td>30%</td><td>0.50s</td><td>0.82s</td><td>7s</td><td>25</td><td>总伤+40%，受伤+15%</td></tr>
     <tr><td>Boxing（拳击）</td><td rowspan="2"><span class="badge badge-epic">Epic</span></td><td rowspan="2">10%</td><td>0.34s</td><td>0.43s</td><td>7s</td><td>15</td><td>M2无敌帧两连拳</td></tr>
     <tr><td>Striker（打击者）</td><td>0.35s（逐击加速→0.12s）</td><td>0.45s</td><td>7s</td><td>4（踢飞65）</td><td>M2右腿踢击·残影·击飞布娃娃</td></tr>
-    <tr><td>Hakari（秤）</td><td rowspan="4"><span class="badge badge-legendary">Legendary</span></td><td>1%</td><td>0.35s</td><td>0.35s（动量0.48s）</td><td>7s</td><td>25</td><td>满连3倍M2（7s窗口·黑闪）</td></tr>
+    <tr><td>Hakari（秤）</td><td rowspan="5"><span class="badge badge-legendary">Legendary</span></td><td>1%</td><td>0.35s</td><td>0.35s（动量0.48s）</td><td>7s</td><td>25</td><td>满连3倍M2（7s窗口·黑闪）</td></tr>
     <tr><td>Wrestling（摔跤）</td><td>1%</td><td>0.36s</td><td>0.525s</td><td>12s</td><td>-5（吸）</td><td>M2抓取1.5x+霸体</td></tr>
     <tr><td>Capoeira（卡波耶拉）</td><td>1%</td><td>0.35s</td><td>0.45s</td><td>12s</td><td>22.5</td><td>M2旋风踢·击飞(发射99)·闪避CD-25%</td></tr>
     <tr><td>Kure（吴）</td><td>1%</td><td>0.32s</td><td><strong>0.30s</strong></td><td>12s</td><td>15</td><td>极速M2头槌抓取1.5x</td></tr>
-    <tr><td>Ali（阿里）</td><td rowspan="2"><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td rowspan="2">0.075%</td><td>0.28s</td><td>0.53s（右0.67）</td><td>7s</td><td>6</td><td>M2左右变招(0.8×/1.25×)+无敌帧+闪避反击</td></tr>
-    <tr><td>WingChun（咏春）</td><td>0.30s（4A 0.7s）</td><td>0.525s</td><td>7.5s</td><td>30</td><td>M2反击寸劲（1.647×）· 4A终结1.5×</td></tr>
+    <tr><td>Kyokushin（极真流）</td><td>1%</td><td><strong>0.20s</strong>（第4击0.5s）</td><td>0.82s</td><td>7s</td><td>12（踢飞65）</td><td>铁身蓄力1.35x·霸体·受伤-15%</td></tr>
+    <tr><td>Ali（阿里）</td><td rowspan="3"><span class="badge badge-legendary" style="background:linear-gradient(135deg,#ffd700,#ff69b4)">Mystery</span></td><td rowspan="3">0.05%</td><td>0.28s</td><td>0.53s（右0.67）</td><td>7s</td><td>6</td><td>M2左右变招(0.8×/1.25×)+无敌帧+闪避反击</td></tr>
+    <tr><td>WingChun（咏春）</td><td>0.30s（4A 0.7s）</td><td>0.525s</td><td>7.5s</td><td>30</td><td>M2反击寸劲（1.318×）· 4A终结1.5×</td></tr>
+    <tr><td>CQC（???）</td><td>0.40s（第3击0.3s）</td><td>0.50s</td><td>11s</td><td>4（踢飞65）</td><td>杀意5连击·近身+25%·缠斗后+25%</td></tr>
   </table>
-  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Epic 池含 Boxing 与 Striker 两风格（各 5%）。Mystery 神秘稀有度（???）含 Ali 与 WingChun 两风格，合计 0.075%（各 0.0375%）。WingChun 为反击流风格（1.647× 反击伤，M1 提速至 0.3s）。</p>
+  <p style="margin-top:.5rem;font-size:.78rem;color:#7a6a5a">Hakari 现已从 Epic 提升为 Legendary 稀有度。Epic 池含 Boxing 与 Striker 两风格（各 5%）。Mystery 神秘稀有度（???）含 Ali / WingChun / CQC 三风格，合计 0.05%（各约 0.0167%）。WingChun 为反击流风格（反击伤害 1.318×，M1 提速至 0.3s）。</p>
   <h4>变体风格 · 不可抽取</h4>
   <table>
     <tr><th>变体</th><th>M1 / M2 延迟</th><th>抓取</th><th>特征（豆包AI生成）</th></tr>
@@ -579,7 +627,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
 <!-- 👔 UNIFORMS -->
 <div class="lib-card" id="uniforms">
   <h3>👔 校服图鉴</h3>
-  <p>共 <strong>21种</strong> 校服外观（男女同款合并；合计 <strong>24 款</strong> · 男 10 / 女 14），经由 Reroll 或 UniformSlotSwap 获取。</p>
+  <p>共 <strong>24种</strong> 校服外观（男女同款合并；合计 <strong>30 款</strong> · 男 13 / 女 17），经由 Reroll 或 UniformSlotSwap 获取。</p>
   <table>
     <tr><th>#</th><th>中文名</th><th>英文名</th></tr>
     <tr><td>1</td><td>另类</td><td>Alt</td></tr>
@@ -598,23 +646,27 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <tr><td>14</td><td>宽松标准</td><td>Loose Regular</td></tr>
     <tr><td>15</td><td>男装制服</td><td>Male Uniform</td></tr>
     <tr><td>16</td><td>玛琳</td><td>Marin</td></tr>
-    <tr><td>17</td><td>无外衣</td><td>No Overshirt</td></tr>
-    <tr><td>18</td><td>开衫学兰</td><td>Open Gakuran</td></tr>
-    <tr><td>19</td><td>水手服</td><td>Sailor</td></tr>
-    <tr><td>20</td><td>樱花</td><td>Sakura</td></tr>
-    <tr><td>21</td><td>无袖</td><td>Sleeveless</td></tr>
+    <tr><td>17</td><td>我的英雄学院</td><td>MHA</td></tr>
+    <tr><td>18</td><td>无外衣</td><td>No Overshirt</td></tr>
+    <tr><td>19</td><td>开衫学兰</td><td>Open Gakuran</td></tr>
+    <tr><td>20</td><td>水手服</td><td>Sailor</td></tr>
+    <tr><td>21</td><td>樱花</td><td>Sakura</td></tr>
+    <tr><td>22</td><td>齐木楠雄</td><td>Saiki K</td></tr>
+    <tr><td>23</td><td>无袖</td><td>Sleeveless</td></tr>
+    <tr><td>24</td><td>吸血鬼</td><td>Vampire</td></tr>
   </table>
 </div>
 
 <!-- 😊 FACES -->
 <div class="lib-card" id="faces">
   <h3>😊 脸型典藏</h3>
-  <p>共 <strong>112个</strong> Face ID 位在 AnimationRemap 模块中。按稀有度分列如下：</p>
+  <p>共 <strong>110个</strong> Face ID 位在 AnimationRemap 模块中。按稀有度分列如下：</p>
   <table>
     <tr><th>稀有度</th><th>概率</th><th>说明</th></tr>
     <tr><td>Regular（普通）</td><td>~61%</td><td>基础脸型，最为常见</td></tr>
     <tr><td>Rare（稀有）</td><td>~25%</td><td>精致脸型，较为少见</td></tr>
     <tr><td>Epic（史诗）</td><td>~10%</td><td>极为精致的脸孔</td></tr>
+    <tr><td>Legendary（传说）</td><td>~1%</td><td>传说级脸型（男生池现已开放）</td></tr>
     <tr><td>Gyaru（辣妹）</td><td>~5%</td><td>女性专属风格脸</td></tr>
     <tr><td>Neko（猫耳）</td><td>~2%</td><td>可爱的猫娘脸</td></tr>
     <tr><td>Mogger（帅哥）</td><td>~1%</td><td>高颜值男性脸型</td></tr>
@@ -625,7 +677,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
     💡 猫耳（Cat Ears）独立于脸型系统，有 <strong>5%</strong> 附加概率。民族分布：日本 95%，其余各国各 ~1%。
   </p>
   <p style="margin-top:.4rem;font-size:.8rem;color:#7a6a5a">
-    ✨ <strong>最新外观更新：</strong>① 新增<strong>眨眼动画系统（Blink）</strong>——绝大多数脸型配备对应眨眼贴图，Mogger（帅哥）专属眨眼变体，角色待机时会自然眨眼；② <strong>面部饰品位置修正扩展</strong>：眼镜/口罩等面部饰品会按脸型自动调整佩戴高度（全脸型适配）；③ 教师女装制服裤子款式更新。
+    ✨ <strong>最新外观更新：</strong>① 新增<strong>16 张新脸型</strong>——男性 11 张（Rare 2 · Epic 3 · <strong>Legendary 3</strong> · Mystery 3）与女性 5 张（Rare 2 · Epic 1 · Legendary 2）；男生池<strong>首次开放传说级（Legendary）脸型</strong>；② 新增<strong>12 个男性日式发型与 1 个女性日式发型</strong>；③ 新增 3 套联动制服（男女均含）：<strong>Saiki K · MHA · Vampire</strong>；④ 新增 <strong>7 款滑板皮肤</strong>（6 款可抽取 + 1 款特殊获取）；⑤ 新增<strong>室内体育馆</strong>：篮球 3v3–5v5 与全新<strong>排球玩法</strong> 2v2–6v6。
   </p>
 </div>
 
@@ -829,7 +881,7 @@ img,svg,video,iframe{max-width:100%;height:auto}
   • <strong>Hakari（秤）</strong>：动量 M2 Hitbox 延迟 <strong>0.48s</strong>；前置条件为连中 3 次 M1；命中后 ×<strong>3</strong> 伤害 + 击退 ×<strong>1.5</strong> + 垂直 <strong>0.5</strong>；黑闪特效 <strong>2.5s</strong>。<br>
   • <strong>Ali（阿里）</strong>：M2 变招——右键 = <strong>1.25×</strong> 伤害 / 击退 1 / 扑倒布娃娃；左键 = <strong>0.8×</strong> 伤害 / 击退 0.6 / 不扑倒；M2 延迟 <strong>0.53s</strong>，并切换相机。<br>
   • <strong>Kure / Wrestling / Capoeira</strong>：抓取得手后目标前偏 <strong>2.7</strong>；Kure 头槌锁定 <strong>0.5s</strong> · 延迟 <strong>0.3s</strong>，且 Kure 摔倒会取消对方格挡 <strong>2s</strong>。<br>
-  • <strong>WingChun（咏春 · 神秘风格）</strong>：M2 为<strong>反击技</strong>——需先被对手攻击进入反击窗口（<strong>0.58s</strong>）再出 M2 命中，反击伤害 <strong>1.647×</strong>、击退 <strong>30</strong>、拉拽 <strong>3.6 studs</strong>、布娃娃 <strong>2.8s</strong>；挥空则自晕 <strong>0.6s</strong>，并封对方招架 <strong>1.35s</strong>。M2 CD <strong>7.5s</strong>、延迟 <strong>0.525s</strong>。M1 延迟 <strong>0.3s</strong>（第 1-3 击 0.3 / 第 4 击 0.7s），每击伤害 ×<strong>0.96</strong>，第 4 击伤害覆盖为 <strong>7.5</strong>（终结技 1.5×）。架势抗性 ×<strong>0.9</strong>。专属天赋：Swift Hands（+6% M1 攻速、每击 −0.2 伤害）、Final Blow、Concussive、Fortified Ⅰ。缠斗率 <strong>15%</strong>。</p>
+  • <strong>WingChun（咏春 · 神秘风格）</strong>：M2 为<strong>反击技</strong>——需先被对手攻击进入反击窗口（<strong>0.58s</strong>）再出 M2 命中，反击伤害 <strong>1.318×</strong>、击退 <strong>30</strong>、拉拽 <strong>3.6 studs</strong>、布娃娃 <strong>2.8s</strong>；挥空则自晕 <strong>0.6s</strong>，并封对方招架 <strong>1.35s</strong>。M2 CD <strong>7.5s</strong>、延迟 <strong>0.525s</strong>。M1 延迟 <strong>0.3s</strong>（第 1-3 击 0.3 / 第 4 击 0.7s），每击伤害 ×<strong>0.96</strong>，第 4 击伤害覆盖为 <strong>7.5</strong>（终结技 1.5×）。架势抗性 ×<strong>0.9</strong>。专属天赋：Swift Hands（+6% M1 攻速、每击 −0.2 伤害）、Final Blow、Concussive、Fortified Ⅰ。缠斗率 <strong>15%</strong>。</p>
 
   <h4>战斗状态机</h4>
   <table>
@@ -1079,13 +1131,59 @@ img,svg,video,iframe{max-width:100%;height:auto}
     <tr><td>骑行时跳跃</td><td>常规跳跃被禁用（SetJumpBlocked），改用 Ollie</td></tr>
   </table>
 
-  <h4>🎨 滑板皮肤（35 款）</h4>
+  <h4>🎨 滑板皮肤（42 款）</h4>
   <p>滑板可更换皮肤，皮肤稀有度权重来自 <code>SkateboardSkinConfig</code>（Common 95% / Unique 5%），同一稀有度内均分。完整缩略图见 <a href="gacha.html">抽卡图鉴 · 滑板</a>。</p>
   <table>
     <tr><th>稀有度</th><th>总概率</th><th>皮肤</th></tr>
     <tr><td><span class="badge badge-common">Common</span></td><td>95%</td><td>Basic · Polo · Vintage · Bolt · Bruce Lee · Sky · Maple · Hexaboard（8 款 · 各 11.88%）</td></tr>
-    <tr><td><span class="badge badge-variant" style="background:linear-gradient(135deg,#ffd64c,#c8a14b)">Unique</span></td><td>5%</td><td>1Sheep2Rabbits · Lonecat · MusiciansRhythm · Gyaruboard · LobsterPoolParty · AngelWings · InsectFormation · SnowyWoodland · GalaxyBoard · AncientDragon · Cloud · AncientTiger · Bunny（13 款可抽取 · 各约 0.385%）</td></tr>
-    <tr><td>不可抽取</td><td>—</td><td>Oni · 2003 · Koi · White Tiger · nonaarri · Ruby4Moon · ArchOrigin · kaipsl1 · koibananaball · TungTungTung · Juno · ccyume1 · velriin · Sar（14 款 · 特殊获取）</td></tr>
+    <tr><td><span class="badge badge-variant" style="background:linear-gradient(135deg,#ffd64c,#c8a14b)">Unique</span></td><td>5%</td><td>1Sheep2Rabbits · Lonecat · MusiciansRhythm · Gyaruboard · LobsterPoolParty · AngelWings · InsectFormation · SnowyWoodland · GalaxyBoard · AncientDragon · Cloud · AncientTiger · Bunny · Ocean World · Crimson Flower · Symphony · Easy Life · Vaporwave · Glitch Moth（19 款可抽取 · 各约 0.263%）</td></tr>
+    <tr><td>不可抽取</td><td>—</td><td>Oni · 2003 · Koi · White Tiger · nonaarri · Ruby4Moon · ArchOrigin · kaipsl1 · koibananaball · TungTungTung · Juno · ccyume1 · velriin · Sar · koulmoir（15 款 · 特殊获取）</td></tr>
+  </table>
+</div>
+
+<!-- 🏟️ INDOOR GYMNASIUM -->
+<div class="lib-card" id="gym">
+  <h3>🏟️ 室内体育馆（Indoor Gymnasium）</h3>
+  <p>新增的<strong>室内体育馆</strong>，内置<strong>篮球场（IndoorGymnasiumCourt）</strong>与全新<strong>排球场</strong>，可进行 3v3–5v5 篮球与 2v2–6v6 排球对战。</p>
+
+  <h4>🏀 篮球（3v3 ~ 5v5）</h4>
+  <table>
+    <tr><th>规则</th><th>数值</th></tr>
+    <tr><td>模式人数</td><td>每边 3~5 人（室内场最少每边 3 人开赛）</td></tr>
+    <tr><td>进球得分</td><td>每球 <strong>2 分</strong>（POINTS_PER_BASKET）</td></tr>
+    <tr><td>目标分数</td><td>先到 <strong>15 分</strong>，需净胜 <strong>2 分</strong></td></tr>
+    <tr><td>进攻时限</td><td>24 秒进攻时钟；前场篮板后重置为 <strong>14 秒</strong></td></tr>
+    <tr><td>发球</td><td>界外发球（Inbound）时限 5 秒，抢位 10 秒</td></tr>
+    <tr><td>胜负演出</td><td>赛后鞠躬退场（Bow）仪式</td></tr>
+  </table>
+
+  <h4>🏐 排球（2v2 ~ 6v6 · 全新玩法）</h4>
+  <p>室内体育馆内的<strong>全新排球玩法</strong>，支持 <strong>2v2 至 6v6</strong> 组队对战。球场按网分区（Net），每边发球区轮流发球。</p>
+  <table>
+    <tr><th>规则</th><th>数值</th></tr>
+    <tr><td>模式人数</td><td>每边 2~6 人（MIN_PER_SIDE=2 / MAX_PER_SIDE=6）</td></tr>
+    <tr><td>目标分数</td><td>先到 <strong>11 分</strong>，需净胜 <strong>2 分</strong>（WIN_BY=2）</td></tr>
+    <tr><td>触球上限</td><td>每回合最多 <strong>3 次触球</strong>（MAX_TOUCHES=3）</td></tr>
+    <tr><td>发球时限</td><td>发球区抢位 10 秒、发球 8 秒</td></tr>
+    <tr><td>技术动作</td><td>扣杀 Spike（球速上限 76）· 托球 Set（上限 38）· 接球 Receive · 拦网 Block · 鱼跃救球 Dive</td></tr>
+    <tr><td>球网</td><td>球撞网会减速回弹（Net Dampen），网顶触球向上弹起</td></tr>
+    <tr><td>计分演出</td><td>得分后鞠躬退场（Bow）仪式</td></tr>
+  </table>
+</div>
+
+<!-- 📜 CHANGELOG -->
+<div class="lib-card" id="changelog">
+  <h3>📜 更新一览</h3>
+  <table>
+    <tr><th>类别</th><th>内容</th></tr>
+    <tr><td>🥋 战斗风格</td><td>新增 <strong>CQC（??? 神秘稀有）</strong>、<strong>Kyokushin 极真流空手道（传奇级）</strong>、<strong>Kickboxing 踢拳（罕见）</strong>；<strong>咏春暴击伤害降低 20%</strong>（反击寸劲 1.647× → 1.318×）</td></tr>
+    <tr><td>😊 脸型</td><td>新增 16 张脸型（男 11：Rare 2 · Epic 3 · Legendary 3 · Mystery 3；女 5：Rare 2 · Epic 1 · Legendary 2）；男生池首次开放传说级脸型</td></tr>
+    <tr><td>💇 发型</td><td>新增 12 个男性日式发型、1 个女性日式发型</td></tr>
+    <tr><td>👔 制服</td><td>新增 3 套（男女均含）：<strong>Saiki K · MHA · Vampire</strong></td></tr>
+    <tr><td>🛹 滑板</td><td>新增 7 款皮肤（6 款可抽取 + 1 款特殊获取）；<strong>支持移动端操作</strong></td></tr>
+    <tr><td>🏟️ 玩法</td><td>新增<strong>室内体育馆</strong>（篮球 3v3–5v5）；新增<strong>排球玩法</strong>（2v2–6v6）</td></tr>
+    <tr><td>🎮 体验</td><td>左下角新增<strong>按键绑定提示</strong>；新增<strong>代码游玩时长上限（1 小时）</strong></td></tr>
+    <tr><td>🔧 修复</td><td>战斗时撤销功能不再消失、断线也会保存；修复使用 Robux 直接滚动时撤销不显示的问题；移除部分不适当姓氏</td></tr>
   </table>
 </div>
 
@@ -1144,6 +1242,11 @@ const S = {
     m2Delay:0.82,m2Dur:"—",m2Cd:7,m2KB:25,m2Desc:"最高击退",
     fwd:[0,0],grapple:35,
     comboDescs:["0.50s","0.45s","0.45s","0.37s"]},
+  Kickboxing:{rarity:"Uncommon 7.5%",cls:"badge-uncommon",desc:"换架减CD、下段防守，姿态伤害+10%",
+    m1Base:0.3,offsets:[-0.05,0,0.11,0.22],m1Final:0.25,
+    m2Delay:0.5,m2Dur:"—",m2Cd:7,m2KB:18,m2Desc:"踢飞65",
+    fwd:[0.3,0.2],grapple:25,
+    comboDescs:["0.25s","0.30s","0.41s","0.52s"]},
   Boxing:{rarity:"Epic 10%",cls:"badge-epic",desc:"M2两段攻击带无敌帧，每段独立判定",
     m1Base:0.32,offsets:[0.02,0.02,0.02,0.06],m1Final:0.34,
     m2Delay:0.43,m2Dur:"—",m2Cd:7,m2KB:15,m2Desc:"无敌帧两连拳",
@@ -1174,16 +1277,26 @@ const S = {
     m2Delay:0.3,m2Dur:"—",m2Cd:12,m2KB:15,m2Desc:"头槌抓取",
     fwd:[0,0],grapple:15,
     comboDescs:["0.32s","0.32s","0.32s","0.32s"]},
-  Ali:{rarity:"Mystery 0.075%",cls:"badge-legendary",desc:"M2左右变招（右键1.25×布娃娃/左键0.8×不扑倒）+全程无敌帧，闪避后瞬发反击",
+  Kyokushin:{rarity:"Legendary 0.2%",cls:"badge-legendary",desc:"极速M1 + 铁身蓄力M2（1.35x、霸体、每层+15%），受伤-15%",
+    m1Base:0.2,offsets:[0,0.08,0.08,0.3],m1Final:0.2,m2Mult:1.35,
+    m2Delay:0.82,m2Dur:"—",m2Cd:7,m2KB:12,m2Desc:"铁身1.35x+霸体",
+    fwd:[0,0],grapple:25,
+    comboDescs:["0.20s","0.28s","0.28s","0.50s"]},
+  Ali:{rarity:"Mystery 0.05%",cls:"badge-legendary",desc:"M2左右变招（右键1.25×布娃娃/左键0.8×不扑倒）+全程无敌帧，闪避后瞬发反击",
     m1Base:0.22,offsets:[0.06,0.15,0.2,0],m1Final:0.22,
     m2Delay:0.53,m2Dur:"—",m2Cd:7,m2KB:6,m2Desc:"M2左右变招",
     fwd:[0.3,0.2],grapple:25,
     comboDescs:["0.28s","0.37s","0.42s","0.22s"]},
-  WingChun:{rarity:"Mystery 0.0375%",cls:"badge-legendary",desc:"M2反击寸劲（1.647×反击伤+眩晕2.8s），SwiftHands 快拳+4A终结1.5×",
-    m1Base:0.3,offsets:[0,0,0,0.4],m1Final:0.3,m1Mult:0.96,m2Mult:1.647,
+  WingChun:{rarity:"Mystery 0.05%",cls:"badge-legendary",desc:"M2反击寸劲（1.318×反击伤+眩晕2.8s），SwiftHands 快拳+4A终结1.5×",
+    m1Base:0.3,offsets:[0,0,0,0.4],m1Final:0.3,m1Mult:0.96,m2Mult:1.318,
     m2Delay:0.525,m2Dur:"—",m2Cd:7.5,m2KB:30,m2Desc:"反击寸劲",
     fwd:[0,0],grapple:15,
-    comboDescs:["0.30s","0.30s","0.30s","0.70s"]}
+    comboDescs:["0.30s","0.30s","0.30s","0.70s"]},
+  CQC:{rarity:"Mystery 0.05%",cls:"badge-legendary",desc:"杀意 M2 蓄力标记目标自动5连击（带无敌帧），近身+25%，缠斗后+25%，姿态伤+15%",
+    m1Base:0.4,offsets:[0,0,-0.1,0.1],m1Final:0.4,m1Mult:0.87,
+    m2Delay:0.5,m2Dur:"—",m2Cd:11,m2KB:4,m2Desc:"杀意5连击",
+    fwd:[0,0],grapple:35,
+    comboDescs:["0.40s","0.40s","0.30s","0.50s"]}
 };
 
 // ===== HEIGHT CONSTANTS =====
@@ -1262,6 +1375,10 @@ function buildStyleCards(){
      m1b:0.24,o:[0.0375,0.075,0.15,0.225],m1f:[0.2775,0.315,0.39,0.465],
      m2d:0.4875,m2kb:15,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
      sp:"极快M1·M2回姿态"},
+    {k:"Kickboxing",n:"Kickboxing（踢拳）",c:"#2a9d5a",
+     m1b:0.3,o:[-0.05,0,0.11,0.22],m1f:[0.25,0.3,0.41,0.52],
+     m2d:0.5,m2kb:18,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
+     sp:"换架减CD·下段防守·姿态伤+10%"},
     {k:"MuayThai",n:"Muay Thai（泰拳）",c:"#2a9d5a",
      m1b:0.3,o:[0,0,0,0],m1f:[0.3,0.3,0.3,0.3],
      m2d:0.6,m2kb:20,cd:"7s",fwd:"无加成",gr:55,
@@ -1294,6 +1411,10 @@ function buildStyleCards(){
      m1b:0.32,o:[0,0,0,0],m1f:[0.32,0.32,0.32,0.32],
      m2d:0.3,m2kb:15,cd:"12s",fwd:"无加成",gr:15,
      sp:"极速M2头槌抓取"},
+    {k:"Kyokushin",n:"Kyokushin（极真流空手道）",c:"#ffd700",
+     m1b:0.2,o:[0,0.08,0.08,0.3],m1f:[0.2,0.28,0.28,0.5],
+     m2d:0.82,m2kb:12,cd:"7s",fwd:"无加成",gr:25,
+     sp:"铁身蓄力1.35x·霸体·受伤-15%"},
     {k:"Ali",n:"Ali（阿里）",c:"#c8a86e",
      m1b:0.22,o:[0.06,0.15,0.2,0],m1f:[0.28,0.37,0.42,0.22],
      m2d:0.53,m2kb:6,cd:"7s",fwd:"M1+0.3/M2+0.2",gr:25,
@@ -1301,10 +1422,14 @@ function buildStyleCards(){
     {k:"WingChun",n:"WingChun（咏春）",c:"#c8a86e",
      m1b:0.3,o:[0,0,0,0.4],m1f:[0.3,0.3,0.3,0.7],
      m2d:0.525,m2kb:30,cd:"7.5s",fwd:"无加成",gr:15,
-     sp:"神秘·M2反击寸劲（1.647×）·4A终结1.5×"}
+     sp:"神秘·M2反击寸劲（1.318×）·4A终结1.5×"},
+    {k:"CQC",n:"CQC（???）",c:"#ff374b",
+     m1b:0.4,o:[0,0,-0.1,0.1],m1f:[0.4,0.4,0.3,0.5],
+     m2d:0.5,m2kb:4,cd:"11s",fwd:"无加成",gr:35,
+     sp:"神秘·杀意5连击·近身+25%·缠斗后+25%"}
   ];
-  const cls=['common','uncommon','uncommon','uncommon','epic','epic','legendary','legendary','legendary','legendary','legendary','legendary'];
-  const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Epic','Epic','Legendary','Legendary','Legendary','Legendary','Mystery','Mystery'];
+  const cls=['common','uncommon','uncommon','uncommon','uncommon','epic','epic','legendary','legendary','legendary','legendary','legendary','legendary','mystery','mystery','mystery'];
+  const rareLbl=['Common 59%','Uncommon','Uncommon','Uncommon','Uncommon','Epic','Epic','Legendary','Legendary','Legendary','Legendary','Legendary','Mystery','Mystery','Mystery'];
   const ATK175 = calc(175).atk;   // 175cm 攻速倍率（≈1.03），卡面延迟统一按此修正
   data.forEach((d,i)=>{
     const _sd=S[d.k];
@@ -1364,6 +1489,9 @@ const STYLE_EMBLEM = {
   Hakari:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><g stroke="#ffd24b" stroke-width="3" fill="#ffd24b"><line x1="32" y1="16" x2="32" y2="46"/><line x1="18" y1="26" x2="46" y2="26"/><path d="M18 26 l-6 9 h12 z" stroke="none"/><path d="M46 26 l-6 9 h12 z" stroke="none"/><circle cx="32" cy="14" r="3"/></g></svg>`,
   Ali:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g fill="#8ad7ff"><path d="M32 32 C23 19 13 22 16 32 C13 42 23 45 32 32 Z"/><path d="M32 32 C41 19 51 22 48 32 C51 42 41 45 32 32 Z"/></g><line x1="32" y1="22" x2="32" y2="44" stroke="#1a0f08" stroke-width="2"/></svg>`,
   Striker:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#b06bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#b06bff" stroke-width="1" opacity=".35"/><path d="M18 46 Q18 32 34 22 L46 16 Q44 32 34 42 Q28 48 24 48 Z" fill="#b06bff"/><g fill="#b06bff"><circle cx="27" cy="22" r="2.2"/><circle cx="34" cy="28" r="2.2"/><circle cx="41" cy="34" r="2.2"/></g></svg>`,
+  Kickboxing:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#5f9bff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#5f9bff" stroke-width="1" opacity=".35"/><path d="M20 44 L42 18 L48 22 L28 46 Z" fill="#5f9bff"/><path d="M40 14 L46 10 L48 16 L42 20 Z" fill="#5f9bff"/></svg>`,
+  Kyokushin:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ffd24b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ffd24b" stroke-width="1" opacity=".35"/><rect x="24" y="16" width="16" height="28" rx="8" fill="#ffd24b"/><g stroke="#1a0f08" stroke-width="2"><line x1="24" y1="24" x2="40" y2="24"/><line x1="24" y1="30" x2="40" y2="30"/></g><path d="M24 52 h16" stroke="#ffd24b" stroke-width="3" stroke-linecap="round"/></svg>`,
+  CQC:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#ff374b" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#ff374b" stroke-width="1" opacity=".35"/><g fill="none" stroke="#ff374b" stroke-width="4" stroke-linecap="round"><path d="M32 20 A12 12 0 1 1 32 44"/><path d="M32 14 V20 M32 44 V50 M14 32 H20 M44 32 H50"/></g><circle cx="32" cy="32" r="5" fill="#ff374b"/></svg>`,
   WingChun:`<svg class="style-emblem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#1a0f08" stroke="#8ad7ff" stroke-width="3"/><circle cx="32" cy="32" r="23" fill="none" stroke="#8ad7ff" stroke-width="1" opacity=".35"/><g stroke="#8ad7ff" stroke-width="3" fill="none" stroke-linecap="round"><path d="M22 26 C26 20 30 20 34 26"/><path d="M22 38 C26 44 30 44 34 38"/><path d="M38 24 L44 30"/><path d="M38 40 L44 34"/></g></svg>`
 };
 (function injectEmblems(){
